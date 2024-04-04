@@ -1,4 +1,4 @@
-package com.colinker.colinkerjfx;
+package com.colinker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +10,9 @@ import java.io.IOException;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("CoLinker-JFX");
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("calendar.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        stage.setTitle("CoLinker Calendar");
         stage.setScene(scene);
         stage.show();
     }

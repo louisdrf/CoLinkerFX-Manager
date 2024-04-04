@@ -8,6 +8,8 @@ module com.colinker.colinkerjfx {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.colinker.colinkerjfx to javafx.fxml;
-    exports com.colinker.colinkerjfx;
+    opens com.colinker to javafx.fxml;
+    exports com.colinker;
+    exports com.colinker.calendar;
+    opens com.colinker.calendar to javafx.fxml;
 }
