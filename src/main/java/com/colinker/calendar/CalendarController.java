@@ -64,25 +64,25 @@ public class CalendarController implements Initializable {
         for (int row = 0; row < calendarRows; row++) {
             for (int column = 0; column < daysInWeek; column++) {
 
-                StackPane stackPane = new StackPane();
+                StackPane weekCellsContainer = new StackPane();
                 CalendarCell cell = new CalendarCell(calendar);
 
-                stackPane.getChildren().add(cell.container);
+                weekCellsContainer.getChildren().add(cell.container);
 
                 int currentCellIndexInCalendar = (column + 1) + (daysInWeek * row);
 
                 if (currentCellIndexInCalendar > firstDayOfMonthOffset) {
                     int currentDate = currentCellIndexInCalendar - firstDayOfMonthOffset;
                     if (currentDate <= maxDaysInMonth) {
-                        addDateTextToStackPane(currentDate, cell.height, stackPane);
+                        addDateTextToStackPane(currentDate, cell.height, weekCellsContainer);
                         List<CalendarActivity> calendarActivities = calendarActivityMap.get(currentDate);
                         if (calendarActivities != null) {
-                            createCalendarActivity(calendarActivities, cell.height, cell.width, stackPane);
+                            createCalendarActivity(calendarActivities, cell.height, cell.width, weekCellsContainer);
                         }
                     }
                     highlightToday(cell, currentDate);
                 }
-                calendar.getChildren().add(stackPane);
+                calendar.getChildren().add(weekCellsContainer);
             }
         }
     }
@@ -120,6 +120,7 @@ public class CalendarController implements Initializable {
     private void highlightToday(CalendarCell cell, int currentDate) {
         if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth() && today.getDayOfMonth() == currentDate) {
             cell.container.setStroke(Color.BLUE);
+            cell.container.setStrokeWidth(2.);
         }
     }
 
