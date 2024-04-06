@@ -12,4 +12,6 @@ public class User {
     private String name;
     List<Activity> activitiesList;
     List<Note> notesList;
+
+    UserRepository repository;
 }
