@@ -1,4 +1,4 @@
-package com.colinker.calendar;
+package com.colinker.plugins.calendar;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

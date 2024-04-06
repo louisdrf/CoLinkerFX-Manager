@@ -1,4 +1,4 @@
-package com.colinker.calendar;
+package com.colinker.plugins.calendar;
 
 import java.time.ZonedDateTime;
 

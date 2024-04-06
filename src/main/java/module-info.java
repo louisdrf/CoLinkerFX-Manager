@@ -10,6 +10,8 @@ module com.colinker.colinkerjfx {
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
-    exports com.colinker.calendar;
-    opens com.colinker.calendar to javafx.fxml;
+    exports com.colinker.plugins.calendar;
+    opens com.colinker.plugins.calendar to javafx.fxml;
+    exports com.colinker.user;
+    opens com.colinker.user to javafx.fxml;
 }
