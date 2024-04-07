@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class ActivityListController implements Initializable {
 
     @FXML
-    private Pane activityPane;
+    private Pane activityListPane;
     List<Activity> activitiesList;
 
     @Override
