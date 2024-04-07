@@ -1,5 +1,6 @@
 package com.colinker;
 
+import com.colinker.database.ConnexionTester;
 import com.colinker.database.LocalDatabase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +12,12 @@ import java.sql.SQLException;
 
 public class App extends Application {
 
-    LocalDatabase database = new LocalDatabase("8000");
+    LocalDatabase database = new LocalDatabase("9000");
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         database.start();
+        ConnexionTester connexionTester = new ConnexionTester();
+        connexionTester.tryConnexionTo(database);
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("calendar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);

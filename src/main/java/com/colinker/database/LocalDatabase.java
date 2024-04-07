@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class LocalDatabase {
 
-    private final String serverPort;
+    final String serverPort;
     private Server tcpServer;
 
     public LocalDatabase(String serverPort) {
@@ -14,7 +14,7 @@ public class LocalDatabase {
     }
 
     public void start() throws SQLException {
-        this.tcpServer = Server.createTcpServer("-tcpPort", this.serverPort, "-tcpAllowOthers");
+        this.tcpServer = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", this.serverPort);
         this.tcpServer.start();
         System.out.println("Local database running : http://localhost:" + this.serverPort + "/h2-console");
     }
@@ -22,6 +22,7 @@ public class LocalDatabase {
     public void stop() {
         if (this.tcpServer != null) {
             this.tcpServer.stop();
+            System.out.println("Local database closed successfully.");
         }
     }
 }
