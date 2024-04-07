@@ -1,5 +1,6 @@
 package com.colinker.plugins.activities;
 
+import com.colinker.helpers.ModalManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -26,5 +27,9 @@ public class ActivityListController implements Initializable {
 
     public void showNewActivityModal() {
         System.out.println("button new activity click targeted");
+        ModalManager<Pane> modalManager = new ModalManager<>("/com/colinker/activities/newActivityModal.fxml");
+        modalManager.setTitle("Créer une nouvelle activité");
+        modalManager.loadModalOntoParentNode(this.activityListPane);
+        modalManager.displayModal();
     }
 }

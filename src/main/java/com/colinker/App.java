@@ -12,14 +12,14 @@ import java.sql.SQLException;
 
 public class App extends Application {
 
-    LocalDatabase database = new LocalDatabase("9000");
+    LocalDatabase database = new LocalDatabase("8082");
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         database.start();
         ConnexionTester connexionTester = new ConnexionTester();
         connexionTester.tryConnexionTo(database);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("activities-vue.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("activities/activities-vue.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);
