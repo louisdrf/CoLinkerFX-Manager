@@ -16,6 +16,8 @@ public class ActivityListController implements Initializable {
     private Pane activityListPane;
     List<Activity> activitiesList;
 
+    ModalManager<Pane> newActivityModalManager = new ModalManager<>("/com/colinker/activities/newActivityModal.fxml");
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.activitiesList = new ArrayList<>();
@@ -24,12 +26,15 @@ public class ActivityListController implements Initializable {
         // displayUserActivities();
     }
 
+    @FXML
+    public void registerActivity() {
+        this.newActivityModalManager.closeModal();
+    }
+
 
     public void showNewActivityModal() {
-        System.out.println("button new activity click targeted");
-        ModalManager<Pane> modalManager = new ModalManager<>("/com/colinker/activities/newActivityModal.fxml");
-        modalManager.setTitle("Créer une nouvelle activité");
-        modalManager.loadModalOntoParentNode(this.activityListPane);
-        modalManager.displayModal();
+        System.out.println(this.newActivityModalManager);
+        this.newActivityModalManager.loadModalOntoParentNode(this.activityListPane);
+        this.newActivityModalManager.displayModal();
     }
 }
