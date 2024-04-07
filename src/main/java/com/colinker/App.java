@@ -19,7 +19,7 @@ public class App extends Application {
         ConnexionTester connexionTester = new ConnexionTester();
         connexionTester.tryConnexionTo(database);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("calendar.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("activities-vue.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);
