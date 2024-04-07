@@ -7,6 +7,8 @@ module com.colinker.colinkerjfx {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires com.h2database;
+    requires java.sql;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
