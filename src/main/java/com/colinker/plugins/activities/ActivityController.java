@@ -1,14 +1,19 @@
 package com.colinker.plugins.activities;
 
-import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class ActivityController {
+    private Activity linkedActivity;
+    private Pane parentContainer;
+    private Rectangle container;
 
-public class ActivityController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // fetchUserActivities();
-        // displayUserActivities();
+    public ActivityController(Pane activitiesListContainer, Activity linkedActivity) {
+        this.linkedActivity = linkedActivity;
+        this.parentContainer = activitiesListContainer;
+    }
+
+    public void createSelf() {
+        this.container = new Rectangle();
     }
 }

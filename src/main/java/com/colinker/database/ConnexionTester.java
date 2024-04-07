@@ -21,9 +21,10 @@ public class ConnexionTester {
             resultSet = statement.executeQuery("SELECT 1");
 
             while (resultSet.next()) {
-                int result = resultSet.getInt(1);
-                System.out.println("Result: " + result);
+                System.out.println("Try to connect to database has been successful.");
             }
+            statement.executeUpdate("DROP TABLE test");
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } finally {
