@@ -22,4 +22,9 @@ public class ActivityListController implements Initializable {
         // createUserActivities();
         // displayUserActivities();
     }
+
+
+    public void showNewActivityModal() {
+        System.out.println("button new activity click targeted");
+    }
 }

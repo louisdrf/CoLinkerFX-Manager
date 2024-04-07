@@ -7,13 +7,14 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.colinker.plugins.activities.ActivityListController">
    <children>
+      <fx:include source="navbar-vue.fxml" />
       <Pane id="activityListPane" fx:id="activityListPane" layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0" style="-fx-background-color: #EDF5FF;" />
       <Label layoutX="201.0" layoutY="25.0" text="Gestion des activités">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button id="newActivityButton" fx:id="newActivityButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false" style="-fx-background-color: #DAEBFF;" text="nouvelle activité" textFill="#253aff">
+      <Button id="newActivityButton" fx:id="newActivityButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false" onAction="#showNewActivityModal" style="-fx-background-color: #DAEBFF;" text="nouvelle activité" textFill="#253aff">
          <font>
             <Font size="15.0" />
          </font>
