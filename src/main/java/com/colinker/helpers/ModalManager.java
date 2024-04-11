@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ModalManager<Type extends Parent> {
-
     FXMLLoader loader;
     Stage window;
     Scene scene;
@@ -20,10 +19,9 @@ public class ModalManager<Type extends Parent> {
         }
         this.loader = new FXMLLoader(getClass().getResource(modalVuePath));
         this.window = new Stage();
-        this.window.initModality(Modality.APPLICATION_MODAL);
+        this.window.initModality(Modality.WINDOW_MODAL);
     }
 
-    @FXML
     public void loadModalOntoParentNode(Type parentNode) {
         try {
             Parent modalRootNode = this.loader.load();
@@ -34,11 +32,6 @@ public class ModalManager<Type extends Parent> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public void setTitle(String title) {
-        this.window.setTitle(title);
     }
 
     public void displayModal() {

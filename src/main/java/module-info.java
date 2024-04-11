@@ -16,8 +16,8 @@ module com.colinker.colinkerjfx {
     exports com.colinker;
     exports com.colinker.plugins.calendar;
     opens com.colinker.plugins.calendar to javafx.fxml;
-    exports com.colinker.plugins.activities;
-    opens com.colinker.plugins.activities to javafx.fxml;
+    exports com.colinker.plugins.tasks;
+    opens com.colinker.plugins.tasks to javafx.fxml;
     exports com.colinker.plugins.notes;
     opens com.colinker.plugins.notes to javafx.fxml;
     exports com.colinker.user;
