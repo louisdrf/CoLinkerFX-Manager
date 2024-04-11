@@ -32,6 +32,8 @@ public class LoginController {
         String email = this.loginEmailField.getText();
         String password = this.loginPasswordField.getText();
 
+        if(email.length() == 0 || password.length() == 0) return;
+
         try {
             URL url = new URL("http://localhost:8000/auth/login");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -39,20 +41,14 @@ public class LoginController {
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "application/json");
 
-            String jsonInputString = "{\"username\": \" " + email + "\", \"password\": \"" + password + "\"}";
+            String jsonInputString = "{\"username\": \"" + email + "\", \"password\": \"" + password + "\"}";
+            System.out.println(jsonInputString);
 
             try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
                 wr.writeBytes(jsonInputString);
                 wr.flush();
             }
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                String line;
-                StringBuilder response = new StringBuilder();
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                System.out.println(response);
-            }
+            // lire la réponse du serveur
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
