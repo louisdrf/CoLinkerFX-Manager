@@ -11,6 +11,7 @@ module com.colinker.colinkerjfx {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
+    requires java.desktop;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
@@ -22,4 +23,6 @@ module com.colinker.colinkerjfx {
     opens com.colinker.plugins.notes to javafx.fxml;
     exports com.colinker.user;
     opens com.colinker.user to javafx.fxml;
+    exports com.colinker.auth;
+    opens com.colinker.auth to javafx.fxml;
 }
