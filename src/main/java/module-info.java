@@ -12,6 +12,7 @@ module com.colinker.colinkerjfx {
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
     requires java.desktop;
+    requires unirest.java;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
