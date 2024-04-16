@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.colinker.plugins.tasks.TaskListController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.colinker.controllers.TasksListController">
    <children>
       <fx:include source="../navbar-vue.fxml" />
       <Pane id="taskListPane" fx:id="taskListPane" layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0" style="-fx-background-color: #EDF5FF;" />

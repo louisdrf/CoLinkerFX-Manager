@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class App extends Application {
     @Override
@@ -15,7 +14,7 @@ public class App extends Application {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         databaseConnection.initializeConnection();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tasks/tasks-list.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);

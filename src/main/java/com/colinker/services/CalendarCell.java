@@ -1,4 +1,4 @@
-package com.colinker.plugins.calendar;
+package com.colinker.services;
 
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -6,10 +6,10 @@ import javafx.scene.shape.Rectangle;
 
 public class CalendarCell {
 
-    Rectangle container = new Rectangle();
+    public Rectangle container = new Rectangle();
     private int strokeWidth = 1;
-    double width;
-    double height;
+    public double width;
+    public double height;
 
 
     public CalendarCell(FlowPane calendar) {

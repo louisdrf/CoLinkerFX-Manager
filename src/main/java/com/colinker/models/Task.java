@@ -1,4 +1,4 @@
-package com.colinker.plugins.tasks;
+package com.colinker.models;
 
 public class Task {
 

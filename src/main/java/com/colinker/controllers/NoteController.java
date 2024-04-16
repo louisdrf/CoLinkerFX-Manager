@@ -1,4 +1,4 @@
-package com.colinker.plugins.notes;
+package com.colinker.controllers;
 
 import java.util.Date;
 

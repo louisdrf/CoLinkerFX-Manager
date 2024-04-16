@@ -1,19 +1,20 @@
-package com.colinker.plugins.tasks;
+package com.colinker.controllers;
 
+import com.colinker.models.Task;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
-public class TaskController {
+public class TasksListController {
     private Task linkedTask;
     private Pane parentContainer;
     private Rectangle container;
 
-    public TaskController(Pane taskListContainer, Task linkedTask) {
-        this.linkedTask = linkedTask;
-        this.parentContainer = taskListContainer;
-    }
-
     public void createSelf() {
         this.container = new Rectangle();
+    }
+
+    public void showTaskModal(ActionEvent actionEvent) {
+
     }
 }

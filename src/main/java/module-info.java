@@ -16,14 +16,12 @@ module com.colinker.colinkerjfx {
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
-    exports com.colinker.plugins.calendar;
-    opens com.colinker.plugins.calendar to javafx.fxml;
-    exports com.colinker.plugins.tasks;
-    opens com.colinker.plugins.tasks to javafx.fxml;
-    exports com.colinker.plugins.notes;
-    opens com.colinker.plugins.notes to javafx.fxml;
-    exports com.colinker.user;
-    opens com.colinker.user to javafx.fxml;
-    exports com.colinker.auth;
-    opens com.colinker.auth to javafx.fxml;
+    exports com.colinker.models;
+    opens com.colinker.models to javafx.fxml;
+    exports com.colinker.controllers;
+    opens com.colinker.controllers to javafx.fxml;
+    exports com.colinker.repositories;
+    opens com.colinker.repositories to javafx.fxml;
+    exports com.colinker.services;
+    opens com.colinker.services to javafx.fxml;
 }

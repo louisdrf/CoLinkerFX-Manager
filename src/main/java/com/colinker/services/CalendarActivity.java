@@ -1,10 +1,10 @@
-package com.colinker.plugins.calendar;
+package com.colinker.services;
 
 import java.time.ZonedDateTime;
 
 public class CalendarActivity {
-    ZonedDateTime date;
-    String clientName;
+    public ZonedDateTime date;
+    public String clientName;
     Integer serviceNo;
 
     public CalendarActivity(ZonedDateTime date, String clientName, Integer serviceNo) {

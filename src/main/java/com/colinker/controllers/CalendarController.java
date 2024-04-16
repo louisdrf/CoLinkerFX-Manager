@@ -1,5 +1,7 @@
-package com.colinker.plugins.calendar;
+package com.colinker.controllers;
 
+import com.colinker.services.CalendarActivity;
+import com.colinker.services.CalendarCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
