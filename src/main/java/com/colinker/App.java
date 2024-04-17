@@ -1,6 +1,7 @@
 package com.colinker;
 
 import com.colinker.database.DatabaseConnection;
+import com.colinker.database.SceneRouter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,10 +15,13 @@ public class App extends Application {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         databaseConnection.initializeConnection();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tasks/tasks-list.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);
+
+        SceneRouter.currentScene = scene;
+        SceneRouter.stage = stage;
 
         stage.show();
     }
