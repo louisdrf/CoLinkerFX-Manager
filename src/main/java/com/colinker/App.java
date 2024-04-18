@@ -2,6 +2,7 @@ package com.colinker;
 
 import com.colinker.database.DatabaseConnection;
 import com.colinker.database.MongoDBExporter;
+import com.colinker.database.MongoDBImporter;
 import com.colinker.database.SceneRouter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ public class App extends Application {
         databaseConnection.initializeConnection();
 
         MongoDBExporter.launchExport();
+        MongoDBImporter.launchImport();
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
