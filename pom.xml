@@ -16,6 +16,11 @@
 
 
         <dependencies>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-sync</artifactId>
+                <version>LATEST</version> <!-- ou la dernière version disponible -->
+            </dependency>
             <!-- Pull in as a traditional dependency -->
             <dependency>
                 <groupId>com.konghq</groupId>

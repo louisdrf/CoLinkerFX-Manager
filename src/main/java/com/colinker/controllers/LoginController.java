@@ -2,7 +2,7 @@ package com.colinker.controllers;
 
 import com.colinker.database.Router;
 import com.colinker.database.SceneRouter;
-import com.colinker.helpers.SceneLoader;
+import com.colinker.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -44,7 +44,7 @@ public class LoginController {
 
         Router.login(email, password);
 
-        if(Router.token.isEmpty()) {
+        if(User.token.isEmpty()) {
             this.invalidCredentialsLabel.setOpacity(1.);
             return;
         }

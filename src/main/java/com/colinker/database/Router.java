@@ -1,13 +1,11 @@
 package com.colinker.database;
+import com.colinker.models.User;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
 public class Router {
-    private static String email;
-    public static String token;
-
     public static void login(String email, String password) {
         try {
             JSONObject requestBody = new JSONObject();
@@ -22,7 +20,7 @@ public class Router {
             int status = jsonResponse.getStatus();
             JSONObject responseBody = jsonResponse.getBody().getObject();
             if (responseBody.has("token") && status == 200) {
-                token = responseBody.getString("token");
+                User.token = responseBody.getString("token");
             } else throw new Exception("Error when retrieving token by authentication.");
 
         } catch (Exception e) {
