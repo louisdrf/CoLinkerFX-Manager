@@ -6,13 +6,19 @@ import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
 public class Router {
+    public static String baseUrl = "http://localhost:8000";
+    public static void switchOnlineOfflineMode() {
+        if(User.isOnline)  baseUrl = "http://localhost:8000";
+        else               baseUrl = LocalDatabase.getConnexionString();
+    }
+
     public static void login(String email, String password) {
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("username", email);
             requestBody.put("password", password);
 
-            HttpResponse<JsonNode> jsonResponse = Unirest.post("http://localhost:8000/auth/login")
+            HttpResponse<JsonNode> jsonResponse = Unirest.post(baseUrl + "/auth/login")
                     .header("Content-Type", "application/json")
                     .body(requestBody)
                     .asJson();
@@ -25,6 +31,19 @@ public class Router {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static JSONObject get(String route) {
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(baseUrl + route).asJson();
+            int status = jsonResponse.getStatus();
+            if (status != 200) throw new Exception("Couldn't make the GET request to API");
+            System.out.println(jsonResponse.getBody().getObject());
+            return jsonResponse.getBody().getObject();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new JSONObject().put("message", "Couldn't make the GET request to API");
         }
     }
 }

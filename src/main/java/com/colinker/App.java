@@ -1,6 +1,7 @@
 package com.colinker;
 
 import com.colinker.database.*;
+import com.colinker.models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,8 +12,7 @@ import java.io.IOException;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.initializeConnection();
+        User.isOnline = RemoteDatabaseConnection.tryConnection();
 
         MongoDBExporter.launchExport();
         MongoDBImporter.launchImport();

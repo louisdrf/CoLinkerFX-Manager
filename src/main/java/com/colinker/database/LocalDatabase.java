@@ -36,6 +36,10 @@ public class LocalDatabase {
         System.out.println("Base de données créée avec succès");
     }
 
+    public static String getConnexionString() {
+        return "mongodb://localhost:" + MONGO_PORT;
+    }
+
     private static void createCollections() {
         database.createCollection("users");
         database.createCollection("associations");
