@@ -13,6 +13,7 @@ module com.colinker.colinkerjfx {
     requires org.mongodb.driver.core;
     requires java.desktop;
     requires unirest.java;
+    requires de.flapdoodle.embed.mongo;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;

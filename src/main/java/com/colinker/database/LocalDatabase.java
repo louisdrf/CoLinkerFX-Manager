@@ -1,38 +1,39 @@
 package com.colinker.database;
 
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.distribution.Version;
 import org.bson.Document;
 
-import java.util.Collections;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import java.io.IOException;
 
 public class LocalDatabase {
-
     private static final String DATABASE_NAME = "localDatabase";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password";
-
+    private static final int MONGO_PORT = 27018;
     private MongoClient client;
     private MongoDatabase database;
+    private MongodExecutable mongodExecutable;
 
     public LocalDatabase() {
-        // Création des informations d'identification
-        MongoCredential credential = MongoCredential.createCredential(USERNAME, DATABASE_NAME, PASSWORD.toCharArray());
+        try {
+            MongodStarter starter = MongodStarter.getDefaultInstance();
+            MongodConfig mongodConfig = MongodConfig.builder()
+                    .version(Version.Main.PRODUCTION)
+                    .net(new de.flapdoodle.embed.mongo.config.Net(MONGO_PORT, false))
+                    .build();
+            mongodExecutable = starter.prepare(mongodConfig);
+            mongodExecutable.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Création des paramètres du client
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .credential(credential)
-                .applyToClusterSettings(builder ->
-                        builder.hosts(Collections.singletonList(new ServerAddress("localhost", 27017))))
-                .build();
-
-        // Création d'une instance de MongoDB locale avec authentification
-        this.client = MongoClients.create(settings);
+        this.client = MongoClients.create("mongodb://localhost:" + MONGO_PORT);
         this.database = this.client.getDatabase(DATABASE_NAME);
         this.createCollections();
 
@@ -47,5 +48,10 @@ public class LocalDatabase {
     public MongoCollection<Document> getCollection(String collectionName) {
         return this.database.getCollection(collectionName);
     }
-}
 
+    public void close() {
+        if (mongodExecutable != null) {
+            mongodExecutable.stop();
+        }
+    }
+}
