@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 public class MongoDBImporter {
     public static void importInLocalDatabase() {
         for(String collectionName : MongoDBExporter.collectionNames) {
-            System.out.println("collection : " + collectionName);
             MongoCollection<Document> collection = LocalDatabase.getCollection(collectionName);
 
             Path directory = Paths.get("exported_data");

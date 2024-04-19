@@ -1,9 +1,6 @@
 package com.colinker;
 
-import com.colinker.database.DatabaseConnection;
-import com.colinker.database.MongoDBExporter;
-import com.colinker.database.MongoDBImporter;
-import com.colinker.database.SceneRouter;
+import com.colinker.database.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,8 +25,14 @@ public class App extends Application {
         SceneRouter.currentScene = scene;
         SceneRouter.stage = stage;
 
+        stage.setOnCloseRequest(event -> {
+            LocalDatabase.close();
+            System.out.println("Database connexion well closed.");
+        });
+
         stage.show();
     }
+
 
     public static void main(String[] args) {
         launch();
