@@ -1,19 +1,17 @@
 package com.colinker.database;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class MongoDBImporter {
-    public static void importInLocalDatabase() {
+    public static void importInLocalDatabase(LocalDatabase localDatabase) {
         for(String collectionName : MongoDBExporter.collectionNames) {
             System.out.println("collection : " + collectionName);
-            MongoCollection<Document> collection = LocalDatabase.database.getCollection(collectionName);
+            MongoCollection<Document> collection = localDatabase.getCollection(collectionName);
 
             Path directory = Paths.get("exported_data");
             String exportFilePath = directory + "/" +  collectionName + ".json";
@@ -34,7 +32,7 @@ public class MongoDBImporter {
     }
 
     public static void launchImport() {
-        LocalDatabase.launch();
-        importInLocalDatabase();
+        LocalDatabase localDatabase = new LocalDatabase();
+        importInLocalDatabase(localDatabase);
     }
 }
