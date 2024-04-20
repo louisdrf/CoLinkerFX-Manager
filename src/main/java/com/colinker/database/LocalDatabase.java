@@ -51,8 +51,8 @@ public class LocalDatabase {
 
     public static void getCollectionDocuments(String collectionName) {
         MongoCollection<Document> collection = getCollection(collectionName);
-        FindIterable<Document> usersDocuments = collection.find();
-        for (Document document : usersDocuments) {
+        FindIterable<Document> documents = collection.find();
+        for (Document document : documents) {
             System.out.println(document);
         }
     }

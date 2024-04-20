@@ -14,7 +14,6 @@ public class MongoDBImporter {
 
             Path directory = Paths.get("exported_data");
             String exportFilePath = directory + "/" +  collectionName + ".json";
-            System.out.println(exportFilePath);
 
             try (BufferedReader reader = new BufferedReader(new FileReader(exportFilePath))) {
                 String line;

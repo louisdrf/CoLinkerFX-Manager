@@ -10,6 +10,13 @@ import java.io.IOException;
 public class SceneRouter {
     public static Scene currentScene;
     public static Stage stage;
+
+    public static void showLoadingScreen() throws IOException {
+        currentScene = loadScene("loading_screen.fxml");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
     public static void showLoginPage() throws IOException {
         currentScene = loadScene("login/login.fxml");
         stage.setScene(currentScene);

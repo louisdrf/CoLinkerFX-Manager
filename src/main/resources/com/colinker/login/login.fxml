@@ -51,7 +51,7 @@
             </Button>
             <ImageView fitHeight="275.0" fitWidth="293.0" layoutX="438.0" layoutY="-30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../Downloads/CoLinker-logo.png" />
+                  <Image url="@../CoLinker-logo.png" />
                </image>
             </ImageView>
             <Label fx:id="redirectColinkerLink" layoutX="519.0" layoutY="561.0" onMouseClicked="#redirectColinkerLink" text="Je n'ai pas de compte" textFill="#5356ff">
