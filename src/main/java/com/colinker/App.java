@@ -14,8 +14,16 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         User.isOnline = Router.pingGoogle();
 
-        MongoDBExporter.launchExport();
-        MongoDBImporter.launchImport();
+        if(User.isOnline) {
+            MongoDBExporter.launchExport();
+            LocalDatabase.launch();
+            MongoDBImporter.importInLocalDatabase();
+            LocalDatabase.close();
+        }
+        else {
+            LocalDatabase.launch();
+            Router.switchToOfflineMode();
+        }
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
@@ -26,6 +34,8 @@ public class App extends Application {
         SceneRouter.stage = stage;
 
         stage.setOnCloseRequest(event -> {
+            // if user has internet, send collections to remote db
+            // else save collections in json files
             LocalDatabase.close();
             System.out.println("Database local connexion well closed.");
         });

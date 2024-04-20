@@ -9,9 +9,11 @@ import java.net.InetAddress;
 
 public class Router {
     public static String baseUrl = "http://localhost:8000";
-    public static void switchOnlineOfflineMode() {
-        if(User.isOnline)  baseUrl = "http://localhost:8000";
-        else               baseUrl = LocalDatabase.getConnexionString();
+    public static void switchToOnlineMode() {
+        baseUrl = "http://localhost:8000";
+    }
+    public static void switchToOfflineMode() {
+        baseUrl = LocalDatabase.getConnexionString();
     }
 
     public static boolean pingGoogle() {

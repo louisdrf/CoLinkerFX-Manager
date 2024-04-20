@@ -29,9 +29,4 @@ public class MongoDBImporter {
             }
         }
     }
-
-    public static void launchImport() {
-        LocalDatabase.launch();
-        importInLocalDatabase();
-    }
 }
