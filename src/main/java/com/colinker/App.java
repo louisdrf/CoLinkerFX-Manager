@@ -26,16 +26,15 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            User.isOnline = Router.pingGoogle();
-            if (User.isOnline && RemoteDatabaseConnection.tryConnection()) {
+            if (Router.pingGoogle() && RemoteDatabaseConnection.tryConnection()) {
                 MongoDBExporter.launchExport();
                 LocalDatabase.launch();
                 MongoDBImporter.importInLocalDatabase();
                 LocalDatabase.close();
             } else {
                 System.out.println("Aucune connexion internet, connexion en local...");
+                User.isOnline = false;
                 LocalDatabase.launch();
-                Router.switchToOfflineMode();
             }
 
             Platform.runLater(() -> {
@@ -47,8 +46,6 @@ public class App extends Application {
             });
         }).start();
     }
-
-
 
     public static void main(String[] args) {
         launch();

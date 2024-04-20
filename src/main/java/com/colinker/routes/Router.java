@@ -9,14 +9,7 @@ import java.net.InetAddress;
 
 
 public class Router {
-    public static String baseUrl = "http://localhost:8000";
-    public static void switchToOnlineMode() {
-        baseUrl = "http://localhost:8000";
-    }
-    public static void switchToOfflineMode() {
-        baseUrl = LocalDatabase.getConnexionString();
-    }
-
+    private static final String baseUrl = "http://localhost:8000";
     public static boolean pingGoogle() {
         try {
             InetAddress address = InetAddress.getByName("google.com");

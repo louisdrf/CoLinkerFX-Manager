@@ -14,6 +14,7 @@ module com.colinker.colinkerjfx {
     requires java.desktop;
     requires unirest.java;
     requires de.flapdoodle.embed.mongo;
+    requires io.javalin;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;
