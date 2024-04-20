@@ -12,7 +12,7 @@ import java.io.IOException;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        User.isOnline = RemoteDatabaseConnection.tryConnection();
+        User.isOnline = Router.pingGoogle();
 
         MongoDBExporter.launchExport();
         MongoDBImporter.launchImport();
@@ -27,7 +27,7 @@ public class App extends Application {
 
         stage.setOnCloseRequest(event -> {
             LocalDatabase.close();
-            System.out.println("Database connexion well closed.");
+            System.out.println("Database local connexion well closed.");
         });
 
         stage.show();

@@ -4,12 +4,23 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
+import java.net.InetAddress;
+
 
 public class Router {
     public static String baseUrl = "http://localhost:8000";
     public static void switchOnlineOfflineMode() {
         if(User.isOnline)  baseUrl = "http://localhost:8000";
         else               baseUrl = LocalDatabase.getConnexionString();
+    }
+
+    public static boolean pingGoogle() {
+        try {
+            InetAddress address = InetAddress.getByName("google.com");
+            return address.isReachable(5000);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static void login(String email, String password) {
