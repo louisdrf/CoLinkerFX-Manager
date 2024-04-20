@@ -1,4 +1,5 @@
-package com.colinker.database;
+package com.colinker.routes;
+import com.colinker.database.LocalDatabase;
 import com.colinker.models.User;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;

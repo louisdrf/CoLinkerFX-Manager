@@ -1,4 +1,4 @@
-package com.colinker.database;
+package com.colinker.routes;
 
 import com.colinker.App;
 import javafx.fxml.FXMLLoader;

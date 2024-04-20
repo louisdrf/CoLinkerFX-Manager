@@ -2,6 +2,8 @@ package com.colinker;
 
 import com.colinker.database.*;
 import com.colinker.models.User;
+import com.colinker.routes.Router;
+import com.colinker.routes.SceneRouter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +16,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         User.isOnline = Router.pingGoogle();
 
-        if(User.isOnline) {
+        if(User.isOnline && RemoteDatabaseConnection.tryConnection()) {
             MongoDBExporter.launchExport();
             LocalDatabase.launch();
             MongoDBImporter.importInLocalDatabase();

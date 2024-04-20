@@ -1,7 +1,7 @@
 package com.colinker.controllers;
 
-import com.colinker.database.Router;
-import com.colinker.database.SceneRouter;
+import com.colinker.routes.Router;
+import com.colinker.routes.SceneRouter;
 import com.colinker.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
