@@ -41,16 +41,15 @@ public class Router {
         }
     }
 
-    public static JSONObject get(String route) {
+    public static JsonNode get(String route) {
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.get(baseUrl + route).asJson();
             int status = jsonResponse.getStatus();
             if (status != 200) throw new Exception("Couldn't make the GET request to API");
-            System.out.println(jsonResponse.getBody().getObject());
-            return jsonResponse.getBody().getObject();
+            return jsonResponse.getBody();
         } catch(Exception e) {
             e.printStackTrace();
-            return new JSONObject().put("message", "Couldn't make the GET request to API");
+            return new JsonNode("{'message': 'Couldn't make the GET request to API'}");
         }
     }
 }

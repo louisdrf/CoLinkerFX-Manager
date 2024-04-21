@@ -1,26 +1,38 @@
 package com.colinker.controllers;
 
 import com.colinker.models.Task;
+import com.colinker.routes.TaskRouter;
+import com.colinker.views.TaskView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import java.util.List;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class TasksListController implements Initializable {
+public class TasksListController {
 
     @FXML
-    private Pane taskListPane;
+    private VBox taskListVBox;
+
 
     public void showTaskModal(ActionEvent actionEvent) {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // fetch tasks list for user in local
+    private List<Task> fetchAllTasks() {
+        TaskRouter taskRouter = new TaskRouter();
+        return taskRouter.getAllTasks();
+    }
+
+    public void initialize() {
+        taskListVBox.setPadding(new Insets(40));
+        taskListVBox.setSpacing(20);
+
+        List<Task> allTasks = fetchAllTasks();
+        for (Task task : allTasks) {
+            TaskView taskElem = new TaskView(task);
+            taskListVBox.getChildren().add(taskElem);
+        }
     }
 }
