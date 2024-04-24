@@ -26,5 +26,6 @@ public class LocalTaskRouter {
         JSONObject jsonTask = MongoHelper.convertDocumentToJSONObject(taskDocument);
         return TaskService.transformJsonTaskIntoTaskObject(jsonTask);
     }
+
 }
 

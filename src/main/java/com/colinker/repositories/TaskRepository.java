@@ -3,6 +3,7 @@ package com.colinker.repositories;
 import com.colinker.database.LocalDatabase;
 import com.colinker.helpers.DateHelper;
 import com.colinker.helpers.MongoHelper;
+import com.colinker.models.Task;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -45,6 +46,10 @@ public class TaskRepository {
         Document doc = taskCollection.find(new Document("_id", objectId)).first();
         if(doc != null) MongoHelper.replaceDateInDocument(doc);
         return doc;
+    }
+
+    public static void createNewTask(Task task) {
+
     }
 }
 
