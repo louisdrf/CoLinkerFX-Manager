@@ -1,13 +1,12 @@
 package com.colinker;
 
 import com.colinker.database.*;
+import com.colinker.helpers.DateHelper;
 import com.colinker.models.User;
-import com.colinker.routes.Router;
-import com.colinker.routes.SceneRouter;
+import com.colinker.routing.remoterouter.RemoteRouter;
+import com.colinker.helpers.SceneRouter;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            if (Router.pingGoogle() && RemoteDatabaseConnection.tryConnection()) {
+            if (RemoteRouter.pingGoogle() && RemoteDatabaseConnection.tryConnection()) {
                 MongoDBExporter.launchExport();
                 LocalDatabase.launch();
                 MongoDBImporter.importInLocalDatabase();
@@ -35,11 +34,13 @@ public class App extends Application {
                 System.out.println("Aucune connexion internet, connexion en local...");
                 User.isOnline = false;
                 LocalDatabase.launch();
+                MongoDBImporter.importInLocalDatabase();
             }
 
             Platform.runLater(() -> {
                 try {
-                    SceneRouter.showLoginPage();
+                    if (User.isOnline) SceneRouter.showLoginPage();
+                    else SceneRouter.showTasksListPage();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

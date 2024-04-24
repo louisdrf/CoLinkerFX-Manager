@@ -1,4 +1,5 @@
 package com.colinker.database;
+import com.colinker.models.User;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
@@ -9,7 +10,10 @@ import java.nio.file.Paths;
 
 public class MongoDBImporter {
     public static void importInLocalDatabase() {
-        for(String collectionName : MongoDBExporter.collectionNames) {
+
+        if(!User.hasDataToImportAsLocal()) return;
+
+        for(String collectionName : LocalDatabase.getCollectionNames()) {
             MongoCollection<Document> collection = LocalDatabase.getCollection(collectionName);
 
             Path directory = Paths.get("exported_data");

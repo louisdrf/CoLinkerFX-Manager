@@ -12,6 +12,7 @@ import java.util.List;
 public class TaskService {
 
     public static List<Task> transformArrayIntoList(JSONArray jsonArray) {
+        System.out.println("json a transformer : " + jsonArray);
         if (jsonArray.isEmpty()) return List.of();
 
         List<Task> allTasks = new ArrayList<>();

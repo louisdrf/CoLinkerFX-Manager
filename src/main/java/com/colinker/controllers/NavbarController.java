@@ -1,6 +1,6 @@
 package com.colinker.controllers;
 
-import com.colinker.routes.SceneRouter;
+import com.colinker.helpers.SceneRouter;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;

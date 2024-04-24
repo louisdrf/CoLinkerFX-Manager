@@ -1,9 +1,8 @@
 package com.colinker.controllers;
 
-import com.colinker.routes.Router;
-import com.colinker.routes.SceneRouter;
+import com.colinker.routing.remoterouter.RemoteAuthRouter;
+import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,15 +33,13 @@ public class LoginController {
         }
     }
 
-    public void login(ActionEvent mouseEvent) throws IOException {
+    public void login() throws IOException {
         //this.invalidCredentialsLabel.setOpacity(0.);
-
         String email = this.loginEmailField.getText();
         String password = this.loginPasswordField.getText();
-
         if (email.isEmpty() || password.isEmpty()) return;
 
-        Router.login(email, password);
+        RemoteAuthRouter.login(email, password);
 
         if(User.token.isEmpty()) {
             this.invalidCredentialsLabel.setOpacity(1.);

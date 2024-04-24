@@ -1,24 +1,19 @@
-package com.colinker.routes;
+package com.colinker.routing.remoterouter;
 
 import com.colinker.models.Task;
-import com.colinker.models.User;
 import com.colinker.services.TaskService;
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
+
 import java.util.List;
 
-public class TaskRouter {
-
+public class RemoteTaskRouter {
     String defaultRoute = "/tasks";
 
     public List<Task> getAllTasks() {
         JSONArray jsonArray = new JSONArray();
-        if (User.isOnline) {
-            JsonNode bodyResponse = Router.get(this.defaultRoute);
-            jsonArray = bodyResponse.getArray();
-        } else {
-            // Appel local au taskRepository
-        }
+        JsonNode bodyResponse = RemoteRouter.get(this.defaultRoute);
+        jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }
 }
