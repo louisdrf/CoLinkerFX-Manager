@@ -3,10 +3,9 @@ package com.colinker.repositories;
 import com.colinker.database.LocalDatabase;
 import com.colinker.helpers.DateHelper;
 import com.mongodb.client.MongoCollection;
-import org.bson.BsonDateTime;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,6 +28,18 @@ public class TaskRepository {
             tasks.add(doc);
         }
         return tasks;
+    }
+
+    public static Document findOneById(String id) {
+        ObjectId objectId;
+        try {
+            objectId = new ObjectId(id);
+        } catch (IllegalArgumentException e) {
+            System.err.println("ID non valide : " + id);
+            return null;
+        }
+
+        return taskCollection.find(new Document("_id", objectId)).first();
     }
 }
 

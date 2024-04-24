@@ -12,24 +12,36 @@ import java.util.List;
 public class TaskService {
 
     public static List<Task> transformArrayIntoList(JSONArray jsonArray) {
-        System.out.println("json a transformer : " + jsonArray);
         if (jsonArray.isEmpty()) return List.of();
 
         List<Task> allTasks = new ArrayList<>();
         for (Object obj : jsonArray) {
             try {
                 JSONObject jsonObj = (JSONObject) obj;
+                System.out.println("objet task : " + jsonObj);
                 Task task = new Task(
+                        jsonObj.getString("_id"),
                         jsonObj.getString("username"),
                         DateHelper.parseDate(jsonObj.getString("dateDebut")),
                         DateHelper.parseDate(jsonObj.getString("dateFin")),
                         jsonObj.getString("title")
                 );
+                System.out.println("java task : " + task);
                 allTasks.add(task);
             } catch(ParseException e) {
                 continue;
             }
         }
         return allTasks;
+    }
+
+    public static Task transformJsonTaskIntoTaskObject(JSONObject jsonTask) throws ParseException {
+        return new Task(
+                jsonTask.getString("_id"),
+                jsonTask.getString("username"),
+                DateHelper.parseDate(jsonTask.getString("dateDebut")),
+                DateHelper.parseDate(jsonTask.getString("dateFin")),
+                jsonTask.getString("title")
+        );
     }
 }
