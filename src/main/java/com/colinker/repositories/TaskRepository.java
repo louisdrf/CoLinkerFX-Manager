@@ -2,6 +2,7 @@ package com.colinker.repositories;
 
 import com.colinker.database.LocalDatabase;
 import com.colinker.helpers.DateHelper;
+import com.colinker.helpers.MongoHelper;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -9,6 +10,8 @@ import org.bson.types.ObjectId;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+
+import static com.colinker.helpers.MongoHelper.replaceDateInDocument;
 
 public class TaskRepository {
     public static MongoCollection<Document> taskCollection = LocalDatabase.getCollection("tasks");
@@ -39,7 +42,9 @@ public class TaskRepository {
             return null;
         }
 
-        return taskCollection.find(new Document("_id", objectId)).first();
+        Document doc = taskCollection.find(new Document("_id", objectId)).first();
+        if(doc != null) MongoHelper.replaceDateInDocument(doc);
+        return doc;
     }
 }
 

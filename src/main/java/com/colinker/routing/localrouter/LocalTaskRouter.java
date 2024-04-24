@@ -20,6 +20,9 @@ public class LocalTaskRouter {
 
     public static Task getTaskById(String id) throws ParseException {
         Document taskDocument = TaskRepository.findOneById(id);
+
+        if(taskDocument == null) return null;
+
         JSONObject jsonTask = MongoHelper.convertDocumentToJSONObject(taskDocument);
         return TaskService.transformJsonTaskIntoTaskObject(jsonTask);
     }

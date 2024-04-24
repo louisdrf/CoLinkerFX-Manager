@@ -3,6 +3,8 @@ package com.colinker.helpers;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.bson.Document;
+
+import java.util.Date;
 import java.util.List;
 
 public class MongoHelper {
@@ -30,6 +32,18 @@ public class MongoHelper {
         }
 
         return jsonObj;
+    }
+
+
+    public static void replaceDateInDocument(Document doc) {
+        for (String key : doc.keySet()) {
+            Object value = doc.get(key);
+
+            if (value instanceof java.util.Date) {
+                String isoDate = DateHelper.formatToISO((Date) value);
+                doc.put(key, isoDate);
+            }
+        }
     }
 }
 
