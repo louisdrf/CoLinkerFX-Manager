@@ -69,5 +69,10 @@ public class TaskView extends HBox {
 
         alert.showAndWait();
     }
+
+
+    private void showNewTaskModal() {
+
+    }
 }
 

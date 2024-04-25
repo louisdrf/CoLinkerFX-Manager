@@ -1,5 +1,8 @@
 package com.colinker.helpers;
 
+import com.colinker.database.LocalDatabase;
+import com.colinker.database.MongoDBExporter;
+import com.colinker.database.MongoDBImporter;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.bson.Document;
@@ -8,6 +11,13 @@ import java.util.Date;
 import java.util.List;
 
 public class MongoHelper {
+
+    public static void launchSynchronization() {
+        MongoDBExporter.launchExport();
+        LocalDatabase.launch();
+        MongoDBImporter.importInLocalDatabase();
+        LocalDatabase.close();
+    }
 
     public static JSONArray convertDocumentsToJSONArray(List<Document> documents) {
         JSONArray jsonArray = new JSONArray();

@@ -2,6 +2,7 @@ package com.colinker.models;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class Task {
 
@@ -10,6 +11,8 @@ public class Task {
     public Date dateDebut;
     public Date dateFin;
     public String title;
+
+    public List<Room> linkedRooms;
 
     public Task(String id, String username, Date dateDebut, Date dateFin, String title) {
         this.id = id;

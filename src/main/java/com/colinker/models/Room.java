@@ -1,4 +1,4 @@
-package com.colinker.models.resources;
+package com.colinker.models;
 
 public class Room {
     String id;

@@ -25,14 +25,10 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            if (RemoteRouter.pingGoogle() && RemoteDatabaseConnection.tryConnection()) {
-                MongoDBExporter.launchExport();
-                LocalDatabase.launch();
-                MongoDBImporter.importInLocalDatabase();
-                LocalDatabase.close();
-            } else {
+            if (!RemoteDatabaseConnection.tryConnection()) {
                 System.out.println("Aucune connexion internet, connexion en local...");
                 User.isOnline = false;
+                User.setUsernameLocal();
                 LocalDatabase.launch();
                 MongoDBImporter.importInLocalDatabase();
             }
