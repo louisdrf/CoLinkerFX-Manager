@@ -14,8 +14,8 @@ module com.colinker.colinkerjfx {
     requires java.desktop;
     requires unirest.java;
     requires de.flapdoodle.embed.mongo;
-    requires io.javalin;
     requires com.google.gson;
+    requires morphia.core;
 
     opens com.colinker to javafx.fxml;
     exports com.colinker;

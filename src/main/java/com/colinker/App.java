@@ -23,18 +23,20 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-           /* if (!RemoteDatabaseConnection.tryConnection()) {
-                System.out.println("Aucune connexion internet, connexion en local...");
+            if (!RemoteDatabaseConnection.tryConnection()) {
                 User.isOnline = false;
-                User.setUsernameLocal();
+                User.setLoginLocal();
                 LocalDatabase.launch();
                 MongoDBImporter.importInLocalDatabase();
             }*/
 
             Platform.runLater(() -> {
                 try {
-                    if (User.isOnline) SceneRouter.showLoginPage();
-                    else SceneRouter.showTasksListPage();
+                    if (User.isOnline) {
+                        SceneRouter.showLoginPage();
+                    } else {
+                        SceneRouter.showTasksListPage();
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -15,15 +15,11 @@ public class User {
     public static String name;
     public static boolean isOnline = true;
 
-    public static void setUsernameLocal() {
+    public static void setLoginLocal() {
         try {
-            File file = new File("username.txt");
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = br.readLine();
-                if (line != null) email = line.trim();
-                br.close();
-            }
+            BufferedReader br = new BufferedReader(new FileReader("username"));
+            login = br.readLine().trim();
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

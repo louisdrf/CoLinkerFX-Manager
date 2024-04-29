@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocalDatabase {
-    private static final String DATABASE_NAME = "colinkerfxLocalDatabase";
+    public static final String DATABASE_NAME = "colinkerfxLocalDatabase";
     private static final int MONGO_PORT = 27018;
-    private static MongoClient client;
+    static MongoClient client;
     private static MongoDatabase database;
     private static MongodExecutable mongodExecutable;
     private static List<String> collectionNames;
@@ -40,8 +40,11 @@ public class LocalDatabase {
         collectionNames = new ArrayList<>();
         createCollections();
 
-        System.out.println("Base de données créée avec succès");
+        MorphiaLocalConfig.initializeDatastore();
+
+        System.out.println("Base de données locale créée avec succès");
     }
+
 
     private static void createCollections() {
         String[] collections = {"users", "associations", "tasks"};
@@ -50,11 +53,6 @@ public class LocalDatabase {
             collectionNames.add(collectionName);
         }
     }
-
-    public static String getConnexionString() {
-        return "mongodb://localhost:" + MONGO_PORT;
-    }
-
     public static List<String> getCollectionNames() {
         return collectionNames;
     }

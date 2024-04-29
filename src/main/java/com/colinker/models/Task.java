@@ -1,11 +1,18 @@
 package com.colinker.models;
 
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Indexed;
+
 import java.util.Date;
 import java.util.List;
 
+
+@Entity("tasks")
 public class Task {
 
+    @Id
     public String id;
     public String username;
     public Date dateDebut;
@@ -26,5 +33,9 @@ public class Task {
         this.title = title;
         this.isDone = isDone;
         this.isImportant = isImportant;
+    }
+
+    public Task (String username, Date dateDebut, Date dateFin, String title) {
+        this(null, username, dateDebut, dateFin, title);
     }
 }
