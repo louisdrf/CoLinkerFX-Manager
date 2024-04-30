@@ -28,6 +28,13 @@ public class SceneRouter {
         stage.show();
     }
 
+    public static void showUpdatePage() throws IOException {
+        currentScene = loadScene("update.fxml");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
+
     private static Scene loadScene(String fxmlFilePath) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlFilePath));
         return new Scene(loader.load(), 1280, 720);

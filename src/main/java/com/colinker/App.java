@@ -4,17 +4,19 @@ import com.colinker.database.*;
 import com.colinker.models.User;
 import com.colinker.routes.Router;
 import com.colinker.routes.SceneRouter;
+import com.colinker.services.Updater;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        User.isOnline = Router.pingGoogle();
+        /*User.isOnline = Router.pingGoogle();
 
         if(User.isOnline && RemoteDatabaseConnection.tryConnection()) {
             MongoDBExporter.launchExport();
@@ -25,9 +27,9 @@ public class App extends Application {
         else {
             LocalDatabase.launch();
             Router.switchToOfflineMode();
-        }
+        }*/
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("calendar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);
@@ -43,6 +45,8 @@ public class App extends Application {
         });
 
         stage.show();
+
+        //Updater.checkAndUpdate();
     }
 
 

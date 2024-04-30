@@ -15,4 +15,8 @@ public class NavbarController {
     public void showTasksListPage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showTasksListPage();
     }
+
+    public void showUpdatePage(MouseEvent mouseEvent) throws IOException {
+        SceneRouter.showUpdatePage();
+    }
 }

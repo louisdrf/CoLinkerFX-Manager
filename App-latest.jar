@@ -1,0 +1,168 @@
+<html xml:lang="fr-FR" lang="fr-FR">
+<head>
+<title qtlid="28806">Félicitations ! Votre domaine a bien été créé chez OVHcloud !</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="fr-FR">
+<meta http-equiv="keywords" name="keywords" content="OVH, noms de domaines, serveur dédié, hébergement mutualisé, cloud computing, private cloud, téléphonie sur IP, VoIP, SMS, fax, emails, exchange, VPS, superplan, 1u, 2u, 4u, noc, network operating center, burst, bande passante, linux, redhat, debian, php, perl, mysql, bind, qmail, webalizer, webmin, backup, backup hebdomadaire, haute disponibilité, serveur mutualisé, hébergement dédié">
+<meta http-equiv="description" name="description" content="OVHcloud accompagne votre évolution grâce au meilleur des infrastructures web : hébergement, nom de domaine, serveur dédié, CDN, Cloud, Big Data, ...">
+<meta name="Copyright" content="OVHcloud">
+<meta name="Author" content="OVHcloud">
+<meta name="robots" content="none,noindex,nofollow">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="DP.PopRank" content="2.00000">
+<link rel="icon" href="/__ovh/common/img/favicon.ico" type="image/gif" translate="none">
+<script src="/__ovh/common/res/punycode.min.js"></script><script src="/__ovh/common/res/jquery-1.11.3.min.js"></script><script language="javascript" translate="none">
+                    $(window).load( function() {
+                        $('#domain').text( punycode.toUnicode( $('#domain').text()));
+                    });
+                </script><style type="text/css" translate="none">
+                    body { background: #000E9C url('/__ovh/common/img/transparentTriangle.svg') repeat 0 0; background-repeat: repeat; margin: 0; color: #333333; font-family: 'Trebuchet MS'; text-shadow: 1px 1px 0 #FFF; }
+                    br { clear: both; }
+                    h1, h2, p { margin: 0; }
+
+                    .center { text-align: center; }
+                    .bold { font-weight: bold; }
+                    .full { width: 100%; }
+
+                    .fs21 { font-size: 21px; }
+                    .lh30 { line-height: 30px; }
+
+                    .half { width: 50%; }
+                    .half33 { width: 33%; }
+                    .Fleft { float: left; }
+                    .Fright { float: right; }
+
+                    .wrapper { margin: 0 auto; width: 929px; }
+                    .site { background-color: #EEEEEE; padding: 20px 8px 20px 8px; margin-top: 30px; position: relative; }
+
+                    .felicitation { text-align: center; }
+                    .felicitation h1 { font-size: 48px; line-height: 60px; text-align: center; color: #000E9C; }
+                    .felicitation p { font-size: 21px; line-height: 34px; }
+
+                    .redirect { display: table; }
+                    .redirect img { display: table-cell; }
+                    .redirect a { display: table-cell; vertical-align: middle; color: #3C3C3C; font-size: 14px; line-height: 20px; }
+                    .redirect:hover a { text-decoration: underline; }
+
+                    .product { text-align: center; width: 33%; }
+                    .product h2 { font-weight: bold; font-size: 27px; margin: 10px 0 5px 0; }
+                    .product p { font-size: 14px; line-height: 20px; }
+                    .product a { font-size: 14px; font-weight: bold; color: #0068B1; }
+                    .product a:hover { text-decoration: underline; }
+
+                    .product .web,
+                    .product .vps,
+                    .product .dedicated {
+                        display: block;
+                        text-decoration: none;
+                        width: 290px;
+                        height: 190px;
+                        margin: 0 auto;
+                        -moz-transition: all 0.2s ease-in-out 0s;
+                        -webkit-transition: all 0.2s ease-in-out 0s;
+                        -o-transition: all 0.2s ease-in-out 0s;
+                        -ms-transition: all 0.2s ease-in-out 0s;
+                        transition: all 0.2s ease-in-out 0s;
+                    }
+
+                    .product .web:hover,
+                    .product .vps:hover,
+                    .product .dedicated:hover {
+                        -moz-transform: translateY(-2px);
+                        -webkit-transform: translateY(-2px);
+                        -o-transform: translateY(-2px);
+                        -ms-transform: translateY(-2px);
+                        transform: translateY(-2px);
+
+                        -moz-box-shadow: 0 0 0 1px rgba(255,255,255,0),  0 0 6px rgba(0,0,0,0.35);
+                        -webkit-box-shadow: 0 0 0 1px rgba(255,255,255,0),  0 0 6px rgba(0,0,0,0.35);
+                        -ms-box-shadow: 0 0 0 1px rgba(255,255,255,0),  0 0 6px rgba(0,0,0,0.35);
+                        -o-box-shadow: 0 0 0 1px rgba(255,255,255,0),  0 0 6px rgba(0,0,0,0.35);
+                        box-shadow: 0 0 0 1px rgba(255,255,255,0),  0 0 6px rgba(0,0,0,0.35);
+                    }
+
+                    .bottom-link { height: 43px; line-height: 43px; text-align: center; background-color: #73E3FF; font-size: 10px; color: #3C3C3C; text-shadow: 0 0 0 #000; }
+                    .bottom-link a { color: #3C3C3C; margin: 0 5px; text-decoration: none; }
+                    .bottom-link a:hover { text-decoration: underline; }
+
+                    .bottom-shadow { background: transparent url('/__ovh/common/img/shadow.jpg') no-repeat 0 0; width: 929px; height: 44px; }
+                </style>
+</head>
+<body><div class="wrapper">
+<div style="text-align: center; padding-top:30px;"><a href="https://www.ovhcloud.com/" target="_blank" title="OVHcloud" qtlid_title="28936"><img src="/__ovh/common/img/logo-white.png" width="300"></a></div>
+<div class="site">
+<div class="felicitation">
+<h1 qtlid="28858">Félicitations !</h1>
+<p qtlid="28871;28897">Votre domaine <span class="bold" translate="none" id="domain">benji0812.fr</span> a bien été créé chez OVHcloud.</p>
+</div>
+<br><div class="full center"><img src="/__ovh/common/img/hr.png" qtlid_src="28910"></div>
+<br><div class="Fleft half33"><div class="redirect">
+<a href="https://www.ovh.com/fr/mail/" target="_blank" title="Accédez au Webmail OVHcloud" qtlid_title="28936"><img src="/__ovh/common/img/icon-mail.png" style="margin: 0 20px;" qtlid_src="28949"></a><a href="https://www.ovh.com/fr/mail/" target="_blank" title="Accédez au Webmail OVH" qtlid="28962" qtlid_title="28936">Accédez à votre Webmail OVHcloud</a>
+</div></div>
+<div class="Fleft half33"><div class="redirect">
+<a href="https://www.ovh.com/manager/" target="_blank" title="Accédez à votre Espace Client" qtlid_title="28988"><img src="/__ovh/common/img/icon-app-gear.png" style="margin: 0 20px;" qtlid_src="29001"></a><a href="https://www.ovh.com/manager/" target="_blank" title="Accédez à votre Espace Client" qtlid="29014;29027" qtlid_title="28988">Configurez votre domaine<br>depuis votre Espace Client Web</a>
+</div></div>
+<div class="Fleft half33"><div class="redirect">
+<a href="https://docs.ovh.com/fr/hosting/" target="_blank" title="Accédez à la FAQ" qtlid_title="53581"><img src="/__ovh/common/img/icon-book.png" style="margin: 0 20px;" qtlid_src="53594"></a><a href="https://docs.ovh.com/fr/hosting/" target="_blank" qtlid="53607;53620" qtlid_title="53581" title="Accédez à la FAQ">Consultez la liste des<br>questions fréquemment posées</a>
+</div></div>
+<br><br><div class="full center"><img src="/__ovh/common/img/hr.png" qtlid_src="28910"></div>
+<br><div class="full">
+<p class="center fs21 lh30" qtlid="29040;29053">Vous pouvez dès à présent lui associer un hébergement,<br>en choisissant la solution la plus adaptée à vos besoins :</p>
+<br><div class="Fleft product">
+<a href="https://www.ovhcloud.com/fr/web-hosting/" title="Hébergement Web" qtlid_title="29079" qtlid="853"><img src="/__ovh/common/img/webcloud.png" height="180px"></a> <h2 qtlid="29079">Hébergement Web</h2>
+<p qtlid="29092;29105;29118;29131">Une solution économique<br>pour héberger vos projets Web :<br>site Internet, boutique en ligne,<br>landing page...</p>
+<br><br><a href="https://www.ovhcloud.com/fr/web-hosting/" qtlid="20372">En savoir plus</a>
+</div>
+<div class="Fleft product">
+<a href="https://www.ovhcloud.com/fr/vps/" title="VPS"  qtlid_title="29157" qtlid="853"><img src="/__ovh/common/img/vps.png" height="180px"></a><h2 qtlid="29157">VPS</h2>
+<p qtlid="29170;29183;29196;29209;29222">Alliez la flexibilité du Cloud<br>à la liberté du dédié<br>avec nos solutions VPS clef en main.<br>Accompagnez vos projets Web<br>vers une nouvelle étape.</p>
+<br><a href="https://www.ovhcloud.com/fr/vps/" qtlid="20372">En savoir plus</a>
+</div>
+<div class="Fleft product">
+<a href="https://www.ovhcloud.com/fr/bare-metal/" title="Serveurs dédiés" qtlid_title="29248" qtlid="853"><img src="/__ovh/common/img/baremetal-servers.png" height="180px"></a><h2 qtlid="29261">Serveur dédié</h2>
+<p qtlid="29274;29287;29300;29313;29326">Hébergez vos sites Web<br>sur une machine qui leur sera dédiée !<br>Puissance, polyvalence, liberté,<br>c'est la solution d'excellence<br>pour tous vos projets !</p>
+<br><a href="https://www.ovhcloud.com/fr/bare-metal/" qtlid="20372">En savoir plus</a>
+</div>
+<br>
+</div>
+</div>
+<div translate="none" style="display: none;"><div class="ovh-domain-signature" style="display:none">
+	<p data="b">
+		<span>b1</span><span>b2</span><span>b3</span><span>b4</span><span>b5</span><span>b6</span><span>b7</span><span>b8</span><span>b9</span><span>b10</span><span>b11</span><span>b12</span><span>b13</span><span>b14</span><span>b15</span><span>b16</span><span>b17</span><span>b18</span><span>b19</span><span>b20</span><span>b21</span><span>b22</span><span>b23</span><span>b24</span><span>b25</span><span>b26</span><span>b27</span><span>b28</span><span>b29</span><span>b30</span><span>b31</span><span>b32</span><span>b33</span><span>b34</span><span>b35</span><span>b36</span><span>b37</span><span>b38</span><span>b39</span><span>b40</span><span>b41</span><span>b42</span><span>b43</span><span>b44</span><span>b45</span><span>b46</span><span>b47</span><span>b48</span><span>b49</span><span>b50</span>
+	</p>	<p data="e">
+		<span>e1</span><span>e2</span><span>e3</span><span>e4</span><span>e5</span><span>e6</span><span>e7</span><span>e8</span><span>e9</span><span>e10</span><span>e11</span><span>e12</span><span>e13</span><span>e14</span><span>e15</span><span>e16</span><span>e17</span><span>e18</span><span>e19</span><span>e20</span><span>e21</span><span>e22</span><span>e23</span><span>e24</span><span>e25</span><span>e26</span><span>e27</span><span>e28</span><span>e29</span><span>e30</span><span>e31</span><span>e32</span><span>e33</span><span>e34</span><span>e35</span><span>e36</span><span>e37</span><span>e38</span><span>e39</span><span>e40</span><span>e41</span><span>e42</span><span>e43</span><span>e44</span><span>e45</span><span>e46</span><span>e47</span><span>e48</span><span>e49</span><span>e50</span><span>e51</span><span>e52</span><span>e53</span>
+	</p>	<p data="n">
+		<span>n1</span><span>n2</span><span>n3</span><span>n4</span><span>n5</span><span>n6</span><span>n7</span><span>n8</span><span>n9</span><span>n10</span><span>n11</span><span>n12</span><span>n13</span><span>n14</span><span>n15</span><span>n16</span><span>n17</span><span>n18</span><span>n19</span><span>n20</span><span>n21</span><span>n22</span><span>n23</span><span>n24</span><span>n25</span><span>n26</span><span>n27</span><span>n28</span><span>n29</span><span>n30</span><span>n31</span><span>n32</span><span>n33</span><span>n34</span><span>n35</span><span>n36</span><span>n37</span><span>n38</span><span>n39</span><span>n40</span><span>n41</span><span>n42</span><span>n43</span><span>n44</span><span>n45</span><span>n46</span><span>n47</span><span>n48</span><span>n49</span><span>n50</span><span>n51</span><span>n52</span><span>n53</span><span>n54</span><span>n55</span><span>n56</span><span>n57</span><span>n58</span><span>n59</span><span>n60</span><span>n61</span><span>n62</span>
+	</p>	<p data="j">
+		<span>j1</span><span>j2</span><span>j3</span><span>j4</span><span>j5</span><span>j6</span><span>j7</span><span>j8</span><span>j9</span><span>j10</span><span>j11</span><span>j12</span><span>j13</span><span>j14</span><span>j15</span><span>j16</span><span>j17</span><span>j18</span><span>j19</span><span>j20</span><span>j21</span><span>j22</span><span>j23</span><span>j24</span><span>j25</span><span>j26</span><span>j27</span><span>j28</span><span>j29</span><span>j30</span><span>j31</span><span>j32</span><span>j33</span><span>j34</span><span>j35</span><span>j36</span><span>j37</span><span>j38</span><span>j39</span><span>j40</span><span>j41</span><span>j42</span><span>j43</span><span>j44</span><span>j45</span><span>j46</span><span>j47</span><span>j48</span><span>j49</span><span>j50</span><span>j51</span><span>j52</span><span>j53</span><span>j54</span><span>j55</span><span>j56</span><span>j57</span><span>j58</span>
+	</p>	<p data="i">
+		<span>i1</span><span>i2</span><span>i3</span><span>i4</span><span>i5</span><span>i6</span><span>i7</span><span>i8</span><span>i9</span><span>i10</span><span>i11</span><span>i12</span><span>i13</span><span>i14</span><span>i15</span><span>i16</span><span>i17</span><span>i18</span><span>i19</span><span>i20</span><span>i21</span><span>i22</span><span>i23</span><span>i24</span><span>i25</span><span>i26</span><span>i27</span><span>i28</span><span>i29</span><span>i30</span><span>i31</span><span>i32</span><span>i33</span><span>i34</span><span>i35</span><span>i36</span><span>i37</span><span>i38</span><span>i39</span><span>i40</span><span>i41</span><span>i42</span><span>i43</span><span>i44</span><span>i45</span><span>i46</span><span>i47</span><span>i48</span><span>i49</span><span>i50</span><span>i51</span><span>i52</span><span>i53</span><span>i54</span><span>i55</span><span>i56</span><span>i57</span>
+	</p>	<p data="0">
+		
+	</p>	<p data="8">
+		<span>81</span><span>82</span><span>83</span><span>84</span><span>85</span><span>86</span><span>87</span><span>88</span>
+	</p>	<p data="1">
+		<span>11</span>
+	</p>	<p data="2">
+		<span>21</span><span>22</span>
+	</p>	<hr/>
+	<p data="f">
+		<span>f1</span><span>f2</span><span>f3</span><span>f4</span><span>f5</span><span>f6</span><span>f7</span><span>f8</span><span>f9</span><span>f10</span><span>f11</span><span>f12</span><span>f13</span><span>f14</span><span>f15</span><span>f16</span><span>f17</span><span>f18</span><span>f19</span><span>f20</span><span>f21</span><span>f22</span><span>f23</span><span>f24</span><span>f25</span><span>f26</span><span>f27</span><span>f28</span><span>f29</span><span>f30</span><span>f31</span><span>f32</span><span>f33</span><span>f34</span><span>f35</span><span>f36</span><span>f37</span><span>f38</span><span>f39</span><span>f40</span><span>f41</span><span>f42</span><span>f43</span><span>f44</span><span>f45</span><span>f46</span><span>f47</span><span>f48</span><span>f49</span><span>f50</span><span>f51</span><span>f52</span><span>f53</span><span>f54</span>
+	</p>	<p data="r">
+		<span>r1</span><span>r2</span><span>r3</span><span>r4</span><span>r5</span><span>r6</span><span>r7</span><span>r8</span><span>r9</span><span>r10</span><span>r11</span><span>r12</span><span>r13</span><span>r14</span><span>r15</span><span>r16</span><span>r17</span><span>r18</span><span>r19</span><span>r20</span><span>r21</span><span>r22</span><span>r23</span><span>r24</span><span>r25</span><span>r26</span><span>r27</span><span>r28</span><span>r29</span><span>r30</span><span>r31</span><span>r32</span><span>r33</span><span>r34</span><span>r35</span><span>r36</span><span>r37</span><span>r38</span><span>r39</span><span>r40</span><span>r41</span><span>r42</span><span>r43</span><span>r44</span><span>r45</span><span>r46</span><span>r47</span><span>r48</span><span>r49</span><span>r50</span><span>r51</span><span>r52</span><span>r53</span><span>r54</span><span>r55</span><span>r56</span><span>r57</span><span>r58</span><span>r59</span><span>r60</span><span>r61</span><span>r62</span><span>r63</span><span>r64</span><span>r65</span><span>r66</span>
+	</p>
+</div></div>
+<div class="bottom-link" qtlid="29352;29352;29352;29352;29352;29352;29352;29352">
+<a href="https://www.ovhcloud.com/fr/" qtlid="29339" target="_blank">&copy; Copyright 1999<script>new Date().getFullYear()>1999&&document.write("-"+new Date().getFullYear());</script> OVHcloud</a> |
+                        <a href="https://www.ovh.com/fr/support/mentions-legales/" qtlid="29378" target="_blank">Mentions légales - Contrats</a> |
+                        <a href="https://www.ovh.com/fr/support/documents_legaux/payment.xml" qtlid="29404" target="_blank">Paiements</a> |
+                        <a href="https://www.ovhcloud.com/fr/contact-sales/" qtlid="10849" target="_blank">Contactez-nous</a> |
+                        <a href="https://www.ovhcloud.com/fr/about-us/" qtlid="29443" target="_blank">À propos d'OVHcloud</a> |
+                        <a href="https://corporate.ovhcloud.com/fr/newsroom/news/" qtlid="29495" ovhInclude="fr" target="_blank">Espace presse</a><span ovhInclude="fr" qtlid="29352">|
+                        <a href="https://careers.ovhcloud.com/?locale=fr_FR" qtlid="10836" target="_blank">OVHcloud Recrute</a> |
+                        <a href="https://blog.ovhcloud.com" target="_blank">Blog</a>
+</div>
+<div class="bottom-shadow" qtlid="853"> </div>
+</div></body>
+</html>
