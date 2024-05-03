@@ -1,10 +1,8 @@
 package com.colinker;
 
 import com.colinker.controllers.UserController;
-import com.colinker.database.DockerMongoManager;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
-import com.colinker.services.UserService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
@@ -12,11 +10,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import com.colinker.database.DockerMongoManager;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.github.cdimascio.dotenv.Dotenv;
