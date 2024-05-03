@@ -10,13 +10,6 @@ import java.io.IOException;
 public class SceneRouter {
     public static Scene currentScene;
     public static Stage stage;
-
-    public static void showLoadingScreen() throws IOException {
-        currentScene = loadScene("loading_screen.fxml");
-        stage.setScene(currentScene);
-        stage.show();
-    }
-
     public static void showLoginPage() throws IOException {
         currentScene = loadScene("login/login.fxml");
         stage.setScene(currentScene);
@@ -34,6 +27,13 @@ public class SceneRouter {
         stage.setScene(currentScene);
         stage.show();
     }
+
+    public static void showUpdatePage() throws IOException {
+        currentScene = loadScene("update.fxml");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
 
     private static Scene loadScene(String fxmlFilePath) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlFilePath));
