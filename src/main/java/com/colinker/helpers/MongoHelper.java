@@ -1,3 +1,4 @@
+/*
 package com.colinker.helpers;
 
 import com.colinker.database.LocalDatabase;
@@ -56,3 +57,4 @@ public class MongoHelper {
 
 
 
+*/

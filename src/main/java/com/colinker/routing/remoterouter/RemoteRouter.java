@@ -1,3 +1,4 @@
+/*
 package com.colinker.routing.remoterouter;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -28,4 +29,4 @@ public class RemoteRouter {
             return new JsonNode("{'message': 'Couldn't make the GET request to API'}");
         }
     }
-}
+}*/

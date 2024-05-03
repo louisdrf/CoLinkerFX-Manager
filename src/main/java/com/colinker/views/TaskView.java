@@ -1,3 +1,4 @@
+/*
 package com.colinker.views;
 
 import com.colinker.models.Task;
@@ -96,3 +97,4 @@ public class TaskView extends HBox {
     }
 }
 
+*/

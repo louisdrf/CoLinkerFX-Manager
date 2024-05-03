@@ -8,8 +8,14 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document(collection = "users")
 public class User {
+    @Id
+    private String id;
+    private String username;
+    private String password;
     public static String token;
     static String email;
     public static String name;
@@ -44,4 +50,52 @@ public class User {
 
             return false;
         }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        User.token = token;
+    }
+
+    public static String getLogin() {
+        return login;
+    }
+
+    public static void setLogin(String login) {
+        User.login = login;
+    }
+
+    public static boolean isIsOnline() {
+        return isOnline;
+    }
+
+    public static void setIsOnline(boolean isOnline) {
+        User.isOnline = isOnline;
+    }
 }

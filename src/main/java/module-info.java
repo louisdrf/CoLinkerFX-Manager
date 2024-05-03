@@ -12,19 +12,24 @@ module com.colinker.colinkerjfx {
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
     requires java.desktop;
-    requires unirest.java;
-    requires de.flapdoodle.embed.mongo;
     requires com.google.gson;
-    requires morphia.core;
+    requires spring.data.commons;
+    requires spring.data.mongodb;
+    requires spring.beans;
+    requires spring.context;
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+    requires spring.core;
+    requires java.dotenv;
 
-    opens com.colinker to javafx.fxml;
+    // Ouvrir tous les packages nécessaires à Spring
+    opens com.colinker to javafx.fxml, spring.core;
+    opens com.colinker.models to javafx.fxml, spring.core;
+    opens com.colinker.controllers to javafx.fxml, spring.core;
+    opens com.colinker.services to javafx.fxml, spring.core;
+
     exports com.colinker;
     exports com.colinker.models;
-    opens com.colinker.models to javafx.fxml;
     exports com.colinker.controllers;
-    opens com.colinker.controllers to javafx.fxml;
-    exports com.colinker.repositories;
-    opens com.colinker.repositories to javafx.fxml;
     exports com.colinker.services;
-    opens com.colinker.services to javafx.fxml;
 }

@@ -1,3 +1,4 @@
+/*
 package com.colinker.controllers;
 
 import com.colinker.routing.remoterouter.RemoteAuthRouter;
@@ -48,4 +49,4 @@ public class LoginController {
 
         SceneRouter.showTasksListPage();
     }
-}
+}*/

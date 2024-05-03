@@ -1,3 +1,4 @@
+/*
 package com.colinker.database;
 
 import dev.morphia.Datastore;
@@ -11,3 +12,4 @@ public class MorphiaLocalConfig {
         System.out.println(datastore.getDatabase());
     }
 }
+*/
