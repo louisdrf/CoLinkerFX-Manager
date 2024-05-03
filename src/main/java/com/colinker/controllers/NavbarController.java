@@ -1,6 +1,6 @@
 package com.colinker.controllers;
 
-import com.colinker.helpers.SceneRouter;
+import com.colinker.routes.SceneRouter;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -14,5 +14,9 @@ public class NavbarController {
 
     public void showTasksListPage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showTasksListPage();
+    }
+
+    public void showUpdatePage(MouseEvent mouseEvent) throws IOException {
+        SceneRouter.showUpdatePage();
     }
 }
