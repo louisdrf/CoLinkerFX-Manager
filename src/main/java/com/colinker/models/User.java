@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class User {
     public static String token;
     static String email;
-    static String name;
+    public static String name;
     public static boolean isOnline = true;
 
     public static void setUsernameLocal() {

@@ -1,9 +1,7 @@
 package com.colinker;
 
 import com.colinker.database.*;
-import com.colinker.helpers.DateHelper;
 import com.colinker.models.User;
-import com.colinker.routing.remoterouter.RemoteRouter;
 import com.colinker.helpers.SceneRouter;
 import javafx.application.Application;
 import javafx.application.Platform;

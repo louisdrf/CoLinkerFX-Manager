@@ -35,6 +35,7 @@ public class RemoteAuthRouter {
 
                     MongoHelper.launchSynchronization();  // lancer l'import
                     saveUsernameToLocal(login);
+                    User.name = login;
 
                 } else throw new Exception("Error when retrieving token by authentication.");
 

@@ -1,9 +1,15 @@
 package com.colinker.routing.remoterouter;
 
+import com.colinker.helpers.JavaToJsonObject;
+import com.colinker.helpers.MongoHelper;
 import com.colinker.models.Task;
+import com.colinker.models.User;
 import com.colinker.services.TaskService;
+import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 
 import java.util.List;
 
@@ -15,5 +21,24 @@ public class RemoteTaskRouter {
         JsonNode bodyResponse = RemoteRouter.get(this.defaultRoute);
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
+    }
+
+    public static void createNewTask(Task task) {
+        try {
+            JSONObject jsonTask = JavaToJsonObject.convertTaskToJsonTask(task);
+
+            HttpResponse<JsonNode> jsonResponse = Unirest.post(RemoteRouter.baseUrl + "/tasks")
+                    .header("Content-Type", "application/json")
+                    .body(jsonTask)
+                    .asJson();
+
+            int status = jsonResponse.getStatus();
+            if(status == 201) {
+                System.out.println("Tâche créée avec succès.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

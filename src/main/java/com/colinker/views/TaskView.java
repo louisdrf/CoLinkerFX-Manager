@@ -3,6 +3,7 @@ package com.colinker.views;
 import com.colinker.models.Task;
 import com.colinker.models.User;
 import com.colinker.routing.localrouter.LocalTaskRouter;
+import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -12,7 +13,6 @@ import javafx.scene.paint.Color;
 import java.text.ParseException;
 
 public class TaskView extends HBox {
-
     private String taskID;
     public TaskView(Task task) {
         this.taskID = task.id;
@@ -40,21 +40,14 @@ public class TaskView extends HBox {
         this.getChildren().addAll(username, dateDebut, dateFin, title);
         this.setPrefWidth(950);
 
-        if (!User.isOnline) {
             this.setOnMouseClicked(event -> {
-                try {
-                    Task taskDetails = LocalTaskRouter.getTaskById(this.taskID);
-                    showTaskDetails(taskDetails);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                showTaskDetails(task);
             });
         }
 
-    }
-
 
     private void showTaskDetails(Task taskDetails) {
+        System.out.println("task details : " + taskDetails);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Détails de la tâche");
         alert.setHeaderText("Informations sur la tâche");
@@ -68,11 +61,6 @@ public class TaskView extends HBox {
         alert.getDialogPane().setContent(content);
 
         alert.showAndWait();
-    }
-
-
-    private void showNewTaskModal() {
-
     }
 }
 
