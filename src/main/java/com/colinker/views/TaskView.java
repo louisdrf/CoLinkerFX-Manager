@@ -6,6 +6,7 @@ import com.colinker.routing.localrouter.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -37,13 +38,27 @@ public class TaskView extends HBox {
         dateFin.setStyle("-fx-font-size: 16px;");
         Label title = new Label(task.title);
         title.setStyle("-fx-font-size: 16px;");
-        this.getChildren().addAll(username, dateDebut, dateFin, title);
+
+        // Create the "supprimer" button
+        Button deleteButton = new Button("Supprimer");
+        deleteButton.setStyle("-fx-font-size: 16px;");
+        deleteButton.setOnAction(event -> {
+            try {
+                RemoteTaskRouter.deleteTask(taskID);
+                // Optionally, remove this TaskView from the parent VBox after deletion
+                ((VBox) this.getParent()).getChildren().remove(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.getChildren().addAll(username, dateDebut, dateFin, title, deleteButton);
         this.setPrefWidth(950);
 
-            this.setOnMouseClicked(event -> {
-                showTaskDetails(task);
-            });
-        }
+        this.setOnMouseClicked(event -> {
+            showTaskDetails(task);
+        });
+    }
 
 
     private void showTaskDetails(Task taskDetails) {

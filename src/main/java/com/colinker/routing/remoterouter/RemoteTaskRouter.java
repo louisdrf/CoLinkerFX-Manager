@@ -41,4 +41,20 @@ public class RemoteTaskRouter {
             e.printStackTrace();
         }
     }
+
+    public static void deleteTask(String taskID) {
+        try {
+            HttpResponse<JsonNode> response = Unirest.delete(RemoteRouter.baseUrl + "/tasks/" + taskID)
+                    .header("accept", "application/json")
+                    .asJson();
+
+            if (response.getStatus() == 200) {
+                System.out.println("Tâche supprimée.");
+            } else {
+                System.out.println("Failed to delete task. Status: " + response.getStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
