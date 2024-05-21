@@ -2,12 +2,11 @@ package com.colinker;
 
 import com.colinker.database.*;
 import com.colinker.models.User;
+import com.colinker.plugins.PluginLoader;
 import com.colinker.routes.Router;
 import com.colinker.routes.SceneRouter;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -37,9 +36,12 @@ public class App extends Application {
                 LocalDatabase.launch();
             }
 
+            PluginLoader pluginLoader = new PluginLoader();
+
             Platform.runLater(() -> {
                 try {
-                    SceneRouter.showLoginPage();
+                    SceneRouter.showTasksListPage();
+                    pluginLoader.firePlugins();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

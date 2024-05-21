@@ -27,4 +27,6 @@ module com.colinker.colinkerjfx {
     opens com.colinker.repositories to javafx.fxml;
     exports com.colinker.services;
     opens com.colinker.services to javafx.fxml;
+    exports com.colinker.plugins;
+    opens com.colinker.plugins to com.google.gson, javafx.fxml;
 }

@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    {
+      "name": "Note",
+      "classes" : [
+        {
+          "className": "NoteController",
+          "packageName": "controllers"
+        }
+      ]
+    }
+  ]
+}
