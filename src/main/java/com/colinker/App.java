@@ -17,19 +17,19 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            LocalDatabase.close();
+            //LocalDatabase.close();
             System.out.println("Database local connexion well closed.");
         });
         stage.show();
 
         new Thread(() -> {
-            if (!RemoteDatabaseConnection.tryConnection()) {
+           /* if (!RemoteDatabaseConnection.tryConnection()) {
                 System.out.println("Aucune connexion internet, connexion en local...");
                 User.isOnline = false;
                 User.setUsernameLocal();
                 LocalDatabase.launch();
                 MongoDBImporter.importInLocalDatabase();
-            }
+            }*/
 
             Platform.runLater(() -> {
                 try {

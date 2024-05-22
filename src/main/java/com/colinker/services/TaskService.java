@@ -1,6 +1,7 @@
 package com.colinker.services;
 
 import com.colinker.helpers.DateHelper;
+import com.colinker.models.Room;
 import com.colinker.models.Task;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
@@ -18,7 +19,6 @@ public class TaskService {
         for (Object obj : jsonArray) {
             try {
                 JSONObject jsonObj = (JSONObject) obj;
-                System.out.println("objet task : " + jsonObj);
                 Task task = new Task(
                         jsonObj.getString("_id"),
                         jsonObj.getString("username"),
@@ -26,6 +26,18 @@ public class TaskService {
                         DateHelper.parseDate(jsonObj.getString("dateFin")),
                         jsonObj.getString("title")
                 );
+
+                if (jsonObj.has("taskRoom")) {
+                    JSONObject roomJson = jsonObj.getJSONObject("taskRoom");
+                    Room room = new Room(
+                            roomJson.getString("_id"),
+                            roomJson.getString("name"),
+                            roomJson.getString("address"),
+                            roomJson.getBoolean("isAvailable")
+                    );
+                    task.linkedRoom = room;
+                }
+
                 System.out.println("java task : " + task);
                 allTasks.add(task);
             } catch(ParseException e) {

@@ -2,16 +2,14 @@ package com.colinker.models;
 
 public class Room {
     String id;
-    int capacity;
-    int usedCapacity;
     String name;
+    String address;
     boolean isAvailable;
 
-    public Room(String id, int capacity, int usedCapacity, String name, boolean isAvailable) {
+    public Room(String id, String name, String address, boolean isAvailable) {
         this.id = id;
-        this.capacity = capacity;
-        this.usedCapacity = usedCapacity;
         this.name = name;
+        this.address = address;
         this.isAvailable = isAvailable;
     }
 }

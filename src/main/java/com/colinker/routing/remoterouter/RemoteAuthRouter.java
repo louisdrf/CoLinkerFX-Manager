@@ -33,7 +33,7 @@ public class RemoteAuthRouter {
                 if (responseBody.has("token") && status == 200) {
                     User.token = responseBody.getString("token");
 
-                    MongoHelper.launchSynchronization();  // lancer l'import
+                    //MongoHelper.launchSynchronization();  // lancer l'import
                     saveUsernameToLocal(login);
                     User.name = login;
 
