@@ -18,6 +18,7 @@ import javafx.util.StringConverter;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class TasksListController {
@@ -74,15 +75,25 @@ public class TasksListController {
             TextField titleField = new TextField();
             titleField.setPromptText("Nom pour la tâche");
 
-
+            // Sélection de salle
             List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
-            ComboBox<Room> roomComboBox = new ComboBox<>();
-            roomComboBox.getItems().addAll(availableRooms);
-            roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    Room selectedRoom = newValue;
-                    String roomId = selectedRoom.getId();
-                }
+            AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null); // pour garder une référence vers la salle choisie
+
+            ComboBox<String> roomComboBox = new ComboBox<>();
+            roomComboBox.getItems().add(null);
+
+            for (Room room : availableRooms) {
+                roomComboBox.getItems().add(room.getName());
+            }
+            roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, roomName) -> {
+                if (roomName != null) {
+                    for (Room room : availableRooms) {
+                        if (room.getName().equals(roomName)) {
+                            selectedRoomRef.set(room);
+                            break;
+                        }
+                    }
+                } else selectedRoomRef.set(null);
             });
 
             // Ajout des éléments au contenu
