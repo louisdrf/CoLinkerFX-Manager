@@ -12,4 +12,12 @@ public class Room {
         this.address = address;
         this.isAvailable = isAvailable;
     }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getId() {
+        return this.id;
+    }
 }

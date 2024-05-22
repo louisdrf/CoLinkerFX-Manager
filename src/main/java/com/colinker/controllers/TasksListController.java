@@ -1,9 +1,11 @@
 package com.colinker.controllers;
 
 import com.colinker.helpers.LocalDataHelper;
+import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
 import com.colinker.routing.localrouter.LocalTaskRouter;
+import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.views.TaskView;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.util.StringConverter;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -47,7 +50,7 @@ public class TasksListController {
             dialog.setTitle("Nouvelle tâche");
             dialog.setHeaderText("Entrez les détails de la nouvelle tâche");
 
-            VBox content = new VBox(10);  // Espacement entre les éléments
+            VBox content = new VBox(10);
 
             // DatePicker avec champs d'heure et de minute pour la date de début
             DatePicker startDatePicker = new DatePicker(LocalDate.now());
@@ -59,7 +62,7 @@ public class TasksListController {
             HBox startDateBox = new HBox(10, startDatePicker, startHourField, startMinuteField);
 
             // DatePicker avec champs d'heure et de minute pour la date de fin
-            DatePicker endDatePicker = new DatePicker(LocalDate.now().plusDays(1));
+            DatePicker endDatePicker = new DatePicker(LocalDate.now());
             TextField endHourField = new TextField();
             endHourField.setPromptText("Heure");
             TextField endMinuteField = new TextField();
@@ -71,14 +74,23 @@ public class TasksListController {
             TextField titleField = new TextField();
             titleField.setPromptText("Nom pour la tâche");
 
+
+            List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
+            ComboBox<Room> roomComboBox = new ComboBox<>();
+            roomComboBox.getItems().addAll(availableRooms);
+            roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    Room selectedRoom = newValue;
+                    String roomId = selectedRoom.getId();
+                }
+            });
+
             // Ajout des éléments au contenu
             content.getChildren().addAll(
-                    new Label("Date de début"),
-                    startDateBox,
-                    new Label("Date de fin"),
-                    endDateBox,
-                    new Label("Titre"),
-                    titleField
+                    new Label("Date de début"), startDateBox,
+                    new Label("Date de fin"), endDateBox,
+                    new Label("Titre"), titleField,
+                    new Label("Choisir parmi les salles disponibles"), roomComboBox
             );
 
             dialog.getDialogPane().setContent(content);

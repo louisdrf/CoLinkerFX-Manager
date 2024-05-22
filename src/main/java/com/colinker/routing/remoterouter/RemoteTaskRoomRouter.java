@@ -8,11 +8,9 @@ import kong.unirest.json.JSONArray;
 import java.util.List;
 
 public class RemoteTaskRoomRouter {
-    String defaultRoute = "/taskRooms";
-
-    public List<Room> getAllAvailableRooms() {
+    public static List<Room> getAllAvailableRooms() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get(this.defaultRoute);
+        JsonNode bodyResponse = RemoteRouter.get("/taskRooms");
         jsonArray = bodyResponse.getArray();
         return TaskRoomService.transformArrayIntoList(jsonArray);
     }
