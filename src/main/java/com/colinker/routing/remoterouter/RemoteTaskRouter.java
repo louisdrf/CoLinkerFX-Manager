@@ -32,11 +32,6 @@ public class RemoteTaskRouter {
                     .body(jsonTask)
                     .asJson();
 
-            int status = jsonResponse.getStatus();
-            if(status == 201) {
-                System.out.println("Tâche créée avec succès.");
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,11 +43,6 @@ public class RemoteTaskRouter {
                     .header("accept", "application/json")
                     .asJson();
 
-            if (response.getStatus() == 200) {
-                System.out.println("Tâche supprimée.");
-            } else {
-                System.out.println("Failed to delete task. Status: " + response.getStatus());
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
