@@ -18,28 +18,10 @@ public class TaskService {
         List<Task> allTasks = new ArrayList<>();
         for (Object obj : jsonArray) {
             try {
-                JSONObject jsonObj = (JSONObject) obj;
-                Task task = new Task(
-                        jsonObj.getString("_id"),
-                        jsonObj.getString("username"),
-                        DateHelper.parseDate(jsonObj.getString("dateDebut")),
-                        DateHelper.parseDate(jsonObj.getString("dateFin")),
-                        jsonObj.getString("title")
-                );
-
-                if (jsonObj.has("taskRoom")) {
-                    JSONObject roomJson = jsonObj.getJSONObject("taskRoom");
-                    Room room = new Room(
-                            roomJson.getString("_id"),
-                            roomJson.getString("name"),
-                            roomJson.getString("address"),
-                            roomJson.getBoolean("isAvailable")
-                    );
-                    task.linkedRoom = room;
-                }
-
-                System.out.println("java task : " + task);
+                JSONObject jsonTask = (JSONObject) obj;
+                Task task = transformJsonTaskIntoTaskObject(jsonTask);
                 allTasks.add(task);
+
             } catch(ParseException e) {
                 continue;
             }
@@ -48,12 +30,29 @@ public class TaskService {
     }
 
     public static Task transformJsonTaskIntoTaskObject(JSONObject jsonTask) throws ParseException {
-        return new Task(
+        Task task = new Task(
                 jsonTask.getString("_id"),
                 jsonTask.getString("username"),
                 DateHelper.parseDate(jsonTask.getString("dateDebut")),
                 DateHelper.parseDate(jsonTask.getString("dateFin")),
                 jsonTask.getString("title")
         );
+
+        if (jsonTask.has("taskRoom")) {
+            JSONObject roomJson = jsonTask.getJSONObject("taskRoom");
+            Room room = new Room(roomJson.getString("_id"), roomJson.getString("name"), roomJson.getString("address"), roomJson.getBoolean("isAvailable"));
+            task.linkedRoom = room;
+        }
+
+        if (jsonTask.has("tagued_usernames")) {
+            JSONArray taguedUsernamesJson = jsonTask.getJSONArray("tagued_usernames");
+            List<String> taguedUsernamesList = new ArrayList<>();
+            for (int i = 0; i < taguedUsernamesJson.length(); i++) {
+                taguedUsernamesList.add(taguedUsernamesJson.getString(i));
+            }
+            task.tagued_usernames = taguedUsernamesList;
+        }
+
+        return task;
     }
 }
