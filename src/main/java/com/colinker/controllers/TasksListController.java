@@ -17,8 +17,10 @@ import javafx.util.StringConverter;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 
 public class TasksListController {
@@ -96,11 +98,16 @@ public class TasksListController {
                 } else selectedRoomRef.set(null);
             });
 
+
+            TextField tagued_usernames = new TextField();
+            tagued_usernames.setPromptText("liste des pseudos, séparés par des espaces, ex : jean françois daniel");
+
             // Ajout des éléments au contenu
             content.getChildren().addAll(
                     new Label("Date de début"), startDateBox,
                     new Label("Date de fin"), endDateBox,
                     new Label("Titre"), titleField,
+                    new Label("Cette tâche sera confiée à"), tagued_usernames,
                     new Label("Choisir parmi les salles disponibles"), roomComboBox
             );
 
@@ -122,8 +129,15 @@ public class TasksListController {
 
                 String title = titleField.getText();
 
+                List<String> tagued_usernames_list = Arrays.stream(tagued_usernames.getText().split(" ")).collect(Collectors.toList());
+
                 try {
-                    Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(startDate, startHour, startMinute, endDate, endHour, endMinute, title);
+                    Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(startDate, startHour, startMinute,
+                                                                                    endDate, endHour, endMinute,
+                                                                                    title,
+                                                                                    selectedRoomRef.get(),
+                                                                                    tagued_usernames_list);
+
                     RemoteTaskRouter.createNewTask(createdTask);
                     initialize();
                 } catch (ParseException e) {

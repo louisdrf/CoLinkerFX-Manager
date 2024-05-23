@@ -12,6 +12,7 @@ public class Task {
     public Date dateFin;
     public String title;
     public Room linkedRoom;
+    public List<String> tagued_usernames;
 
     public Task(String id, String username, Date dateDebut, Date dateFin, String title) {
         this.id = id;
