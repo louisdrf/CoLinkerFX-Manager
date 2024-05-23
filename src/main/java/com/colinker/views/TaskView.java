@@ -5,13 +5,16 @@ import com.colinker.models.User;
 import com.colinker.routing.localrouter.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.text.ParseException;
+
+import static com.colinker.views.TaskInfosModal.showTaskDetails;
 
 public class TaskView extends HBox {
     private String taskID;
@@ -45,7 +48,6 @@ public class TaskView extends HBox {
         deleteButton.setOnAction(event -> {
             try {
                 RemoteTaskRouter.deleteTask(taskID);
-                // Optionally, remove this TaskView from the parent VBox after deletion
                 ((VBox) this.getParent()).getChildren().remove(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -56,26 +58,8 @@ public class TaskView extends HBox {
         this.setPrefWidth(950);
 
         this.setOnMouseClicked(event -> {
-            showTaskDetails(task);
+            TaskInfosModal.showTaskDetails(task);
         });
-    }
-
-
-    private void showTaskDetails(Task taskDetails) {
-        System.out.println("task details : " + taskDetails);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Détails de la tâche");
-        alert.setHeaderText("Informations sur la tâche");
-
-        VBox content = new VBox();
-        content.getChildren().add(new Label("Créateur: " + taskDetails.username));
-        content.getChildren().add(new Label("Début: " + taskDetails.dateDebut));
-        content.getChildren().add(new Label("Fin: " + taskDetails.dateFin));
-        content.getChildren().add(new Label("Titre: " + taskDetails.title));
-
-        alert.getDialogPane().setContent(content);
-
-        alert.showAndWait();
     }
 }
 
