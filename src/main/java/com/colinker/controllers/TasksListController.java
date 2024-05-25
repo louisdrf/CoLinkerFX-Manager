@@ -7,7 +7,9 @@ import com.colinker.models.User;
 import com.colinker.routing.localrouter.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
+import com.colinker.views.DoneTaskView;
 import com.colinker.views.TaskView;
+import com.colinker.views.TodoTaskView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -27,25 +29,51 @@ public class TasksListController {
     @FXML
     private VBox taskListVBox;
 
-    private List<Task> fetchAllTasks() throws ParseException {
-        if(User.isOnline) {
-            RemoteTaskRouter taskRouter = new RemoteTaskRouter();
-            return taskRouter.getAllTasks();
-        }
-        else return LocalTaskRouter.getAllTasks();
-    }
-
-    public void initialize() throws ParseException {
+    private void cleanTaskContainer() {
         taskListVBox.getChildren().clear();
         taskListVBox.setPadding(new Insets(40));
         taskListVBox.setSpacing(20);
+    }
 
-        List<Task> allTasks = fetchAllTasks();
-        for (Task task : allTasks) {
-            TaskView taskElem = new TaskView(task);
-            taskListVBox.getChildren().add(taskElem);
+    private List<Task> fetchAllAssignedTasks() {
+        if(User.isOnline) return RemoteTaskRouter.getAllAssignedTasks();
+        else return LocalTaskRouter.getAllTasks();
+    }
+    public void showAssignedTasks() {
+        cleanTaskContainer();
+        for (Task task : fetchAllAssignedTasks()) {
+            taskListVBox.getChildren().add(new TodoTaskView(task));
         }
     }
+
+
+
+    private List<Task> fetchAllAssignedDoneTasks() {
+        if(User.isOnline) return RemoteTaskRouter.getAllAssignedDoneTasks();
+        else return LocalTaskRouter.getAllTasks();
+    }
+    public void showAssignedDoneTasks() {
+        cleanTaskContainer();
+        for (Task task : fetchAllAssignedDoneTasks()) {
+            taskListVBox.getChildren().add(new DoneTaskView(task));
+        }
+    }
+
+    private List<Task> fetchAllCreatedTasks() {
+        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
+        else return LocalTaskRouter.getAllTasks();
+    }
+    public void initialize() {
+        cleanTaskContainer();
+        for (Task task : fetchAllCreatedTasks()) {
+            taskListVBox.getChildren().add(new TaskView(task));
+        }
+    }
+    public void showCreatedTasks() {
+        initialize();
+    }
+
+
 
         @FXML
         private void showTaskModal() {
@@ -98,7 +126,6 @@ public class TasksListController {
                 } else selectedRoomRef.set(null);
             });
 
-
             TextField tagued_usernames = new TextField();
             tagued_usernames.setPromptText("liste des pseudos, séparés par des espaces, ex : jean françois daniel");
 
@@ -108,7 +135,7 @@ public class TasksListController {
                     new Label("Date de fin"), endDateBox,
                     new Label("Titre"), titleField,
                     new Label("Cette tâche sera confiée à"), tagued_usernames,
-                    new Label("Choisir parmi les salles disponibles"), roomComboBox
+                    new Label("Salles disponibles"), roomComboBox
             );
 
             dialog.getDialogPane().setContent(content);
@@ -146,4 +173,5 @@ public class TasksListController {
             });
             dialog.showAndWait();
         }
+
 }

@@ -15,6 +15,9 @@ public class TaskRoomService {
     public static List<Room> transformArrayIntoList(JSONArray jsonArray) {
         if (jsonArray.isEmpty()) return List.of();
 
+
+        System.out.println(jsonArray);
+
         List<Room> allRooms = new ArrayList<>();
         for (Object obj : jsonArray) {
             JSONObject roomJson = (JSONObject) obj;

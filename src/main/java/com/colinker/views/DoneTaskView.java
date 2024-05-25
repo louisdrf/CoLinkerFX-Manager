@@ -17,14 +17,14 @@ import java.text.ParseException;
 
 import static com.colinker.views.TaskInfosModal.showTaskDetails;
 
-public class TaskView extends HBox {
+public class DoneTaskView extends HBox {
     private String taskID;
-    public TaskView(Task task) {
+    public DoneTaskView(Task task) {
         this.taskID = task.id;
 
         this.setPadding(new Insets(15));
         this.setSpacing(10);
-        this.setBackground(new Background(new BackgroundFill(Color.web("#5356FF"), new CornerRadii(10), Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundFill(Color.web("#007F73"), new CornerRadii(10), Insets.EMPTY)));
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
@@ -35,12 +35,18 @@ public class TaskView extends HBox {
         col2.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().addAll(col1, col2);
 
-        Label titleLabel = new Label(task.isDone ? "\u2713 Tâche :" : "Tâche :");
+        Label titleLabel = new Label("Tâche :");
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;");
         Label title = new Label(task.title);
         title.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
 
-        Button deleteTaskButton = new Button("supprimer");
+        Button seeMoreButton = new Button("Voir plus");
+        seeMoreButton.setStyle("-fx-font-size: 13px; -fx-background-color: #fff; -fx-text-fill: #3652AD;");
+        seeMoreButton.setOnAction(event -> {
+            TaskInfosModal.showTaskDetails(task);
+        });
+
+        Button deleteTaskButton = new Button("Faire disparaître");
         deleteTaskButton.setStyle("-fx-font-size: 13px; -fx-background-color: #C40C0C; -fx-text-fill: white;");
         deleteTaskButton.setOnAction(event -> {
             try {
@@ -49,12 +55,6 @@ public class TaskView extends HBox {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
-
-        Button seeMoreButton = new Button("Voir plus");
-        seeMoreButton.setStyle("-fx-font-size: 13px; -fx-background-color: #fff; -fx-text-fill: #3652AD;");
-        seeMoreButton.setOnAction(event -> {
-            TaskInfosModal.showTaskDetails(task);
         });
 
         gridPane.add(titleLabel, 0, 0);

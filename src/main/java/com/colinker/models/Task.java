@@ -13,12 +13,14 @@ public class Task {
     public String title;
     public Room linkedRoom;
     public List<String> tagued_usernames;
+    public boolean isDone;
 
-    public Task(String id, String username, Date dateDebut, Date dateFin, String title) {
+    public Task(String id, String username, Date dateDebut, Date dateFin, String title, boolean isDone) {
         this.id = id;
        this.username = username;
        this.dateDebut = dateDebut;
        this.dateFin = dateFin;
        this.title = title;
+       this.isDone = isDone;
     }
 }

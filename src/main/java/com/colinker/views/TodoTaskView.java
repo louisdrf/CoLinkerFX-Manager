@@ -17,9 +17,9 @@ import java.text.ParseException;
 
 import static com.colinker.views.TaskInfosModal.showTaskDetails;
 
-public class TaskView extends HBox {
+public class TodoTaskView extends HBox {
     private String taskID;
-    public TaskView(Task task) {
+    public TodoTaskView(Task task) {
         this.taskID = task.id;
 
         this.setPadding(new Insets(15));
@@ -35,16 +35,16 @@ public class TaskView extends HBox {
         col2.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().addAll(col1, col2);
 
-        Label titleLabel = new Label(task.isDone ? "\u2713 Tâche :" : "Tâche :");
+        Label titleLabel = new Label("Tâche :");
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;");
         Label title = new Label(task.title);
         title.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
 
-        Button deleteTaskButton = new Button("supprimer");
-        deleteTaskButton.setStyle("-fx-font-size: 13px; -fx-background-color: #C40C0C; -fx-text-fill: white;");
-        deleteTaskButton.setOnAction(event -> {
+        Button doneTaskButton = new Button("marquer comme terminée");
+        doneTaskButton.setStyle("-fx-font-size: 13px; -fx-background-color: #007F73; -fx-text-fill: white;");
+        doneTaskButton.setOnAction(event -> {
             try {
-                RemoteTaskRouter.deleteTask(taskID);
+                RemoteTaskRouter.updateTaskAsDone(taskID);
                 ((VBox) this.getParent()).getChildren().remove(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -60,7 +60,7 @@ public class TaskView extends HBox {
         gridPane.add(titleLabel, 0, 0);
         gridPane.add(title, 1, 0);
         gridPane.add(seeMoreButton, 2, 0);
-        gridPane.add(deleteTaskButton, 3, 0);
+        gridPane.add(doneTaskButton, 3, 0);
 
         this.getChildren().add(gridPane);
         this.setPrefWidth(950);

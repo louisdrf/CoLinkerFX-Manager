@@ -35,7 +35,8 @@ public class TaskService {
                 jsonTask.getString("username"),
                 DateHelper.parseDate(jsonTask.getString("dateDebut")),
                 DateHelper.parseDate(jsonTask.getString("dateFin")),
-                jsonTask.getString("title")
+                jsonTask.getString("title"),
+                jsonTask.getBoolean("isDone")
         );
 
         if (jsonTask.has("taskRoom")) {

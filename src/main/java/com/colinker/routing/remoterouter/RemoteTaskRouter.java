@@ -14,11 +14,24 @@ import kong.unirest.json.JSONObject;
 import java.util.List;
 
 public class RemoteTaskRouter {
-    String defaultRoute = "/tasks";
 
-    public List<Task> getAllTasks() {
+    public static List<Task> getAllCreatedTasks() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get(this.defaultRoute);
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/created/" + User.name);
+        jsonArray = bodyResponse.getArray();
+        return TaskService.transformArrayIntoList(jsonArray);
+    }
+
+    public static List<Task> getAllAssignedTasks() {
+        JSONArray jsonArray = new JSONArray();
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name);
+        jsonArray = bodyResponse.getArray();
+        return TaskService.transformArrayIntoList(jsonArray);
+    }
+
+    public static List<Task> getAllAssignedDoneTasks() {
+        JSONArray jsonArray = new JSONArray();
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name + "?isDone=true");
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }
@@ -41,6 +54,23 @@ public class RemoteTaskRouter {
         try {
             HttpResponse<JsonNode> response = Unirest.delete(RemoteRouter.baseUrl + "/tasks/" + taskID)
                     .header("accept", "application/json")
+                    .asJson();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void updateTaskAsDone(String taskID) { // envoyer { "isDone" : true }
+        JSONObject taskIsDone = new JSONObject();
+        taskIsDone.put("isDone" , true);
+
+        System.out.println(taskIsDone);
+        try {
+            HttpResponse<JsonNode> response = Unirest.put(RemoteRouter.baseUrl + "/tasks/" + taskID)
+                    .header("Content-Type", "application/json")
+                    .body(taskIsDone)
                     .asJson();
 
         } catch (Exception e) {
