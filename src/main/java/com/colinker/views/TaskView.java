@@ -24,7 +24,12 @@ public class TaskView extends HBox {
 
         this.setPadding(new Insets(15));
         this.setSpacing(10);
-        this.setBackground(new Background(new BackgroundFill(Color.web("#5356FF"), new CornerRadii(10), Insets.EMPTY)));
+        if(!task.isDone) {
+            this.setBackground(new Background(new BackgroundFill(Color.web("#5356FF"), new CornerRadii(10), Insets.EMPTY)));
+        }
+        else {
+            this.setBackground(new Background(new BackgroundFill(Color.web("#007F73"), new CornerRadii(10), Insets.EMPTY)));
+        }
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
@@ -35,7 +40,9 @@ public class TaskView extends HBox {
         col2.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().addAll(col1, col2);
 
-        Label titleLabel = new Label(task.isDone ? "\u2713 Tâche :" : "Tâche :");
+        Label isDoneIcon = new Label("\u2713");
+        isDoneIcon.setStyle("-fx-font-size: 28px; -fx-text-fill: white;");
+        Label titleLabel = new Label("Tâche :");
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;");
         Label title = new Label(task.title);
         title.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
@@ -57,10 +64,21 @@ public class TaskView extends HBox {
             TaskInfosModal.showTaskDetails(task);
         });
 
-        gridPane.add(titleLabel, 0, 0);
-        gridPane.add(title, 1, 0);
-        gridPane.add(seeMoreButton, 2, 0);
-        gridPane.add(deleteTaskButton, 3, 0);
+        Label isImportantLabel = new Label("PRIORITAIRE");
+        isImportantLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold");
+
+        Label isDoneLabel = new Label("TERMINEE");
+        isDoneLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        if(task.isDone) {
+            gridPane.add(isDoneIcon, 0, 0);
+            gridPane.add(isDoneLabel, 8, 0);
+        }
+        gridPane.add(titleLabel, 1, 0);
+        gridPane.add(title, 2, 0);
+        gridPane.add(seeMoreButton, 3, 0);
+        gridPane.add(deleteTaskButton, 4, 0);
+        if(task.isImportant && !task.isDone) gridPane.add(isImportantLabel, 8, 0);
 
         this.getChildren().add(gridPane);
         this.setPrefWidth(950);

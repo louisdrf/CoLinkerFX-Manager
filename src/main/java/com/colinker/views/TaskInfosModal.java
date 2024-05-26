@@ -26,17 +26,17 @@ public class TaskInfosModal {
         Text creatorText = new Text(taskDetails.username);
         creatorText.setFont(new Font("Arial", 14));
 
-        Label startLabel = new Label("Début:");
+        Label startLabel = new Label("Début :");
         startLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         Text startText = new Text(taskDetails.dateDebut.toString());
         startText.setFont(new Font("Arial", 14));
 
-        Label endLabel = new Label("Fin:");
+        Label endLabel = new Label("Fin :");
         endLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         Text endText = new Text(taskDetails.dateFin.toString());
         endText.setFont(new Font("Arial", 14));
 
-        Label titleLabel = new Label("Titre:");
+        Label titleLabel = new Label("Nom de tâche :");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         Text titleText = new Text(taskDetails.title);
         titleText.setFont(new Font("Arial", 14));
@@ -47,7 +47,7 @@ public class TaskInfosModal {
                 titleLabel, titleText, new Separator());
 
         if(taskDetails.linkedRoom != null) {
-            Label roomLabel = new Label("Salle attribuée:");
+            Label roomLabel = new Label("Salle attribuée :");
             roomLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
             Text roomText = new Text(taskDetails.linkedRoom.getName());
             roomText.setFont(new Font("Arial", 14));
@@ -55,7 +55,7 @@ public class TaskInfosModal {
         }
 
         if(taskDetails.tagued_usernames != null && !taskDetails.tagued_usernames.isEmpty()) {
-            Label taguedLabel = new Label("Pseudos des personnes taguées:");
+            Label taguedLabel = new Label("Pseudos des personnes taguées :");
             taguedLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
             TextArea taguedText = new TextArea(String.join("\n", taskDetails.tagued_usernames));
             taguedText.setFont(new Font("Arial", 14));
@@ -66,7 +66,7 @@ public class TaskInfosModal {
         }
 
         alert.getDialogPane().setContent(content);
-        alert.getDialogPane().setPrefWidth(500);
+        alert.getDialogPane().setPrefWidth(600);
 
         alert.showAndWait();
     }

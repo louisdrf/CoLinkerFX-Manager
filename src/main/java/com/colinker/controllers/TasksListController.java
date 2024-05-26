@@ -83,6 +83,8 @@ public class TasksListController {
 
             VBox content = new VBox(10);
 
+            CheckBox isTaskImportantCheckBox = new CheckBox("Prioritaire ?");
+
             // DatePicker avec champs d'heure et de minute pour la date de début
             DatePicker startDatePicker = new DatePicker(LocalDate.now());
             TextField startHourField = new TextField();
@@ -135,7 +137,8 @@ public class TasksListController {
                     new Label("Date de fin"), endDateBox,
                     new Label("Titre"), titleField,
                     new Label("Cette tâche sera confiée à"), tagued_usernames,
-                    new Label("Salles disponibles"), roomComboBox
+                    new Label("Salles disponibles"), roomComboBox,
+                    isTaskImportantCheckBox
             );
 
             dialog.getDialogPane().setContent(content);
@@ -163,7 +166,8 @@ public class TasksListController {
                                                                                     endDate, endHour, endMinute,
                                                                                     title,
                                                                                     selectedRoomRef.get(),
-                                                                                    tagued_usernames_list);
+                                                                                    tagued_usernames_list,
+                                                                                    isTaskImportantCheckBox.isSelected());
 
                     RemoteTaskRouter.createNewTask(createdTask);
                     initialize();

@@ -1,10 +1,10 @@
 package com.colinker.routing.remoterouter;
 
 import com.colinker.helpers.JavaToJsonObject;
-import com.colinker.helpers.MongoHelper;
 import com.colinker.models.Task;
 import com.colinker.models.User;
 import com.colinker.services.TaskService;
+import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -12,6 +12,8 @@ import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 
 import java.util.List;
+
+import static com.colinker.views.ApiResponseModal.showErrorModal;
 
 public class RemoteTaskRouter {
 
@@ -40,13 +42,16 @@ public class RemoteTaskRouter {
         try {
             JSONObject jsonTask = JavaToJsonObject.convertTaskToJsonTask(task);
 
-            HttpResponse<JsonNode> jsonResponse = Unirest.post(RemoteRouter.baseUrl + "/tasks")
+            HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/tasks")
                     .header("Content-Type", "application/json")
                     .body(jsonTask)
                     .asJson();
 
+            ApiResponseModal.handleApiResponse(response);
+
         } catch (Exception e) {
             e.printStackTrace();
+            showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }
 
@@ -56,25 +61,30 @@ public class RemoteTaskRouter {
                     .header("accept", "application/json")
                     .asJson();
 
+            ApiResponseModal.handleApiResponse(response);
+
         } catch (Exception e) {
             e.printStackTrace();
+            showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }
 
 
-    public static void updateTaskAsDone(String taskID) { // envoyer { "isDone" : true }
+    public static void updateTaskAsDone(String taskID) {
         JSONObject taskIsDone = new JSONObject();
         taskIsDone.put("isDone" , true);
 
-        System.out.println(taskIsDone);
         try {
             HttpResponse<JsonNode> response = Unirest.put(RemoteRouter.baseUrl + "/tasks/" + taskID)
                     .header("Content-Type", "application/json")
                     .body(taskIsDone)
                     .asJson();
 
+            ApiResponseModal.handleApiResponse(response);
+
         } catch (Exception e) {
             e.printStackTrace();
+            showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }
 }

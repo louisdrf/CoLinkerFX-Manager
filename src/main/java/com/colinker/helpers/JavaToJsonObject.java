@@ -16,6 +16,8 @@ public class JavaToJsonObject {
         jsonTask.put("dateDebut",  dateFormat.format(task.dateDebut));
         jsonTask.put("dateFin",  dateFormat.format(task.dateFin));
         jsonTask.put("title", task.title);
+        jsonTask.put("isImportant", task.isImportant);
+
         if (task.linkedRoom != null) {
             jsonTask.put("taskRoomId", task.linkedRoom.getId());
         }

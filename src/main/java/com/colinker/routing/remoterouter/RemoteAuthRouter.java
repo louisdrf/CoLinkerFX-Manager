@@ -5,6 +5,7 @@ import com.colinker.database.MongoDBExporter;
 import com.colinker.database.MongoDBImporter;
 import com.colinker.helpers.MongoHelper;
 import com.colinker.models.User;
+import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -22,25 +23,27 @@ public class RemoteAuthRouter {
                 requestBody.put("username", login);
                 requestBody.put("password", password);
 
-                HttpResponse<JsonNode> jsonResponse = Unirest.post(RemoteRouter.baseUrl + "/auth/login")
+                HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/auth/login")
                         .header("Content-Type", "application/json")
                         .body(requestBody)
                         .asJson();
 
-                int status = jsonResponse.getStatus();
-                JSONObject responseBody = jsonResponse.getBody().getObject();
+                int status = response.getStatus();
+                JSONObject responseBody = response.getBody().getObject();
 
                 if (responseBody.has("token") && status == 200) {
                     User.token = responseBody.getString("token");
-
                     //MongoHelper.launchSynchronization();  // lancer l'import
                     saveUsernameToLocal(login);
                     User.name = login;
+                    return;
+                }
 
-                } else throw new Exception("Error when retrieving token by authentication.");
+                ApiResponseModal.handleApiResponse(response);
 
             } catch (Exception e) {
                 e.printStackTrace();
+                ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
             }
         }
 
