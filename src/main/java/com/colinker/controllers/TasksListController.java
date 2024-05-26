@@ -15,14 +15,15 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.util.StringConverter;
-
+import javafx.geometry.Pos;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import static com.colinker.views.ApiResponseModal.showErrorModal;
 
 
 public class TasksListController {
@@ -59,7 +60,7 @@ public class TasksListController {
         }
     }
 
-    private List<Task> fetchAllCreatedTasks() {
+    private static List<Task> fetchAllCreatedTasks() {
         if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
         else return LocalTaskRouter.getAllTasks();
     }
@@ -73,82 +74,98 @@ public class TasksListController {
         initialize();
     }
 
+    @FXML
+    public void showTaskModal() {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Nouvelle tâche");
+        dialog.setHeaderText("Entrez les détails de la nouvelle tâche");
 
+        VBox content = new VBox(10);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #dcdcdc; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
 
-        @FXML
-        private void showTaskModal() {
-            Dialog<Void> dialog = new Dialog<>();
-            dialog.setTitle("Nouvelle tâche");
-            dialog.setHeaderText("Entrez les détails de la nouvelle tâche");
+        CheckBox isTaskImportantCheckBox = new CheckBox("Prioritaire ?");
+        isTaskImportantCheckBox.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
-            VBox content = new VBox(10);
+        // DatePicker avec champs d'heure et de minute pour la date de début
+        DatePicker startDatePicker = new DatePicker(LocalDate.now());
+        TextField startHourField = new TextField();
+        startHourField.setPromptText("Heure");
+        startHourField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        TextField startMinuteField = new TextField();
+        startMinuteField.setPromptText("Minutes");
+        startMinuteField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-            CheckBox isTaskImportantCheckBox = new CheckBox("Prioritaire ?");
+        HBox startDateBox = new HBox(10, startDatePicker, startHourField, startMinuteField);
+        startDateBox.setAlignment(Pos.CENTER_LEFT);
 
-            // DatePicker avec champs d'heure et de minute pour la date de début
-            DatePicker startDatePicker = new DatePicker(LocalDate.now());
-            TextField startHourField = new TextField();
-            startHourField.setPromptText("Heure");
-            TextField startMinuteField = new TextField();
-            startMinuteField.setPromptText("Minutes");
+        // DatePicker avec champs d'heure et de minute pour la date de fin
+        DatePicker endDatePicker = new DatePicker(LocalDate.now());
+        TextField endHourField = new TextField();
+        endHourField.setPromptText("Heure");
+        endHourField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        TextField endMinuteField = new TextField();
+        endMinuteField.setPromptText("Minutes");
+        endMinuteField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-            HBox startDateBox = new HBox(10, startDatePicker, startHourField, startMinuteField);
+        HBox endDateBox = new HBox(10, endDatePicker, endHourField, endMinuteField);
+        endDateBox.setAlignment(Pos.CENTER_LEFT);
 
-            // DatePicker avec champs d'heure et de minute pour la date de fin
-            DatePicker endDatePicker = new DatePicker(LocalDate.now());
-            TextField endHourField = new TextField();
-            endHourField.setPromptText("Heure");
-            TextField endMinuteField = new TextField();
-            endMinuteField.setPromptText("Minutes");
+        // Champ de texte pour le titre
+        TextField titleField = new TextField();
+        titleField.setPromptText("Nom pour la tâche");
+        titleField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-            HBox endDateBox = new HBox(10, endDatePicker, endHourField, endMinuteField);
+        // Sélection de salle
+        List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
+        AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null); // pour garder une référence vers la salle choisie
 
-            // Champ de texte pour le titre
-            TextField titleField = new TextField();
-            titleField.setPromptText("Nom pour la tâche");
+        ComboBox<String> roomComboBox = new ComboBox<>();
+        roomComboBox.getItems().add(null);
 
-            // Sélection de salle
-            List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
-            AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null); // pour garder une référence vers la salle choisie
-
-            ComboBox<String> roomComboBox = new ComboBox<>();
-            roomComboBox.getItems().add(null);
-
-            for (Room room : availableRooms) {
-                roomComboBox.getItems().add(room.getName());
-            }
-            roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, roomName) -> {
-                if (roomName != null) {
-                    for (Room room : availableRooms) {
-                        if (room.getName().equals(roomName)) {
-                            selectedRoomRef.set(room);
-                            break;
-                        }
+        for (Room room : availableRooms) {
+            roomComboBox.getItems().add(room.getName());
+        }
+        roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, roomName) -> {
+            if (roomName != null) {
+                for (Room room : availableRooms) {
+                    if (room.getName().equals(roomName)) {
+                        selectedRoomRef.set(room);
+                        break;
                     }
-                } else selectedRoomRef.set(null);
-            });
+                }
+            } else {
+                selectedRoomRef.set(null);
+            }
+        });
+        roomComboBox.setStyle("-fx-font-size: 14px;");
 
-            TextField tagued_usernames = new TextField();
-            tagued_usernames.setPromptText("liste des pseudos, séparés par des espaces, ex : jean françois daniel");
+        TextField tagued_usernames = new TextField();
+        tagued_usernames.setPromptText("Liste des pseudos, séparés par des espaces, ex : jean françois daniel");
+        tagued_usernames.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-            // Ajout des éléments au contenu
-            content.getChildren().addAll(
-                    new Label("Date de début"), startDateBox,
-                    new Label("Date de fin"), endDateBox,
-                    new Label("Titre"), titleField,
-                    new Label("Cette tâche sera confiée à"), tagued_usernames,
-                    new Label("Salles disponibles"), roomComboBox,
-                    isTaskImportantCheckBox
-            );
+        content.getChildren().addAll(
+                new Label("Date de début"), startDateBox,
+                new Label("Date de fin"), endDateBox,
+                new Label("Titre"), titleField,
+                new Label("Cette tâche sera confiée à"), tagued_usernames,
+                new Label("Salles disponibles"), roomComboBox,
+                isTaskImportantCheckBox
+        );
 
-            dialog.getDialogPane().setContent(content);
+        content.getChildren().stream().filter(node -> node instanceof Label).forEach(node -> {
+            ((Label) node).setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
+        });
 
-            ButtonType customOkButton = new ButtonType("Créer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().setContent(content);
 
-            dialog.getDialogPane().getButtonTypes().addAll(customOkButton, ButtonType.CANCEL);
+        ButtonType customOkButton = new ButtonType("Créer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(customOkButton, ButtonType.CANCEL);
 
-            Button okButton = (Button) dialog.getDialogPane().lookupButton(customOkButton);
-            okButton.setOnAction(event -> {
+        Button okButton = (Button) dialog.getDialogPane().lookupButton(customOkButton);
+        okButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+        okButton.setOnAction(event -> {
+            try {
                 LocalDate startDate = startDatePicker.getValue();
                 int startHour = Integer.parseInt(startHourField.getText());
                 int startMinute = Integer.parseInt(startMinuteField.getText());
@@ -159,23 +176,30 @@ public class TasksListController {
 
                 String title = titleField.getText();
 
-                List<String> tagued_usernames_list = Arrays.stream(tagued_usernames.getText().split(" ")).collect(Collectors.toList());
+                List<String> tagued_usernames_list = Arrays.stream(tagued_usernames.getText().split(" "))
+                        .collect(Collectors.toList());
 
-                try {
-                    Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(startDate, startHour, startMinute,
-                                                                                    endDate, endHour, endMinute,
-                                                                                    title,
-                                                                                    selectedRoomRef.get(),
-                                                                                    tagued_usernames_list,
-                                                                                    isTaskImportantCheckBox.isSelected());
+                Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(
+                        startDate, startHour, startMinute,
+                        endDate, endHour, endMinute,
+                        title,
+                        selectedRoomRef.get(),
+                        tagued_usernames_list,
+                        isTaskImportantCheckBox.isSelected()
+                );
 
-                    RemoteTaskRouter.createNewTask(createdTask);
-                    initialize();
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            dialog.showAndWait();
-        }
+                RemoteTaskRouter.createNewTask(createdTask);
+                initialize();
+            } catch (ParseException e) {
+                showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());
+            } catch (NumberFormatException e) {
+                showErrorModal("Heures ou minutes invalides : " + e.getMessage());
+            }
+        });
 
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px;");
+
+        dialog.showAndWait();
+    }
 }
