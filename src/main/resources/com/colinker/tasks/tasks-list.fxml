@@ -12,17 +12,17 @@
    <children>
       <fx:include source="../navbar-vue.fxml" />
       <HBox layoutX="201.0" layoutY="60.0" spacing="10">
-         <Button id="assignedTasksButton" fx:id="assignedTasksButton" mnemonicParsing="false" onAction="#showAssignedTasks" style="-fx-background-color: #DAEBFF;" text="Tâches à faire" textFill="#253aff">
+         <Button id="assignedTasksButton" fx:id="assignedTasksButton" mnemonicParsing="false" onAction="#showAssignedTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches à faire" textFill="#253aff">
             <font>
                <Font size="15.0" />
             </font>
          </Button>
-         <Button id="assignedDoneTasksButton" fx:id="assignedDoneTasksButton" mnemonicParsing="false" onAction="#showAssignedDoneTasks" style="-fx-background-color: #DAEBFF;" text="Tâches terminées" textFill="#253aff">
+         <Button id="assignedDoneTasksButton" fx:id="assignedDoneTasksButton" mnemonicParsing="false" onAction="#showAssignedDoneTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches terminées" textFill="#253aff">
             <font>
                <Font size="15.0" />
             </font>
          </Button>
-         <Button id="createdTasksButton" fx:id="createdTasksButton" mnemonicParsing="false" onAction="#showCreatedTasks" style="-fx-background-color: #DAEBFF;" text="Tâches créées" textFill="#253aff">
+         <Button id="createdTasksButton" fx:id="createdTasksButton" mnemonicParsing="false" onAction="#showCreatedTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches créées" textFill="#253aff">
             <font>
                <Font size="15.0" />
             </font>
@@ -36,7 +36,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button id="newTaskButton" fx:id="newTaskButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false" onAction="#showTaskModal" style="-fx-background-color: #DAEBFF;" text="nouvelle activité" textFill="#253aff">
+      <Button id="newTaskButton" fx:id="newTaskButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false" onAction="#showTaskModal" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="nouvelle tâche" textFill="#253aff">
          <font>
             <Font size="15.0" />
          </font>

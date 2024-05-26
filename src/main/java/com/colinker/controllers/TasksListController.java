@@ -10,7 +10,6 @@ import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.views.DoneTaskView;
 import com.colinker.views.TaskView;
 import com.colinker.views.TodoTaskView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -28,7 +27,25 @@ import static com.colinker.views.ApiResponseModal.showErrorModal;
 
 public class TasksListController {
     @FXML
+    public Button assignedTasksButton;
+    @FXML
+    public Button assignedDoneTasksButton;
+    @FXML
+    public Button createdTasksButton;
+    public Button currentActiveButton;
+
+    @FXML
     private VBox taskListVBox;
+
+    private void setActiveButton(Button button) {
+        if (currentActiveButton != null) {
+            String defaultButtonStyle = "-fx-background-color: #DAEBFF; -fx-border-color: transparent; -fx-text-fill: #253aff; -fx-font-size: 15px;";
+            currentActiveButton.setStyle(defaultButtonStyle);
+        }
+        String activeButtonStyle = "-fx-background-color: #DAEBFF; -fx-border-color: blue; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-text-fill: #253aff; -fx-font-size: 15px;";
+        button.setStyle(activeButtonStyle);
+        currentActiveButton = button;
+    }
 
     private void cleanTaskContainer() {
         taskListVBox.getChildren().clear();
@@ -36,13 +53,46 @@ public class TasksListController {
         taskListVBox.setSpacing(20);
     }
 
+    private void showNoTaskMessage() {
+        Label noTaskLabel = new Label("Il n'y a aucune tâche à afficher");
+        noTaskLabel.setStyle("-fx-font-size: 22px; -fx-text-fill: black;");
+        taskListVBox.getChildren().add(noTaskLabel);
+    }
+
+    private static List<Task> fetchAllCreatedTasks() {
+        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
+        else return LocalTaskRouter.getAllTasks();
+    }
+    public void initialize() {
+        setActiveButton(createdTasksButton);
+        cleanTaskContainer();
+        List<Task> taskList =  fetchAllCreatedTasks();
+        if(taskList.isEmpty()) {
+            showNoTaskMessage();
+            return;
+        }
+        for (Task task : fetchAllCreatedTasks()) {
+            taskListVBox.getChildren().add(new TaskView(task));
+        }
+    }
+
+    public void showCreatedTasks() { initialize(); }
+
+
+
     private List<Task> fetchAllAssignedTasks() {
         if(User.isOnline) return RemoteTaskRouter.getAllAssignedTasks();
         else return LocalTaskRouter.getAllTasks();
     }
     public void showAssignedTasks() {
+        setActiveButton(assignedTasksButton);
         cleanTaskContainer();
-        for (Task task : fetchAllAssignedTasks()) {
+        List<Task> taskList =  fetchAllAssignedTasks();
+        if(taskList.isEmpty()) {
+            showNoTaskMessage();
+            return;
+        }
+        for (Task task : taskList) {
             taskListVBox.getChildren().add(new TodoTaskView(task));
         }
     }
@@ -54,25 +104,20 @@ public class TasksListController {
         else return LocalTaskRouter.getAllTasks();
     }
     public void showAssignedDoneTasks() {
+        setActiveButton(assignedDoneTasksButton);
         cleanTaskContainer();
-        for (Task task : fetchAllAssignedDoneTasks()) {
+        List<Task> taskList = fetchAllAssignedDoneTasks();
+        if(taskList.isEmpty()) {
+            showNoTaskMessage();
+            return;
+        }
+        for (Task task : taskList) {
             taskListVBox.getChildren().add(new DoneTaskView(task));
         }
     }
 
-    private static List<Task> fetchAllCreatedTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
-        else return LocalTaskRouter.getAllTasks();
-    }
-    public void initialize() {
-        cleanTaskContainer();
-        for (Task task : fetchAllCreatedTasks()) {
-            taskListVBox.getChildren().add(new TaskView(task));
-        }
-    }
-    public void showCreatedTasks() {
-        initialize();
-    }
+
+
 
     @FXML
     public void showTaskModal() {
@@ -87,7 +132,6 @@ public class TasksListController {
         CheckBox isTaskImportantCheckBox = new CheckBox("Prioritaire ?");
         isTaskImportantCheckBox.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
-        // DatePicker avec champs d'heure et de minute pour la date de début
         DatePicker startDatePicker = new DatePicker(LocalDate.now());
         TextField startHourField = new TextField();
         startHourField.setPromptText("Heure");
@@ -99,7 +143,6 @@ public class TasksListController {
         HBox startDateBox = new HBox(10, startDatePicker, startHourField, startMinuteField);
         startDateBox.setAlignment(Pos.CENTER_LEFT);
 
-        // DatePicker avec champs d'heure et de minute pour la date de fin
         DatePicker endDatePicker = new DatePicker(LocalDate.now());
         TextField endHourField = new TextField();
         endHourField.setPromptText("Heure");
@@ -111,14 +154,12 @@ public class TasksListController {
         HBox endDateBox = new HBox(10, endDatePicker, endHourField, endMinuteField);
         endDateBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Champ de texte pour le titre
         TextField titleField = new TextField();
         titleField.setPromptText("Nom pour la tâche");
         titleField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-        // Sélection de salle
         List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
-        AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null); // pour garder une référence vers la salle choisie
+        AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null);
 
         ComboBox<String> roomComboBox = new ComboBox<>();
         roomComboBox.getItems().add(null);
