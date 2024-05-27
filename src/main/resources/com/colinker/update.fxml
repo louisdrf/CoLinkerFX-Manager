@@ -10,11 +10,6 @@
         <fx:include source="navbar-vue.fxml" />
         <VBox layoutX="201.0" layoutY="101.0" spacing="20.0">
             <children>
-                <Label text="Version Actuelle:">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
                 <Label fx:id="currentVersionLabel" text="Chargement...">
                     <font>
                         <Font size="16.0" />
@@ -30,6 +25,11 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
+                <Button fx:id="downloadUpdateButton" mnemonicParsing="false" onAction="#downloadAndUpdate" text="Télécharger la mise à jour" disable="true" style="-fx-background-color: #DAEBFF;">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
             </children>
         </VBox>
     </children>

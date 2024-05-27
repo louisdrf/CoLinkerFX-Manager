@@ -11,7 +11,7 @@ services:
       - MONGO_PASSWORD= ${MONGO_PASSWORD}
       - MONGO_DATABASE= ${MONGO_DATABASE}
     ports:
-      - "27017:27017"
+      - "8094:27017"
     volumes:
       - ./mongo.tar:/mongo.tar
       - ./mongo-init:/docker-entrypoint-initdb.d

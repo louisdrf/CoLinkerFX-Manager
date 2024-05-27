@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.Scanner;
 
-public class Updater {
+public class UpdaterService {
     private static final String VERSION_URL = "http://benji0812.fr/version.txt";
     private static final String DOWNLOAD_URL = "http://benji0812.fr/downloads/App-latest.jar";
 
@@ -47,7 +47,7 @@ public class Updater {
         return !latestVersion.equals(VersionInfo.getVersion());
     }
 
-    private static boolean downloadNewVersion() throws Exception {
+    public static boolean downloadNewVersion() throws Exception {
         URL url = new URL(DOWNLOAD_URL);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -68,7 +68,7 @@ public class Updater {
         }
     }
 
-    private static void updateVersionProperties(String newVersion) {
+    public static void updateVersionProperties(String newVersion) {
         Properties props = new Properties();
         try {
             // Charge les propriétés actuelles

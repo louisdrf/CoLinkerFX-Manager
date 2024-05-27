@@ -50,7 +50,6 @@ public class App extends Application {
         newUser.setPassword("password123");
 
         userController.createUser(newUser);
-
     }
 
     public static void main(String[] args) throws Exception {
