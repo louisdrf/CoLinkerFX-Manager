@@ -1,5 +1,7 @@
 package com.colinker.controllers;
 
+import com.colinker.models.Task;
+import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CalendarController implements Initializable {
@@ -102,5 +105,9 @@ public class CalendarController implements Initializable {
     private void goBackOneWeek() {
         dateFocus = dateFocus.minusWeeks(1);
         updateCalendar();
+    }
+
+    private List<Task> getTodoTasksByPeriod(LocalDate start, LocalDate end) {
+        return RemoteTaskRouter.getTodoTasksByPeriod(start, end);
     }
 }

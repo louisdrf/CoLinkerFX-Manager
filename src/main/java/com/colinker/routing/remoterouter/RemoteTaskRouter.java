@@ -11,6 +11,8 @@ import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.colinker.views.ApiResponseModal.showErrorModal;
@@ -86,5 +88,18 @@ public class RemoteTaskRouter {
             e.printStackTrace();
             showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
+    }
+
+    public static List<Task> getTodoTasksByPeriod(LocalDate start, LocalDate end) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDate = start.format(formatter);
+        String endDate = end.format(formatter);
+
+        System.out.println("/tasks/assigned/" + User.name + "?start=" + startDate + "&end=" + endDate);
+
+        JSONArray jsonArray = new JSONArray();
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name + "?start=" + startDate + "&end=" + endDate);
+        jsonArray = bodyResponse.getArray();
+        return TaskService.transformArrayIntoList(jsonArray);
     }
 }
