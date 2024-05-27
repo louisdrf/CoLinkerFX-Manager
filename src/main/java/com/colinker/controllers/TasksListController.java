@@ -27,19 +27,19 @@ import static com.colinker.views.ApiResponseModal.showErrorModal;
 
 public class TasksListController {
     @FXML
-    public Button assignedTasksButton;
+    private Button assignedTasksButton;
     @FXML
-    public Button assignedDoneTasksButton;
+    private Button assignedDoneTasksButton;
     @FXML
-    public Button createdTasksButton;
-    public Button currentActiveButton;
+    private Button createdTasksButton;
+    private Button currentActiveButton;
 
     @FXML
     private VBox taskListVBox;
 
     private void setActiveButton(Button button) {
         if (currentActiveButton != null) {
-            String defaultButtonStyle = "-fx-background-color: #DAEBFF; -fx-border-color: transparent; -fx-text-fill: #253aff; -fx-font-size: 15px;";
+            String defaultButtonStyle = "-fx-background-color: #DAEBFF; -fx-border-color: transparent; -fx-border-radius: 8px; -fx-text-fill: #253aff; -fx-font-size: 15px;";
             currentActiveButton.setStyle(defaultButtonStyle);
         }
         String activeButtonStyle = "-fx-background-color: #DAEBFF; -fx-border-color: blue; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-text-fill: #253aff; -fx-font-size: 15px;";

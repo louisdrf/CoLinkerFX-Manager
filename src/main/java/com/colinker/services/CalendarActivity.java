@@ -3,6 +3,7 @@ package com.colinker.services;
 import java.time.ZonedDateTime;
 
 public class CalendarActivity {
+
     public ZonedDateTime date;
     public String clientName;
     Integer serviceNo;

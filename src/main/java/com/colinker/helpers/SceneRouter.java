@@ -24,7 +24,7 @@ public class SceneRouter {
     }
 
     public static void showCalendarPage() throws IOException {
-        currentScene = loadScene("calendar.fxml");
+        currentScene = loadScene("calendar/calendar.fxml");
         stage.setScene(currentScene);
         stage.show();
     }

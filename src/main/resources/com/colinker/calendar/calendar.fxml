@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.colinker.controllers.CalendarController">
+    <fx:include source="../navbar-vue.fxml"/>
+    <HBox layoutX="201.0" layoutY="60.0" spacing="10" alignment="CENTER">
+
+        <Button fx:id="backOneWeekButton" mnemonicParsing="false" style="-fx-background-color: #DAEBFF; -fx-border-radius: 32px;" text="&lt;" textFill="#253aff">
+            <font><Font size="15.0"/></font>
+        </Button>
+
+        <Label fx:id="currentWeekLabel">
+            <font><Font size="15.0"/></font>
+        </Label>
+
+        <Button fx:id="forwardOneWeekButton" mnemonicParsing="false" style="-fx-background-color: #DAEBFF; -fx-border-radius: 32px;" text="&gt;" textFill="#253aff">
+            <font><Font size="15.0"/></font>
+        </Button>
+
+    </HBox>
+    <Pane id="calendarPane" fx:id="calendarPane" layoutX="201.0" layoutY="101.0" prefHeight="619.0"
+          prefWidth="1074.0" style="-fx-background-color: #EDF5FF;">
+        <VBox fx:id="calendarVBox"/>
+    </Pane>
+    <Label layoutX="201.0" layoutY="25.0" text="Calendrier des tâches">
+        <font>
+            <Font size="24.0"/>
+        </font>
+    </Label>
+</Pane>

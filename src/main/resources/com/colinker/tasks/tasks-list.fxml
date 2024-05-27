@@ -8,38 +8,45 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.colinker.controllers.TasksListController">
-   <children>
-      <fx:include source="../navbar-vue.fxml" />
-      <HBox layoutX="201.0" layoutY="60.0" spacing="10">
-         <Button id="assignedTasksButton" fx:id="assignedTasksButton" mnemonicParsing="false" onAction="#showAssignedTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches à faire" textFill="#253aff">
-            <font>
-               <Font size="15.0" />
-            </font>
-         </Button>
-         <Button id="assignedDoneTasksButton" fx:id="assignedDoneTasksButton" mnemonicParsing="false" onAction="#showAssignedDoneTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches terminées" textFill="#253aff">
-            <font>
-               <Font size="15.0" />
-            </font>
-         </Button>
-         <Button id="createdTasksButton" fx:id="createdTasksButton" mnemonicParsing="false" onAction="#showCreatedTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches créées" textFill="#253aff">
-            <font>
-               <Font size="15.0" />
-            </font>
-         </Button>
-      </HBox>
-      <ScrollPane id="taskListPane" fx:id="taskListPane" layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0" style="-fx-background-color: #EDF5FF;">
-            <VBox fx:id="taskListVBox"/>
-      </ScrollPane>
-      <Label layoutX="201.0" layoutY="25.0" text="Gestion des tâches">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+      prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.colinker.controllers.TasksListController">
+   <fx:include source="../navbar-vue.fxml"/>
+   <HBox layoutX="201.0" layoutY="60.0" spacing="10">
+      <Button id="assignedTasksButton" fx:id="assignedTasksButton" mnemonicParsing="false" onAction="#showAssignedTasks"
+              style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches à faire" textFill="#253aff">
          <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button id="newTaskButton" fx:id="newTaskButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false" onAction="#showTaskModal" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="nouvelle tâche" textFill="#253aff">
-         <font>
-            <Font size="15.0" />
+            <Font size="15.0"/>
          </font>
       </Button>
-   </children>
+      <Button id="assignedDoneTasksButton" fx:id="assignedDoneTasksButton" mnemonicParsing="false"
+              onAction="#showAssignedDoneTasks" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;"
+              text="Tâches terminées" textFill="#253aff">
+         <font>
+            <Font size="15.0"/>
+         </font>
+      </Button>
+      <Button id="createdTasksButton" fx:id="createdTasksButton" mnemonicParsing="false" onAction="#showCreatedTasks"
+              style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;" text="Tâches créées" textFill="#253aff">
+         <font>
+            <Font size="15.0"/>
+         </font>
+      </Button>
+   </HBox>
+   <ScrollPane id="taskListPane" fx:id="taskListPane" layoutX="201.0" layoutY="101.0" prefHeight="619.0"
+               prefWidth="1074.0" style="-fx-background-color: #EDF5FF;">
+      <VBox fx:id="taskListVBox"/>
+   </ScrollPane>
+   <Label layoutX="201.0" layoutY="25.0" text="Gestion des tâches">
+      <font>
+         <Font size="24.0"/>
+      </font>
+   </Label>
+   <Button id="newTaskButton" fx:id="newTaskButton" layoutX="1138.0" layoutY="60.0" mnemonicParsing="false"
+           onAction="#showTaskModal" style="-fx-background-color: #DAEBFF; -fx-border-radius: 8px;"
+           text="nouvelle tâche" textFill="#253aff">
+      <font>
+         <Font size="15.0"/>
+      </font>
+   </Button>
 </Pane>

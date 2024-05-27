@@ -14,6 +14,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static com.colinker.views.TaskInfosModal.showTaskDetails;
 
@@ -70,6 +73,11 @@ public class TaskView extends HBox {
         Label isDoneLabel = new Label("TERMINEE");
         isDoneLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;");
 
+        Label isLateLabel = new Label("EN RETARD");
+        isLateLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;");
+        LocalDateTime taskEndDate = LocalDateTime.ofInstant(task.dateFin.toInstant(), ZoneId.systemDefault());
+        LocalDateTime now = LocalDateTime.now();
+
         if(task.isDone) {
             gridPane.add(isDoneIcon, 0, 0);
             gridPane.add(isDoneLabel, 8, 0);
@@ -79,6 +87,9 @@ public class TaskView extends HBox {
         gridPane.add(seeMoreButton, 3, 0);
         gridPane.add(deleteTaskButton, 4, 0);
         if(task.isImportant && !task.isDone) gridPane.add(isImportantLabel, 8, 0);
+        if (!task.isDone && taskEndDate.isBefore(now)) {
+            gridPane.add(isLateLabel, 16, 0);
+        }
 
         this.getChildren().add(gridPane);
         this.setPrefWidth(950);
