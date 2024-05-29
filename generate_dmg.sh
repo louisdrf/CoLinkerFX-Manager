@@ -24,6 +24,14 @@ if [ ! -f "$INPUT_DIR/$JAR_FILE" ]; then
   exit 1
 fi
 
+# Vérification du JAR
+echo "Verifying the JAR file..."
+unzip -l "$INPUT_DIR/$JAR_FILE" | grep 'com/colinker/App.class'
+if [ $? -ne 0 ]; then
+  echo "Error: The main class com.colinker.App is not found in the JAR file."
+  exit 1
+fi
+
 # Génération du DMG
 echo "Generating DMG package..."
 $JPACKAGE --type dmg \

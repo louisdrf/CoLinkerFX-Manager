@@ -21,12 +21,17 @@ module com.colinker.colinkerjfx {
     requires spring.boot.autoconfigure;
     requires spring.core;
     requires java.dotenv;
+    requires org.slf4j;
+    requires annotations;
 
     // Ouvrir tous les packages nécessaires à Spring
-    opens com.colinker to javafx.fxml, spring.core;
-    opens com.colinker.models to javafx.fxml, spring.core;
-    opens com.colinker.controllers to javafx.fxml, spring.core;
-    opens com.colinker.services to javafx.fxml, spring.core;
+    opens com.colinker.config to spring.core, spring.beans, spring.context;
+    opens com.colinker.controllers to spring.core, javafx.fxml;
+    opens com.colinker.services to spring.core;
+    opens com.colinker.models to spring.core, javafx.base;
+    opens com.colinker to spring.core;
+
+
 
     exports com.colinker;
     exports com.colinker.models;
