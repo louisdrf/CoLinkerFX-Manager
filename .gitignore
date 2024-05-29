@@ -4,6 +4,8 @@ target/
 **/src/test/**/target/
 *.jar
 *.dmg
+mongo.tar
+mongo-init
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
