@@ -23,12 +23,6 @@ public class SceneRouter {
         stage.show();
     }
 
-    public static void showNotePage() throws IOException {
-        currentScene = loadScene("notes/note.fxml");
-        stage.setScene(currentScene);
-        stage.show();
-    }
-
     public static void showCalendarPage() throws IOException {
         currentScene = loadScene("calendar.fxml");
         stage.setScene(currentScene);
