@@ -1,4 +1,3 @@
-/*
 package com.colinker.routing.remoterouter;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -8,7 +7,7 @@ import java.net.InetAddress;
 
 
 public class RemoteRouter {
-    public static final String baseUrl = "http://localhost:8000";
+    public static final String baseUrl = "http://localhost:8000/";
     public static boolean pingGoogle() {
         try {
             InetAddress address = InetAddress.getByName("google.com");
@@ -29,4 +28,4 @@ public class RemoteRouter {
             return new JsonNode("{'message': 'Couldn't make the GET request to API'}");
         }
     }
-}*/
+}

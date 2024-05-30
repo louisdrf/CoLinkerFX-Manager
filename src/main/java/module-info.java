@@ -23,6 +23,7 @@ module com.colinker.colinkerjfx {
     requires java.dotenv;
     requires org.slf4j;
     requires annotations;
+    requires unirest.java;
 
     // Ouvrir tous les packages nécessaires à Spring
     opens com.colinker.config to spring.core, spring.beans, spring.context;

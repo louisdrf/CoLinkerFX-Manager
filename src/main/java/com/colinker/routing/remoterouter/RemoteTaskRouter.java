@@ -1,4 +1,3 @@
-/*
 package com.colinker.routing.remoterouter;
 
 import com.colinker.helpers.JavaToJsonObject;
@@ -102,4 +101,3 @@ public class RemoteTaskRouter {
         return TaskService.transformArrayIntoList(jsonArray);
     }
 }
-*/

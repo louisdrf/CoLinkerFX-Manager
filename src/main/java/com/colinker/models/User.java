@@ -21,11 +21,15 @@ public class User {
     public static String name;
     public static boolean isOnline = true;
 
-    public static void setLoginLocal() {
+    public static void setUsernameLocal() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("username"));
-            login = br.readLine().trim();
-            br.close();
+            File file = new File("username.txt");
+            if (file.exists()) {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line = br.readLine();
+                if (line != null) email = line.trim();
+                br.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,13 +87,6 @@ public class User {
         User.token = token;
     }
 
-    public static String getLogin() {
-        return login;
-    }
-
-    public static void setLogin(String login) {
-        User.login = login;
-    }
 
     public static boolean isIsOnline() {
         return isOnline;

@@ -115,8 +115,17 @@
             <artifactId>de.flapdoodle.embed.mongo.spring3x</artifactId>
             <version>4.12.6</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.14.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java-bom</artifactId>
+            <version>4.3.0</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
 
     <build>

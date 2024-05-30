@@ -4,6 +4,7 @@ import com.colinker.controllers.UserController;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,15 +32,42 @@ public class App extends Application {
         // Chargement du contexte Spring dans JavaFX
         springContext.getAutowireCapableBeanFactory().autowireBean(this);
 
+        stage.setTitle("CoLinker");
         SceneRouter.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("calendar.fxml"));
+        SceneRouter.showLoadingScreen();
+        stage.setOnCloseRequest(event -> {
+            //LocalDatabase.close();
+            System.out.println("Database local connexion well closed.");
+        });
+        stage.show();
+
+        new Thread(() -> {
+           /* if (!RemoteDatabaseConnection.tryConnection()) {
+                System.out.println("Aucune connexion internet, connexion en local...");
+                User.isOnline = false;
+                User.setUsernameLocal();
+                LocalDatabase.launch();
+                MongoDBImporter.importInLocalDatabase();
+            }*/
+
+            Platform.runLater(() -> {
+                try {
+                    if (User.isOnline) SceneRouter.showLoginPage();
+                    else SceneRouter.showTasksListPage();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }).start();
+        /*SceneRouter.stage = stage;
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/colinker/calendar/calendar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("CoLinker");
         stage.setScene(scene);
         stage.show();
 
         // Ajout d'un utilisateur dans la base de données
-        addUser();
+        addUser();*/
     }
 
     private void addUser() {

@@ -1,11 +1,9 @@
-/*
 package com.colinker.controllers;
 
 import com.colinker.helpers.LocalDataHelper;
 import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
-import com.colinker.routing.localrouter.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.views.DoneTaskView;
@@ -61,8 +59,7 @@ public class TasksListController {
     }
 
     private static List<Task> fetchAllCreatedTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
-        else return LocalTaskRouter.getAllTasks();
+        return RemoteTaskRouter.getAllCreatedTasks();
     }
     public void initialize() {
         setActiveButton(createdTasksButton);
@@ -82,8 +79,7 @@ public class TasksListController {
 
 
     private List<Task> fetchAllAssignedTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllAssignedTasks();
-        else return LocalTaskRouter.getAllTasks();
+        return RemoteTaskRouter.getAllAssignedTasks();
     }
     public void showAssignedTasks() {
         setActiveButton(assignedTasksButton);
@@ -101,8 +97,7 @@ public class TasksListController {
 
 
     private List<Task> fetchAllAssignedDoneTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllAssignedDoneTasks();
-        else return LocalTaskRouter.getAllTasks();
+        return RemoteTaskRouter.getAllAssignedDoneTasks();
     }
     public void showAssignedDoneTasks() {
         setActiveButton(assignedDoneTasksButton);
@@ -245,4 +240,3 @@ public class TasksListController {
         dialog.showAndWait();
     }
 }
-*/

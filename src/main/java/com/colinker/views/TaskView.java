@@ -1,9 +1,7 @@
-/*
 package com.colinker.views;
 
 import com.colinker.models.Task;
 import com.colinker.models.User;
-import com.colinker.routing.localrouter.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -96,5 +94,3 @@ public class TaskView extends HBox {
         this.setPrefWidth(950);
     }
 }
-
-*/

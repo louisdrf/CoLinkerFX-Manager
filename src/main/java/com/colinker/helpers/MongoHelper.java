@@ -1,9 +1,5 @@
-/*
 package com.colinker.helpers;
 
-import com.colinker.database.LocalDatabase;
-import com.colinker.database.MongoDBExporter;
-import com.colinker.database.MongoDBImporter;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.bson.Document;
@@ -12,13 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MongoHelper {
-
-    public static void launchSynchronization() {
-        MongoDBExporter.launchExport();
-        LocalDatabase.launch();
-        MongoDBImporter.importInLocalDatabase();
-        LocalDatabase.close();
-    }
 
     public static JSONArray convertDocumentsToJSONArray(List<Document> documents) {
         JSONArray jsonArray = new JSONArray();
@@ -42,6 +31,11 @@ public class MongoHelper {
         return jsonObj;
     }
 
+    public static Document convertJSONObjectToDocument(JSONObject jsonObject) {
+        System.out.println("json to doc : " + Document.parse( jsonObject.toString() ));
+        return Document.parse( jsonObject.toString() );
+    }
+
     public static void replaceDateInDocument(Document doc) {
         for (String key : doc.keySet()) {
             Object value = doc.get(key);
@@ -53,8 +47,3 @@ public class MongoHelper {
         }
     }
 }
-
-
-
-
-*/
