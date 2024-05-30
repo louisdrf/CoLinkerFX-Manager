@@ -24,7 +24,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane id="navbar-notes-section" fx:id="navbarNotesSection" layoutY="281.0" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Pane onMouseClicked="#showNotesPage" id="navbar-notes-section" fx:id="navbarNotesSection" layoutY="281.0" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
          <children>
             <Label layoutX="55.0" layoutY="14.0" text="Mes notes">
                <font>
@@ -42,7 +42,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane id="navbar-notes-section" fx:id="navbarNotesSection11" layoutY="665.0" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Pane id="navbar-notes-section" fx:id="navbarLogSection" layoutY="665.0" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
          <children>
             <Label layoutX="44.0" layoutY="14.0" text="Déconnexion">
                <font>

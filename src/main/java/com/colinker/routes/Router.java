@@ -52,4 +52,36 @@ public class Router {
             return new JsonNode("{'message': 'Couldn't make the GET request to API'}");
         }
     }
+
+    public static void post(String route, JSONObject body) {
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.post(baseUrl + route)
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .asJson();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void put(String route, JSONObject body) {
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.put(baseUrl + route)
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .asJson();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete(String route) {
+        try {
+            Unirest.delete(baseUrl + route);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
