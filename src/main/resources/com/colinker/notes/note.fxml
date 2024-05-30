@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.colinker.controllers.NoteController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" fx:controller="com.colinker.controllers.NotesController" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <fx:include source="../navbar-vue.fxml" />
+        <HBox layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0">
+            <VBox id="noteMenuVBox" fx:id="noteMenuVBox" prefWidth="200.0" style="-fx-background-color: #aaadc0;" />
+            <Pane id="notePane" fx:id="notePane" prefHeight="619.0" prefWidth="874.0" style="-fx-background-color: #EDF5FF;" />
+        </HBox>
         <Label layoutX="201.0" layoutY="25.0" text="Gestion des notes">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
+        <HBox layoutX="202.0" layoutY="60.0" spacing="10.0">
+            <Button id="newNoteButton" fx:id="newNoteButton" mnemonicParsing="false" onAction="#newNote" style="-fx-background-color: #DAEBFF;" text="Nouvelle note" textFill="#253aff">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#saveNote" text="Sauvegarder la note" style="-fx-background-color: #ceffcd;" textFill="#3dc12c">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#deleteNote" text="Supprimer la note" style="-fx-background-color: #ffcdcd;" textFill="#c1000c">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Button>
+        </HBox>
     </children>
 </Pane>
