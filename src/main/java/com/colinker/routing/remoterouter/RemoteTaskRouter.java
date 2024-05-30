@@ -95,8 +95,6 @@ public class RemoteTaskRouter {
         String startDate = start.format(formatter);
         String endDate = end.format(formatter);
 
-        System.out.println("/tasks/assigned/" + User.name + "?start=" + startDate + "&end=" + endDate);
-
         JSONArray jsonArray = new JSONArray();
         JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name + "?start=" + startDate + "&end=" + endDate);
         jsonArray = bodyResponse.getArray();
