@@ -41,6 +41,12 @@ public class SceneRouter {
         stage.show();
     }
 
+    public static void showNotesPage() throws IOException {
+        currentScene = loadScene("notes/note.fxml");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
     private static Scene loadScene(String fxmlFilePath) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlFilePath));
         // TODO gérer le cas où il n'y a pas le fchier
