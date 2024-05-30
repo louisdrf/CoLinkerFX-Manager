@@ -38,15 +38,12 @@ public class CalendarController implements Initializable {
     int nbDaysInWeek = 7;
     int startHourInCalendar = 6;
     int maxHourInCalendar = 22;
-
     int calendarNumberOfRows = 18;
-
-    int calendarNumberOfColumns;
+    int calendarNumberOfColumns = 8;
     double calendarWidth = 950;
     double calendarHeight = 420;
-
     int calendarRowHeight = (int) (calendarHeight / calendarNumberOfRows);
-    int calendarColumnWidth = (int) (calendarWidth / nbDaysInWeek + 1);
+    int calendarColumnWidth = (int) (calendarWidth / calendarNumberOfColumns);
 
     LocalDate startOfWeek;
     LocalDate endOfWeek;
@@ -59,18 +56,22 @@ public class CalendarController implements Initializable {
         backOneWeekButton.setOnAction(event -> goBackOneWeek());
         updateCalendar();
     }
+
     private void updateCalendarWeekLimitDates() {
         startOfWeek = dateFocus.minusDays(dateFocus.getDayOfWeek().getValue() - 1);
         endOfWeek = startOfWeek.plusDays(6);
     }
+
     private void goForwardOneWeek() {
         dateFocus = dateFocus.plusWeeks(1);
         updateCalendar();
     }
+
     private void goBackOneWeek() {
         dateFocus = dateFocus.minusWeeks(1);
         updateCalendar();
     }
+
     private List<Task> getTodoTasksByPeriod(LocalDate start, LocalDate end) {
         return RemoteTaskRouter.getTodoTasksByPeriod(start, end);
     }
@@ -102,15 +103,18 @@ public class CalendarController implements Initializable {
             addTaskToCalendar(calendarGrid, task);
         }
     }
+
     private void createColumns(GridPane calendarGrid) {
-        for (int i = 0; i < calendarNumberOfRows; i++) {
+        for (int i = 0; i < calendarNumberOfColumns; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPrefWidth(calendarColumnWidth);
+            colConst.setPercentWidth(100.0 / calendarNumberOfColumns); // Set percent width for better alignment
             calendarGrid.getColumnConstraints().add(colConst);
         }
     }
+
     private void createRows(GridPane calendarGrid) {
-        for (int i = 0; i < calendarNumberOfColumns; i++) {
+        for (int i = 0; i < calendarNumberOfRows; i++) {
             RowConstraints rowConst = new RowConstraints();
             rowConst.setPrefHeight(calendarRowHeight);
             calendarGrid.getRowConstraints().add(rowConst);
@@ -126,6 +130,7 @@ public class CalendarController implements Initializable {
             calendarGrid.add(dayLabel, day + 1, 0);
         }
     }
+
     private void writeHoursLabelsOnLeft(GridPane calendarGrid) {
         for (int hour = startHourInCalendar; hour <= maxHourInCalendar; hour++) {
             Label hourLabel = new Label(String.format("%02d:00", hour));
@@ -134,26 +139,31 @@ public class CalendarController implements Initializable {
             calendarGrid.add(hourLabel, 0, hour - 5);
         }
     }
+
     private void drawLinesFromDatesLabel(GridPane calendarGrid) {
-        for (int colIndex = 1; colIndex <= nbDaysInWeek; colIndex++) {
-            Line verticalLine = new Line(0, 0, 0, calendarHeight + 100);
+        for (int colIndex = 1; colIndex <= nbDaysInWeek + 1; colIndex++) {
+            Line verticalLine = new Line(0, 0, 0, 500);
             verticalLine.setStyle("-fx-stroke: gray; -fx-stroke-width: 0.5;");
-            calendarGrid.add(verticalLine, colIndex, 0, 1, 20);
+            calendarGrid.add(verticalLine, colIndex, 1, 1, calendarNumberOfRows - 1);
         }
     }
+
     private void drawLinesFromHoursLabel(GridPane calendarGrid) {
+        double lineWidth = calendarWidth - 52;
         for (int rowIndex = startHourInCalendar; rowIndex <= maxHourInCalendar; rowIndex++) {
-            Line line = new Line(0, 0, calendarWidth, 0);
+            Line line = new Line(0, 0, lineWidth, 0);
             line.setStyle("-fx-stroke: gray; -fx-stroke-width: 0.5;");
-            calendarGrid.add(line, 1, rowIndex - 5, 7, 1);
+            calendarGrid.add(line, 1, rowIndex - 5, nbDaysInWeek, 1);
         }
     }
+
 
     private void writeWeekRangeDates() {
         String weekRange = startOfWeek.format(DateTimeFormatter.ofPattern("d MMM yyyy")) + " - " +
                 endOfWeek.format(DateTimeFormatter.ofPattern("d MMM yyyy"));
         currentWeekLabel.setText(weekRange);
     }
+
     private void centerElement(Node node) {
         GridPane.setHalignment(node, HPos.CENTER);
         GridPane.setValignment(node, VPos.CENTER);

@@ -12,8 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
-import static com.colinker.helpers.MongoHelper.replaceDateInDocument;
-
 public class TaskRepository {
     public static MongoCollection<Document> taskCollection = LocalDatabase.getCollection("tasks");
 
