@@ -20,6 +20,8 @@ public class RemoteAuthRouter {
             requestBody.put("username", login);
             requestBody.put("password", password);
 
+            System.out.println("body : " + requestBody);
+
             HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/auth/login")
                     .header("Content-Type", "application/json")
                     .body(requestBody)
@@ -39,7 +41,7 @@ public class RemoteAuthRouter {
             ApiResponseModal.handleApiResponse(response);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }

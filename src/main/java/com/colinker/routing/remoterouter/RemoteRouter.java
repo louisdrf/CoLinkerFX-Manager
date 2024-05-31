@@ -7,7 +7,7 @@ import java.net.InetAddress;
 
 
 public class RemoteRouter {
-    public static final String baseUrl = "http://localhost:8000/";
+    public static final String baseUrl = "http://localhost:8000";
     public static boolean pingGoogle() {
         try {
             InetAddress address = InetAddress.getByName("google.com");

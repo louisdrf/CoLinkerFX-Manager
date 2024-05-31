@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="503.0" fitWidth="495.0" layoutX="393.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@CoLinker-logo.png" />
+            <Image url="@login/CoLinker-logo.png" />
          </image>
       </ImageView>
       <Label layoutX="434.0" layoutY="437.0" text="Lancement de l'application..." textFill="#5356ff">
