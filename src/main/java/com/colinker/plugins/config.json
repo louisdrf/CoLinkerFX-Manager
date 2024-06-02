@@ -2,6 +2,8 @@
   "plugins": [
     {
       "name": "Note",
+      "installed": false,
+      "url": "test.txt",
       "classes" : [
         {
           "className": "NoteController",

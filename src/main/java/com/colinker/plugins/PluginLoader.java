@@ -11,9 +11,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PluginLoader {
     String pluginsPath = "src/main/java/com/colinker/plugins/";
+
+    List<Plugin> plugins;
     List<Plugin> loadedPlugins;
 
     public PluginLoader() {
@@ -25,19 +28,24 @@ public class PluginLoader {
 
         if (config == null) return List.of();
 
-        List<Plugin> loadedPlugins = config.getPlugins();
+        this.plugins = config.getPlugins();
+        List<Plugin> loadedPlugins = this.plugins.stream()
+                                            .filter(Plugin::isInstalled)
+                                            .collect(Collectors.toList());
 
         for (Plugin plugin : loadedPlugins) {
-            for (PluginClass pluginClass : plugin.getClasses()) {
-                File pluginFile = new File(pluginClass.packageName + "/" + pluginClass.className + ".class");
-                URLClassLoader classLoader = this.createClassLoader(pluginFile);
+            if (plugin.isInstalled()) {
+                for (PluginClass pluginClass : plugin.getClasses()) {
+                    File pluginFile = new File(pluginClass.packageName + "/" + pluginClass.className + ".class");
+                    URLClassLoader classLoader = this.createClassLoader(pluginFile);
 
-                if (classLoader == null) return List.of();
+                    if (classLoader == null) return List.of();
 
-                try {
-                    Class<?> clazz = classLoader.loadClass(pluginClass.className);
-                } catch(ClassNotFoundException e) {
-                    e.printStackTrace();
+                    try {
+                        Class<?> clazz = classLoader.loadClass(pluginClass.className);
+                    } catch(ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -68,5 +76,13 @@ public class PluginLoader {
     public void firePlugins() {
         PluginLoadedEvent pluginLoadedEvent = new PluginLoadedEvent(this.loadedPlugins);
         EventBus.fireEvent(pluginLoadedEvent);
+    }
+
+    public List<Plugin> getLoadedPlugins() {
+        return this.loadedPlugins;
+    }
+
+    public List<Plugin> getPlugins() {
+        return this.plugins;
     }
 }
