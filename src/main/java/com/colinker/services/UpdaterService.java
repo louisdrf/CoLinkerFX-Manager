@@ -36,27 +36,51 @@ public class UpdaterService {
 
     public static void downloadNewVersion() throws Exception {
         String latestVersion = fetchLatestVersion();
-        String downloadUrl = DOWNLOAD_BASE_URL + latestVersion + ".jar";
-        URL url = new URL(downloadUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
+        if (isNewVersionAvailable(latestVersion)) {
+            String oldJarName = "Colinker-JFX-" + getVersion() + ".jar";  // Construire le nom de l'ancien JAR basé sur la version actuelle
+            String newJarName = "Colinker-JFX-" + latestVersion + ".jar"; // Construire le nom du nouveau JAR
+            String downloadUrl = DOWNLOAD_BASE_URL + latestVersion + ".jar";
+            URL url = new URL(downloadUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
 
-        if (conn.getResponseCode() == 200) {
-            String outputFile = "Colinker-JFX-" + latestVersion + ".jar"; // Construit le nom du fichier avec la version
-            try (BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-                 FileOutputStream fos = new FileOutputStream(outputFile)) {
-                byte[] data = new byte[1024];
-                int count;
-                while ((count = bis.read(data, 0, 1024)) != -1) {
-                    fos.write(data, 0, count);
+            if (conn.getResponseCode() == 200) {
+                File outputFile = new File(System.getProperty("user.dir"), newJarName);
+                try (BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+                     FileOutputStream fos = new FileOutputStream(outputFile)) {
+                    byte[] data = new byte[1024];
+                    int count;
+                    while ((count = bis.read(data, 0, 1024)) != -1) {
+                        fos.write(data, 0, count);
+                    }
+                    restartApplication(newJarName);
+                    deleteOldJar(System.getProperty("user.dir") + File.separator + oldJarName); // Supprime l'ancien JAR après le redémarrage
+                    System.exit(0);
                 }
-                restartApplication(outputFile);
+            } else {
+                throw new RuntimeException("Impossible de télécharger la nouvelle version, HTTP Status: " + conn.getResponseCode());
             }
         } else {
-            throw new RuntimeException("Impossible de télécharger la nouvelle version, HTTP Status: " + conn.getResponseCode());
+            System.out.println("Aucune nouvelle version disponible.");
         }
     }
+
+    public static void deleteOldJar(String oldJarPath) {
+        try {
+            File oldJar = new File(oldJarPath);
+            if (oldJar.exists()) {
+                if (!oldJar.delete()) {
+                    System.err.println("Échec de la suppression de l'ancien fichier JAR : " + oldJar.getAbsolutePath());
+                } else {
+                    System.out.println("Ancien fichier JAR supprimé avec succès : " + oldJar.getAbsolutePath());
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la tentative de suppression de l'ancien JAR : " + e.getMessage());
+        }
+    }
+
 
 
     public static void restartApplication(String jarName) throws IOException {
@@ -70,9 +94,6 @@ public class UpdaterService {
         ProcessBuilder builder = new ProcessBuilder(javaBin, "-jar", jarFile.getAbsolutePath());
         builder.inheritIO();
         builder.start();
-
-
-        System.exit(0);
     }
 
     public static String getVersion() {

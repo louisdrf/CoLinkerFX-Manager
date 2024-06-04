@@ -5,7 +5,7 @@
 
     <groupId>com.colinker</groupId>
     <artifactId>Colinker-JFX</artifactId>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <name>Colinker-JFX</name>
 
     <properties>
