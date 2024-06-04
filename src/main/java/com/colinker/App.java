@@ -66,8 +66,8 @@ public class App extends Application {
         // Récupérer le contrôleur Spring de l'utilisateur et ajouter un utilisateur
         UserController userController = springContext.getBean(UserController.class);
         User newUser = new User();
-        newUser.setUsername("newUser");
-        newUser.setPassword("password123");
+        newUser.setUsername("ben");
+        newUser.setPassword("benben");
 
         userController.createUser(newUser);
         System.out.println("User added successfully");
