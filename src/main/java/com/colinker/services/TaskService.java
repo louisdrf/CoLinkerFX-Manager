@@ -22,9 +22,7 @@ public class TaskService {
                 Task task = transformJsonTaskIntoTaskObject(jsonTask);
                 allTasks.add(task);
 
-            } catch(ParseException e) {
-                continue;
-            }
+            } catch(ParseException e) { continue; }
         }
         return allTasks;
     }

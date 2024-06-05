@@ -1,7 +1,7 @@
-package com.colinker.services;
+package com.colinker.routing.localrouter.services;
 
 import com.colinker.models.User;
-import com.colinker.repositories.UserRepository;
+import com.colinker.routing.localrouter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,4 @@ public class UserService {
         newUser.setPassword(password);
         return userRepository.save(newUser); // Enregistre l'utilisateur dans la base de données
     }
-
-    // Vous pouvez ajouter d'autres méthodes de service ici
 }

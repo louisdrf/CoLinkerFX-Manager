@@ -1,7 +1,5 @@
 package com.colinker;
 
-import com.colinker.config.RemoteDatabaseConnection;
-import com.colinker.controllers.UserController;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
 import javafx.application.Application;
@@ -10,14 +8,19 @@ import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import java.io.IOException;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@SpringBootApplication
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
+
+@SpringBootApplication(scanBasePackages = "com.colinker")
 public class App extends Application {
     private ConfigurableApplicationContext springContext;
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         String[] args = getParameters().getRaw().toArray(new String[0]);
         springContext = new SpringApplicationBuilder(App.class).run(args);
     }
@@ -30,22 +33,16 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            //LocalDatabase.close();
+            // kill le conteneur
             System.out.println("Database local connexion well closed.");
         });
         stage.show();
 
         new Thread(() -> {
-           /*if (!RemoteDatabaseConnection.tryConnection()) {
-                System.out.println("Aucune connexion internet, connexion en local...");
-                User.isOnline = false;
-                User.setUsernameLocal();
-                MongoDBImporter.importInLocalDatabase();
-            }*/
+            User.isOnline = false;
 
             Platform.runLater(() -> {
                 try {
-                    addUser();
                     if (User.isOnline) SceneRouter.showLoginPage();
                     else SceneRouter.showTasksListPage();
                 } catch (IOException e) {
@@ -53,32 +50,41 @@ public class App extends Application {
                 }
             });
         }).start();
-        /*SceneRouter.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/colinker/calendar/calendar.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("CoLinker");
-        stage.setScene(scene);
-        stage.show();
-*/
     }
 
-    private void addUser() {
-        // Récupérer le contrôleur Spring de l'utilisateur et ajouter un utilisateur
-        UserController userController = springContext.getBean(UserController.class);
-        User newUser = new User();
-        newUser.setUsername("newUser");
-        newUser.setPassword("password123");
+    public static void main(String[] args) throws Exception {
+        try {
+            String loadCommand = "docker load -i /mongo.tar";
+            executeCommand(loadCommand);
+            String initCommand = "docker exec mongo-container mongo admin /docker-entrypoint-initdb.d/entrypoint.js";
+            executeCommand(initCommand);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        userController.createUser(newUser);
-        System.out.println("User added successfully");
-    }
+        String loadCommand = "docker load -i /mongo.tar";
+        executeCommand(loadCommand);
 
-    public static void main(String[] args) {
+        String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
+        String dockerComposeUpCommand = "docker-compose -f " + pathToDockerCompose + " up -d";
+        executeCommand(dockerComposeUpCommand);
+
         launch(args);
     }
 
+
+    private static void executeCommand(String command) throws Exception {
+        Process process = Runtime.getRuntime().exec(command);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        process.waitFor();
+    }
+
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         if (springContext != null) {
             springContext.close();
         }

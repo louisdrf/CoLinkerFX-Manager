@@ -1,7 +1,7 @@
 package com.colinker.routing.remoterouter;
 
-import com.colinker.helpers.MongoHelper;
 import com.colinker.models.User;
+import com.colinker.services.MongoDataTransferService;
 import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -20,8 +20,6 @@ public class RemoteAuthRouter {
             requestBody.put("username", login);
             requestBody.put("password", password);
 
-            System.out.println("body : " + requestBody);
-
             HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/auth/login")
                     .header("Content-Type", "application/json")
                     .body(requestBody)
@@ -32,7 +30,7 @@ public class RemoteAuthRouter {
 
             if (responseBody.has("token") && status == 200) {
                 User.token = responseBody.getString("token");
-                //MongoHelper.launchSynchronization();  // lancer l'import
+                MongoDataTransferService.synchroniseDataInLocal();
                 saveUsernameToLocal(login);
                 User.name = login;
                 return;
