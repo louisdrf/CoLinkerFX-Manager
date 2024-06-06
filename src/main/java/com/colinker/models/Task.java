@@ -21,8 +21,17 @@ public class Task {
     public Date dateFin;
 
     public String title;
-    @DBRef
     public Room linkedRoom;
+
+    public String getTaskRoom() {
+        return taskRoom;
+    }
+
+    public void setTaskRoom(String taskRoom) {
+        this.taskRoom = taskRoom;
+    }
+
+    public String taskRoom;
     public List<String> tagued_usernames;
     public boolean isDone;
     public boolean isImportant;

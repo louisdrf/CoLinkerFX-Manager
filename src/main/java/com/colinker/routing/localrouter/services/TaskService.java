@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 public class TaskService {
-
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskRoomRepository taskRoomRepository;
@@ -33,6 +32,14 @@ public class TaskService {
             throw new Exception("Utilisateur non trouvé.");
         }
 
+        List<Task> tasks = taskRepository.findCreatedTasks(username);
+        for (Task task : tasks) {
+            if (task.getTaskRoom() != null) {
+                Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
+                room.ifPresent(task::setLinkedRoom);
+            }
+        }
+
         return taskRepository.findAssignedTasksByPeriod(username, start, end);
     }
 
@@ -42,6 +49,14 @@ public class TaskService {
             throw new Exception("Utilisateur non trouvé.");
         }
 
+        List<Task> tasks = taskRepository.findCreatedTasks(username);
+        for (Task task : tasks) {
+            if (task.getTaskRoom() != null) {
+                Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
+                room.ifPresent(task::setLinkedRoom);
+            }
+        }
+
         return taskRepository.findAssignedTasks(username);
     }
 
@@ -49,6 +64,14 @@ public class TaskService {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new Exception("Utilisateur non trouvé.");
+        }
+
+        List<Task> tasks = taskRepository.findCreatedTasks(username);
+        for (Task task : tasks) {
+            if (task.getTaskRoom() != null) {
+                Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
+                room.ifPresent(task::setLinkedRoom);
+            }
         }
 
         return taskRepository.findCreatedTasks(username);
@@ -62,5 +85,14 @@ public class TaskService {
             taskRoomRepository.save(taskRoom);
         }
         taskRepository.save(task);
+    }
+
+    public void deleteTask(Task task) {
+        taskRepository.deleteById(task.id);
+        if (task.getLinkedRoom() != null) {
+            Room taskRoom = task.getLinkedRoom();
+            taskRoom.setIsAvailable(true);
+            taskRoomRepository.save(taskRoom);
+        }
     }
 }

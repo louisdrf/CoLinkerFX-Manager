@@ -49,4 +49,8 @@ public class LocalTaskRouter {
     public static void updateTaskAsDone(Task task) {
         taskService.updateTaskAsDone(task);
     }
+
+    public static void deleteTask(Task task) {
+        taskService.deleteTask(task);
+    }
 }
