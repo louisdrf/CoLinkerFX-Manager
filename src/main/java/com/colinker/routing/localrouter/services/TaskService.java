@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -93,6 +94,37 @@ public class TaskService {
             Room taskRoom = task.getLinkedRoom();
             taskRoom.setIsAvailable(true);
             taskRoomRepository.save(taskRoom);
+        }
+    }
+
+    public void createNewTask(Task createdTask) {
+        try {
+            Optional<User> user = userRepository.findByUsername(createdTask.getUsername());
+            if (user.isEmpty()) return;
+
+            if (createdTask.getTagued_usernames().contains(createdTask.getUsername())) return;
+
+            List<User> taggedUsers = userRepository.findByUsernameIn(createdTask.getTagued_usernames());
+            List<String> taggedUsernamesFound = taggedUsers.stream().map(User::getUsername).toList();
+
+            if (taggedUsernamesFound.size() != createdTask.getTagued_usernames().size()) return;
+
+            Room taskRoom = null;
+            if (createdTask.getTaskRoom() != null) {
+                Optional<Room> roomOptional = taskRoomRepository.findById(createdTask.getTaskRoom());
+                if (roomOptional.isEmpty()) {
+                    return;
+                }
+                taskRoom = roomOptional.get();
+                if (!taskRoom.getIsAvailable()) return;
+                taskRoom.setIsAvailable(false);
+                taskRoomRepository.save(taskRoom);
+            }
+
+            taskRepository.save(createdTask);
+
+        } catch (Exception e) {
+            System.out.println(("Erreur lors de la création de la tâche: " + e.getMessage()));
         }
     }
 }

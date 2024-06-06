@@ -240,8 +240,12 @@ public class TasksListController {
                         tagued_usernames_list,
                         isTaskImportantCheckBox.isSelected()
                 );
-
-                RemoteTaskRouter.createNewTask(createdTask);
+                if(User.isOnline) {
+                    RemoteTaskRouter.createNewTask(createdTask);
+                }
+                else {
+                    LocalTaskRouter.createNewTask(createdTask);
+                }
                 initialize();
             } catch (ParseException e) {
                 showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());

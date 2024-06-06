@@ -53,4 +53,8 @@ public class LocalTaskRouter {
     public static void deleteTask(Task task) {
         taskService.deleteTask(task);
     }
+
+    public static void createNewTask(Task createdTask) {
+            taskService.createNewTask(createdTask);
+    }
 }
