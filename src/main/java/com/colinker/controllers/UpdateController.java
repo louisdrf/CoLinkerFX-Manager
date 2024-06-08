@@ -40,12 +40,10 @@ public class UpdateController {
     @FXML
     private void downloadAndUpdate() {
         try {
-            if (UpdaterService.downloadNewVersion()) {
-                UpdaterService.updateVersionProperties(UpdaterService.fetchLatestVersion());
+                UpdaterService.downloadNewVersion();
                 updateStatusLabel.setText("Mise à jour téléchargée. Redémarrez l'application.");
                 downloadUpdateButton.setDisable(true);
-            }
-        } catch (Exception e) {
+            }catch (Exception e) {
             updateStatusLabel.setText("Échec de la mise à jour: " + e.getMessage());
         }
     }
