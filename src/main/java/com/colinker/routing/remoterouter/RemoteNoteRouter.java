@@ -18,6 +18,7 @@ public class RemoteNoteRouter {
     public static List<Note> getAllNotes() {
         JSONArray jsonArray = new JSONArray();
         JsonNode bodyResponse = RemoteRouter.get("/notes/");
+        if (bodyResponse.getObject().has("message")) return List.of();
         jsonArray = bodyResponse.getArray();
         return NoteService.transformArrayIntoList(jsonArray);
     }
