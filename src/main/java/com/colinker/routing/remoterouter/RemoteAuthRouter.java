@@ -32,8 +32,8 @@ public class RemoteAuthRouter {
             if (responseBody.has("token") && status == 200) {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);
+                UserPropertiesService.saveToProperties("username",login);
                 User.token = token;
-                saveUsernameToLocal(login);
                 User.name = login;
                 return;
             }
@@ -42,7 +42,7 @@ public class RemoteAuthRouter {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
+            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez rÃ©essayer plus tard.");
         }
     }
 

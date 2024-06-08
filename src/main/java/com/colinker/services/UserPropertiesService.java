@@ -50,4 +50,6 @@ public class UserPropertiesService {
     public static String getToken() {
         return getFromProperties("authToken", "");
     }
+
+    public static String getUsername() { return getFromProperties("username", ""); }
 }
