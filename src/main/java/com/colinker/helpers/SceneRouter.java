@@ -1,4 +1,4 @@
-package com.colinker.routes;
+package com.colinker.helpers;
 
 import com.colinker.App;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,6 @@ import java.io.IOException;
 public class SceneRouter {
     public static Scene currentScene;
     public static Stage stage;
-
     public static void showLoadingScreen() throws IOException {
         currentScene = loadScene("loading_screen.fxml");
         stage.setScene(currentScene);
@@ -24,7 +23,13 @@ public class SceneRouter {
     }
 
     public static void showCalendarPage() throws IOException {
-        currentScene = loadScene("calendar.fxml");
+        currentScene = loadScene("calendar/calendar.fxml");
+        stage.setScene(currentScene);
+        stage.show();
+    }
+
+    public static void showUpdatePage() throws IOException {
+        currentScene = loadScene("update.fxml");
         stage.setScene(currentScene);
         stage.show();
     }

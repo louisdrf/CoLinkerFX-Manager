@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    command: mongod --auth
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+      - MONGO_USERNAME= ${MONGO_USERNAME}
+      - MONGO_PASSWORD= ${MONGO_PASSWORD}
+      - MONGO_DATABASE= ${MONGO_DATABASE}
+    ports:
+      - "8094:27017"
+    volumes:
+      - ./mongo.tar:/mongo.tar
+      - ./mongo-init:/docker-entrypoint-initdb.d

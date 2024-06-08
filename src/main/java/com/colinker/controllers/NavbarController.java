@@ -1,5 +1,6 @@
 package com.colinker.controllers;
 
+import com.colinker.helpers.SceneRouter;
 import com.colinker.events.EventBus;
 import com.colinker.events.PluginLoadedEvent;
 import com.colinker.plugins.Plugin;
@@ -50,6 +51,10 @@ public class NavbarController {
 
     public void showTasksListPage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showTasksListPage();
+    }
+
+    public void showUpdatePage(MouseEvent mouseEvent) throws IOException {
+        SceneRouter.showUpdatePage();
     }
 
     public void showNotesPage(MouseEvent mouseEvent) throws IOException {

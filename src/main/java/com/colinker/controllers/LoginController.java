@@ -1,18 +1,19 @@
 package com.colinker.controllers;
 
-import com.colinker.routes.Router;
-import com.colinker.routes.SceneRouter;
-import com.colinker.models.User;
-import javafx.event.ActionEvent;
+import com.colinker.helpers.SceneRouter;
+import com.colinker.routing.remoterouter.RemoteAuthRouter;
+import com.colinker.services.StatusConnectionService;
+import com.colinker.services.UserPropertiesService;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import java.awt.Desktop;
+import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
-import javafx.stage.Stage;
 
 
 public class LoginController {
@@ -23,8 +24,10 @@ public class LoginController {
     private TextField loginEmailField;
     @FXML
     private TextField loginPasswordField;
-    @FXML
-    private Label invalidCredentialsLabel;
+    //@FXML
+    //private Label invalidCredentialsLabel;
+    private final StatusConnectionService networkService = new StatusConnectionService();
+
 
     public void redirectColinkerLink() {
         try {
@@ -34,21 +37,23 @@ public class LoginController {
         }
     }
 
-    public void login(ActionEvent mouseEvent) throws IOException {
+    public void login() throws IOException {
         //this.invalidCredentialsLabel.setOpacity(0.);
-
         String email = this.loginEmailField.getText();
         String password = this.loginPasswordField.getText();
-
         if (email.isEmpty() || password.isEmpty()) return;
 
-        Router.login(email, password);
-
-        if(User.token.isEmpty()) {
-            this.invalidCredentialsLabel.setOpacity(1.);
-            return;
+        if (UserPropertiesService.isUserOnline()) {
+            RemoteAuthRouter.login(email, password);
+        } else {
+            //handleOfflineLogin(email, password);
         }
 
-        SceneRouter.showTasksListPage();
+        String token= UserPropertiesService.getToken();
+        if(token.isEmpty()) {
+            //return;
+        }else {
+            SceneRouter.showTasksListPage();
+        }
     }
 }

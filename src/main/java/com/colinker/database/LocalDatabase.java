@@ -1,65 +1,19 @@
 package com.colinker.database;
 
-import com.mongodb.client.*;
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.MongodConfig;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import org.bson.Document;
-
-import java.io.IOException;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class LocalDatabase {
-    private static final String DATABASE_NAME = "colinkerfxLocalDatabase";
-    private static final int MONGO_PORT = 27018;
-    private static MongoClient client;
-    private static MongoDatabase database;
-    private static MongodExecutable mongodExecutable;
-
-    public static void launch() {
-        try {
-            MongodStarter starter = MongodStarter.getDefaultInstance();
-            MongodConfig mongodConfig = MongodConfig.builder()
-                    .version(Version.Main.PRODUCTION)
-                    .net(new de.flapdoodle.embed.mongo.config.Net(MONGO_PORT, false))
-                    .build();
-            mongodExecutable = starter.prepare(mongodConfig);
-            mongodExecutable.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        client = MongoClients.create("mongodb://localhost:" + MONGO_PORT);
-        database = client.getDatabase(DATABASE_NAME);
-        createCollections();
-
-        System.out.println("Base de données créée avec succès");
+    static Dotenv dotenv = Dotenv.load();
+    static String username = dotenv.get("MONGO_USERNAME");
+    static String password = dotenv.get("MONGO_PASSWORD");
+    static String port = dotenv.get("MONGO_PORT");
+    static String dbName = dotenv.get("MONGO_DATABASE");
+    public static String getDatabaseName() {
+        return dbName;
     }
 
     public static String getConnexionString() {
-        return "mongodb://localhost:" + MONGO_PORT;
-    }
-
-    private static void createCollections() {
-        database.createCollection("users");
-        database.createCollection("associations");
-    }
-
-    public static MongoCollection<Document> getCollection(String collectionName) {
-        return database.getCollection(collectionName);
-    }
-
-    public static void getCollectionDocuments(String collectionName) {
-        MongoCollection<Document> collection = getCollection(collectionName);
-        FindIterable<Document> documents = collection.find();
-        for (Document document : documents) {
-            System.out.println(document);
-        }
-    }
-
-    public static void close() {
-        if (mongodExecutable != null) {
-            mongodExecutable.stop();
-        }
+        System.out.println("mongodb://" + username + ":" + password + "@localhost:" + port + "/" + dbName + "?authSource=admin");
+        return "mongodb://" + username + ":" + password + "@localhost:" + port + "/" + dbName + "?authSource=admin";
     }
 }

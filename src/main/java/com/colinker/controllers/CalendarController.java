@@ -1,190 +1,230 @@
 package com.colinker.controllers;
 
-import com.colinker.services.CalendarActivity;
-import com.colinker.services.CalendarCell;
+import com.colinker.models.Task;
+import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
+import com.colinker.routing.remoterouter.RemoteTaskRouter;
+import com.colinker.views.TaskInfosModal;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.scene.shape.Line;
+import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class CalendarController implements Initializable {
 
-    ZonedDateTime dateFocus;
-    ZonedDateTime today;
-
     @FXML
-    private Text year;
-
+    private Button forwardOneWeekButton;
     @FXML
-    private Text month;
-
+    private Button backOneWeekButton;
     @FXML
-    private FlowPane calendar;
+    private VBox calendarVBox;
+    @FXML
+    private Label currentWeekLabel;
+    private LocalDate dateFocus;
+    private LocalDate today;
+
+    int nbDaysInWeek = 7;
+    int startHourInCalendar = 6;
+    int maxHourInCalendar = 22;
+    int calendarNumberOfRows = 18;
+    int calendarNumberOfColumns = 8;
+    double calendarWidth = 950;
+    double calendarHeight = 420;
+    int calendarRowHeight = (int) (calendarHeight / calendarNumberOfRows);
+    int calendarColumnWidth = (int) (calendarWidth / calendarNumberOfColumns);
+
+    LocalDate startOfWeek;
+    LocalDate endOfWeek;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dateFocus = ZonedDateTime.now();
-        today = ZonedDateTime.now();
-        drawCalendar();
-    }
-
-    void updateCalendar() {
-        calendar.getChildren().clear();
-        drawCalendar();
-    }
-
-    @FXML
-    void backOneMonth() {
-        dateFocus = dateFocus.minusMonths(1);
-        updateCalendar();
-    }
-    @FXML
-    void forwardOneMonth() {
-        dateFocus = dateFocus.plusMonths(1);
+        today = LocalDate.now();
+        dateFocus = today;
+        forwardOneWeekButton.setOnAction(event -> goForwardOneWeek());
+        backOneWeekButton.setOnAction(event -> goBackOneWeek());
         updateCalendar();
     }
 
-    private void drawCalendar() {
-        int daysInWeek = 7;
-        int calendarRows = 6;
+    private void updateCalendarWeekLimitDates() {
+        startOfWeek = dateFocus.minusDays(dateFocus.getDayOfWeek().getValue() - 1);
+        endOfWeek = startOfWeek.plusDays(6);
+    }
 
-        updateYearAndMonthLabels();
+    private void goForwardOneWeek() {
+        dateFocus = dateFocus.plusWeeks(1);
+        updateCalendar();
+    }
 
-        Map<Integer, List<CalendarActivity>> calendarActivityMap = getCalendarActivitiesForCurrentMonth();
+    private void goBackOneWeek() {
+        dateFocus = dateFocus.minusWeeks(1);
+        updateCalendar();
+    }
 
-        int maxDaysInMonth = getMaxDaysInMonth();
-        int firstDayOfMonthOffset = getFirstDayOfMonthOffset();
+    private List<Task> getTodoTasksByPeriod(LocalDate start, LocalDate end) {
+        if(User.isOnline) {
+            return RemoteTaskRouter.getTodoTasksByPeriod(start, end);
+        }
+        else {
+            return LocalTaskRouter.getAssignedTasksByPeriod(User.name, start, end);
+        }
+    }
 
-        for (int row = 0; row < calendarRows; row++) {
-            for (int column = 0; column < daysInWeek; column++) {
+    private void updateCalendar() {
+        calendarVBox.getChildren().clear();
 
-                StackPane weekCellsContainer = new StackPane();
-                CalendarCell cell = new CalendarCell(calendar);
+        GridPane calendarGrid = new GridPane();
+        calendarGrid.setGridLinesVisible(false);
+        calendarGrid.setHgap(10);
+        calendarGrid.setVgap(10);
 
-                weekCellsContainer.getChildren().add(cell.container);
+        createColumns(calendarGrid);
+        createRows(calendarGrid);
 
-                int currentCellIndexInCalendar = (column + 1) + (daysInWeek * row);
+        updateCalendarWeekLimitDates();
+        writeWeekRangeDates();
 
-                if (currentCellIndexInCalendar > firstDayOfMonthOffset) {
-                    int currentDate = currentCellIndexInCalendar - firstDayOfMonthOffset;
-                    if (currentDate <= maxDaysInMonth) {
-                        addDateTextToStackPane(currentDate, cell.height, weekCellsContainer);
-                        List<CalendarActivity> calendarActivities = calendarActivityMap.get(currentDate);
-                        if (calendarActivities != null) {
-                            createCalendarActivity(calendarActivities, cell.height, cell.width, weekCellsContainer);
-                        }
-                    }
-                    highlightToday(cell, currentDate);
-                }
-                calendar.getChildren().add(weekCellsContainer);
+        writeDatesLabelsOnTop(calendarGrid);
+        drawLinesFromDatesLabel(calendarGrid);
+
+        writeHoursLabelsOnLeft(calendarGrid);
+        drawLinesFromHoursLabel(calendarGrid);
+
+        calendarVBox.getChildren().add(calendarGrid);
+
+        List<Task> weeklyTaskList = getTodoTasksByPeriod(startOfWeek, endOfWeek);
+        for(Task task : weeklyTaskList) {
+            addTaskToCalendar(calendarGrid, task);
+        }
+    }
+
+    private void createColumns(GridPane calendarGrid) {
+        for (int i = 0; i < calendarNumberOfColumns; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPrefWidth(calendarColumnWidth);
+            colConst.setPercentWidth(100.0 / calendarNumberOfColumns); // Set percent width for better alignment
+            calendarGrid.getColumnConstraints().add(colConst);
+        }
+    }
+
+    private void createRows(GridPane calendarGrid) {
+        for (int i = 0; i < calendarNumberOfRows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPrefHeight(calendarRowHeight);
+            calendarGrid.getRowConstraints().add(rowConst);
+        }
+    }
+
+    private void writeDatesLabelsOnTop(GridPane calendarGrid) {
+        for (int day = 0; day < nbDaysInWeek; day++) {
+            LocalDate date = startOfWeek.plusDays(day);
+            Label dayLabel = new Label(date.format(DateTimeFormatter.ofPattern("EEEE d")));
+            dayLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+            centerElement(dayLabel);
+            calendarGrid.add(dayLabel, day + 1, 0);
+        }
+    }
+
+    private void writeHoursLabelsOnLeft(GridPane calendarGrid) {
+        for (int hour = startHourInCalendar; hour <= maxHourInCalendar; hour++) {
+            Label hourLabel = new Label(String.format("%02d:00", hour));
+            hourLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+            centerElement(hourLabel);
+            calendarGrid.add(hourLabel, 0, hour - 5);
+        }
+    }
+
+    private void drawLinesFromDatesLabel(GridPane calendarGrid) {
+        for (int colIndex = 1; colIndex <= nbDaysInWeek + 1; colIndex++) {
+            Line verticalLine = new Line(0, 0, 0, 500);
+            verticalLine.setStyle("-fx-stroke: gray; -fx-stroke-width: 0.5;");
+            calendarGrid.add(verticalLine, colIndex, 1, 1, calendarNumberOfRows - 1);
+        }
+    }
+
+    private void drawLinesFromHoursLabel(GridPane calendarGrid) {
+        double lineWidth = calendarWidth - 52;
+        for (int rowIndex = startHourInCalendar; rowIndex <= maxHourInCalendar; rowIndex++) {
+            Line line = new Line(0, 0, lineWidth, 0);
+            line.setStyle("-fx-stroke: gray; -fx-stroke-width: 0.5;");
+            calendarGrid.add(line, 1, rowIndex - 5, nbDaysInWeek, 1);
+        }
+    }
+
+
+    private void writeWeekRangeDates() {
+        String weekRange = startOfWeek.format(DateTimeFormatter.ofPattern("d MMM yyyy")) + " - " +
+                endOfWeek.format(DateTimeFormatter.ofPattern("d MMM yyyy"));
+        currentWeekLabel.setText(weekRange);
+    }
+
+    private void centerElement(Node node) {
+        GridPane.setHalignment(node, HPos.CENTER);
+        GridPane.setValignment(node, VPos.CENTER);
+    }
+
+    private void addTaskToCalendar(GridPane grid, Task task) {
+        LocalDateTime startDateTime = task.dateDebut.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime endDateTime = task.dateFin.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+
+        int dayOfWeek = startDateTime.getDayOfWeek().getValue();
+        int startHour = startDateTime.getHour();
+        int endHour = endDateTime.getHour();
+
+        int rowSpan = endHour - startHour;
+
+        VBox taskBox = new VBox();
+        taskBox.setStyle("-fx-background-color: " + "#5356FF;" + "-fx-padding: 5px;");
+        taskBox.setAlignment(Pos.CENTER);
+        taskBox.setSpacing(5);
+        taskBox.setPrefWidth(150);
+        taskBox.setMaxHeight(Double.MAX_VALUE);
+
+        Label taskTitleLabel = new Label(task.title);
+        taskTitleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px;" + "-fx-wrap-text: true;" + "-fx-text-alignment: center;");
+        taskTitleLabel.setMaxWidth(Double.MAX_VALUE);
+        taskTitleLabel.setMaxHeight(Double.MAX_VALUE);
+
+        Button seeMoreButton = new Button("Voir plus");
+        seeMoreButton.setStyle("-fx-font-size: 13px; -fx-background-color: #fff; -fx-text-fill: #5356FF;");
+        seeMoreButton.setMaxWidth(Double.MAX_VALUE);
+        seeMoreButton.setOnAction(event -> TaskInfosModal.showTaskDetails(task));
+
+        String checkIconUnicode = "✓";
+        Label doneIcon = new Label(checkIconUnicode);
+        doneIcon.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+
+        doneIcon.setOnMouseClicked(event -> {
+            if(User.isOnline) {
+                RemoteTaskRouter.updateTaskAsDone(task.id);
             }
-        }
-    }
-
-
-    private void updateYearAndMonthLabels() {
-        year.setText(String.valueOf(dateFocus.getYear()));
-        month.setText(String.valueOf(dateFocus.getMonth()));
-    }
-
-    private Map<Integer, List<CalendarActivity>> getCalendarActivitiesForCurrentMonth() {
-        return getCalendarActivitiesMonth(dateFocus);
-    }
-
-    private int getMaxDaysInMonth() {
-        int monthMaxDate = dateFocus.getMonth().maxLength();
-        if (dateFocus.getYear() % 4 != 0 && monthMaxDate == 29) {
-            monthMaxDate = 28;
-        }
-        return monthMaxDate;
-    }
-
-    private int getFirstDayOfMonthOffset() {
-        return ZonedDateTime.of(dateFocus.getYear(), dateFocus.getMonthValue(), 1, 0, 0, 0, 0, dateFocus.getZone())
-                .getDayOfWeek().getValue();
-    }
-
-    private void addDateTextToStackPane(int currentDate, double cellHeight, StackPane stackPane) {
-        Text date = new Text(String.valueOf(currentDate));
-        double textTranslationY = - (cellHeight / 2) * 0.75;
-        date.setTranslateY(textTranslationY);
-        stackPane.getChildren().add(date);
-    }
-
-    private void highlightToday(CalendarCell cell, int currentDate) {
-        if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth() && today.getDayOfMonth() == currentDate) {
-            cell.container.setStroke(Color.BLUE);
-            cell.container.setStrokeWidth(2.);
-        }
-    }
-
-
-
-    private void createCalendarActivity(List<CalendarActivity> calendarActivities, double rectangleHeight, double rectangleWidth, StackPane stackPane) {
-        VBox calendarActivityBox = new VBox();
-        for (int i = 0; i < calendarActivities.size(); i++) {
-            if(i >= 2) {
-                Text moreActivities = new Text("...");
-                calendarActivityBox.getChildren().add(moreActivities);
-                moreActivities.setOnMouseClicked(mouseEvent -> {
-                    //On ... click print all activities for given date
-                    System.out.println(calendarActivities);
-                });
-                break;
+            else {
+                LocalTaskRouter.updateTaskAsDone(task);
             }
-            Text text = new Text(calendarActivities.get(i).clientName + ", " + calendarActivities.get(i).date.toLocalTime());
-            calendarActivityBox.getChildren().add(text);
-            text.setOnMouseClicked(mouseEvent -> {
-                //On Text clicked
-                System.out.println(text.getText());
-            });
-        }
-        calendarActivityBox.setTranslateY((rectangleHeight / 2) * 0.20);
-        calendarActivityBox.setMaxWidth(rectangleWidth * 0.8);
-        calendarActivityBox.setMaxHeight(rectangleHeight * 0.65);
-        calendarActivityBox.setStyle("-fx-background-color:GRAY");
-        stackPane.getChildren().add(calendarActivityBox);
-    }
+            updateCalendar();
+        });
 
-    private Map<Integer, List<CalendarActivity>> createCalendarMap(List<CalendarActivity> calendarActivities) {
-        Map<Integer, List<CalendarActivity>> calendarActivityMap = new HashMap<>();
+        VBox.setVgrow(taskTitleLabel, Priority.ALWAYS);
+        VBox.setVgrow(seeMoreButton, Priority.NEVER);
+        VBox.setVgrow(doneIcon, Priority.NEVER);
 
-        for (CalendarActivity activity: calendarActivities) {
+        taskBox.getChildren().addAll(taskTitleLabel, seeMoreButton, doneIcon);
 
-            int activityDate = activity.date.getDayOfMonth();
+        centerElement(taskBox);
 
-            if(!calendarActivityMap.containsKey(activityDate)) {
-                calendarActivityMap.put(activityDate, List.of(activity));
-            } else {
-                List<CalendarActivity> OldListByDate = calendarActivityMap.get(activityDate);
-                List<CalendarActivity> newList = new ArrayList<>(OldListByDate);
-                newList.add(activity);
-                calendarActivityMap.put(activityDate, newList);
-            }
-        }
-
-        return  calendarActivityMap;
-    }
-
-    private Map<Integer, List<CalendarActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
-        List<CalendarActivity> calendarActivities = new ArrayList<>();
-        int year = dateFocus.getYear();
-        int month = dateFocus.getMonth().getValue();
-
-        Random random = new Random();
-        for (int i = 0; i < 50; i++) {
-            ZonedDateTime time = ZonedDateTime.of(year, month, random.nextInt(27)+1, random.nextInt(23)+1,0,0,0,dateFocus.getZone());
-            calendarActivities.add(new CalendarActivity(time, "Hans", 111111));
-        }
-
-        return createCalendarMap(calendarActivities);
+        grid.add(taskBox, dayOfWeek, startHour - 5, 1, rowSpan);
     }
 }
