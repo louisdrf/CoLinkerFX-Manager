@@ -15,7 +15,6 @@ public class UserPropertiesService {
         loadTokenProperties();
     }
 
-
     public static void cleanProperties() {
         saveToProperties("authToken", "");
         saveToProperties("isOnline", "");
