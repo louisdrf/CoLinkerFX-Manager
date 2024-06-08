@@ -1,6 +1,8 @@
 package com.colinker.controllers;
 
 import com.colinker.models.Task;
+import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.views.TaskInfosModal;
 import javafx.fxml.FXML;
@@ -73,7 +75,12 @@ public class CalendarController implements Initializable {
     }
 
     private List<Task> getTodoTasksByPeriod(LocalDate start, LocalDate end) {
-        return RemoteTaskRouter.getTodoTasksByPeriod(start, end);
+        if(User.isOnline) {
+            return RemoteTaskRouter.getTodoTasksByPeriod(start, end);
+        }
+        else {
+            return LocalTaskRouter.getAssignedTasksByPeriod(User.name, start, end);
+        }
     }
 
     private void updateCalendar() {
@@ -201,7 +208,12 @@ public class CalendarController implements Initializable {
         doneIcon.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
 
         doneIcon.setOnMouseClicked(event -> {
-            RemoteTaskRouter.updateTaskAsDone(task.id);
+            if(User.isOnline) {
+                RemoteTaskRouter.updateTaskAsDone(task.id);
+            }
+            else {
+                LocalTaskRouter.updateTaskAsDone(task);
+            }
             updateCalendar();
         });
 

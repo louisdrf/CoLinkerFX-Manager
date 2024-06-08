@@ -11,16 +11,17 @@ import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.colinker")
 public class App extends Application {
     private static final Dotenv dotenv = Dotenv.load();
     private static final String baseUrl = dotenv.get("ExterneApi_URL");
@@ -42,7 +43,7 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            //LocalDatabase.close();
+            // kill le conteneur
             System.out.println("Database local connexion well closed.");
         });
         stage.show();
@@ -50,7 +51,6 @@ public class App extends Application {
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
-                    addUser();
                     if (User.isOnline) SceneRouter.showLoginPage();
                     else SceneRouter.showTasksListPage();
                 } catch (IOException e) {
@@ -58,62 +58,26 @@ public class App extends Application {
                 }
             });
         }).start();
-        /*SceneRouter.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/colinker/calendar/calendar.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("CoLinker");
-        stage.setScene(scene);
-        stage.show();
-*/
-    }
-
-    private void addUser() {
-        // Récupérer le contrôleur Spring de l'utilisateur et ajouter un utilisateur
-        UserController userController = springContext.getBean(UserController.class);
-        User newUser = new User();
-        newUser.setUsername("ben");
-        newUser.setPassword("benben");
-
-        userController.createUser(newUser);
-        System.out.println("User added successfully");
     }
 
     public static void main(String[] args) throws Exception {
-        //setup database
         try {
-            // Commande Docker pour charger l'image MongoDB à partir du fichier tar.gz
             String loadCommand = "docker load -i /mongo.tar";
             executeCommand(loadCommand);
-
-            // Commande Docker pour démarrer MongoDB
-            String runCommand = "docker run --name my-mongodb -d -p 27017:27017 mongo";
-            executeCommand(runCommand);
-
-            // Attente pour laisser le temps à MongoDB de démarrer
-            Thread.sleep(3500);
-
-            // Commande pour créer la base de données et l'utilisateur
             String initCommand = "docker exec mongo-container mongo admin /docker-entrypoint-initdb.d/entrypoint.js";
             executeCommand(initCommand);
-
-
-            System.out.println("MongoDB initialized successfully.");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
-
 
         String loadCommand = "docker load -i /mongo.tar";
         executeCommand(loadCommand);
 
-        // Setup database using Docker Compose
         String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
         String dockerComposeUpCommand = "docker-compose -f " + pathToDockerCompose + " up -d";
         executeCommand(dockerComposeUpCommand);
 
         launch(args);
-
     }
 
     private void scheduleOnlineCheck() {
@@ -131,9 +95,8 @@ public class App extends Application {
         process.waitFor();
     }
 
-
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         if (springContext != null) {
             springContext.close();
         }

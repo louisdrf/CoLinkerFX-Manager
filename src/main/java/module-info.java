@@ -24,11 +24,11 @@ module com.colinker.colinkerjfx {
     requires org.slf4j;
     requires annotations;
     requires unirest.java;
+    requires spring.web;
 
     // Ouvrir tous les packages nécessaires à Spring
     opens com.colinker.config to spring.core, spring.beans, spring.context;
-    opens com.colinker.controllers to spring.core, javafx.fxml;
-    opens com.colinker.services to spring.core;
+    opens com.colinker.controllers to javafx.fxml;
     opens com.colinker.models to spring.core, javafx.base;
     opens com.colinker to spring.core;
 
@@ -38,4 +38,10 @@ module com.colinker.colinkerjfx {
     exports com.colinker.models;
     exports com.colinker.controllers;
     exports com.colinker.services;
+    exports com.colinker.routing.localrouter.services;
+    opens com.colinker.routing.localrouter.services to spring.core;
+    exports com.colinker.routing.localrouter.repositories;
+    opens com.colinker.routing.localrouter.repositories to spring.core;
+    exports com.colinker.routing.localrouter.controllers;
+    opens com.colinker.routing.localrouter.controllers to spring.core;
 }

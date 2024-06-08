@@ -2,6 +2,7 @@ package com.colinker.views;
 
 import com.colinker.models.Task;
 import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -53,7 +54,12 @@ public class TaskView extends HBox {
         deleteTaskButton.setStyle("-fx-font-size: 13px; -fx-background-color: #C40C0C; -fx-text-fill: white;");
         deleteTaskButton.setOnAction(event -> {
             try {
-                RemoteTaskRouter.deleteTask(taskID);
+                if(User.isOnline) {
+                    RemoteTaskRouter.deleteTask(taskID);
+                }
+                else {
+                    LocalTaskRouter.deleteTask(task);
+                }
                 ((VBox) this.getParent()).getChildren().remove(this);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "com.colinker.repositories")
+@EnableMongoRepositories(basePackages = "com.colinker.routing.localrouter.repositories")
 public class MongoConfiguration {
 
     @Value("${spring.data.mongodb.uri}")
@@ -30,4 +30,5 @@ public class MongoConfiguration {
     MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
         return new MongoTransactionManager(dbFactory);
     }
+
 }

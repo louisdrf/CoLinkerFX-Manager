@@ -4,6 +4,8 @@ import com.colinker.helpers.LocalDataHelper;
 import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalTaskRoomRouter;
+import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.views.DoneTaskView;
@@ -16,7 +18,9 @@ import javafx.scene.layout.*;
 import javafx.geometry.Pos;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -32,7 +36,6 @@ public class TasksListController {
     @FXML
     private Button createdTasksButton;
     private Button currentActiveButton;
-
     @FXML
     private VBox taskListVBox;
 
@@ -59,7 +62,8 @@ public class TasksListController {
     }
 
     private static List<Task> fetchAllCreatedTasks() {
-        return RemoteTaskRouter.getAllCreatedTasks();
+        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
+        else return LocalTaskRouter.getCreatedTasks(User.name);
     }
     public void initialize() {
         setActiveButton(createdTasksButton);
@@ -79,7 +83,8 @@ public class TasksListController {
 
 
     private List<Task> fetchAllAssignedTasks() {
-        return RemoteTaskRouter.getAllAssignedTasks();
+        if(User.isOnline) return RemoteTaskRouter.getAllAssignedTasks();
+        else return LocalTaskRouter.getAssignedTasks(User.name);
     }
     public void showAssignedTasks() {
         setActiveButton(assignedTasksButton);
@@ -95,9 +100,9 @@ public class TasksListController {
     }
 
 
-
     private List<Task> fetchAllAssignedDoneTasks() {
-        return RemoteTaskRouter.getAllAssignedDoneTasks();
+        if(User.isOnline) return RemoteTaskRouter.getAllAssignedDoneTasks();
+        else return LocalTaskRouter.getAssignedTasks(User.name);
     }
     public void showAssignedDoneTasks() {
         setActiveButton(assignedDoneTasksButton);
@@ -154,7 +159,17 @@ public class TasksListController {
         titleField.setPromptText("Nom pour la tâche");
         titleField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-        List<Room> availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
+
+        // fetching rooms
+        List<Room> availableRooms = new ArrayList<>();
+        if(User.isOnline) {
+            availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
+        }
+        else {
+            availableRooms = LocalTaskRoomRouter.getAvailableRooms();
+            System.out.println("available : " + availableRooms);
+        }
+
         AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null);
 
         ComboBox<String> roomComboBox = new ComboBox<>();
@@ -163,9 +178,10 @@ public class TasksListController {
         for (Room room : availableRooms) {
             roomComboBox.getItems().add(room.getName());
         }
+        List<Room> finalAvailableRooms = availableRooms;
         roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, roomName) -> {
             if (roomName != null) {
-                for (Room room : availableRooms) {
+                for (Room room : finalAvailableRooms) {
                     if (room.getName().equals(roomName)) {
                         selectedRoomRef.set(room);
                         break;
@@ -224,8 +240,12 @@ public class TasksListController {
                         tagued_usernames_list,
                         isTaskImportantCheckBox.isSelected()
                 );
-
-                RemoteTaskRouter.createNewTask(createdTask);
+                if(User.isOnline) {
+                    RemoteTaskRouter.createNewTask(createdTask);
+                }
+                else {
+                    LocalTaskRouter.createNewTask(createdTask);
+                }
                 initialize();
             } catch (ParseException e) {
                 showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());

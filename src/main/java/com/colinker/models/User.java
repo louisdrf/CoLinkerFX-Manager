@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "users")
@@ -18,42 +14,41 @@ public class User {
     private String password;
     public static String token;
     static String email;
-    public static String name;
+
+    public static String name = "ldriffort";
     public static boolean isOnline = true;
 
-    public static void setUsernameLocal() {
-        try {
-            File file = new File("username.txt");
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = br.readLine();
-                if (line != null) email = line.trim();
-                br.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static String getToken() {
+        return token;
     }
 
+    public static void setToken(String token) {
+        User.token = token;
+    }
 
-    public static boolean hasDataToImportAsLocal() {
-            Path directory = Paths.get("exported_data");
-            if (!Files.exists(directory) || !Files.isDirectory(directory)) return false;
+    public static String getEmail() {
+        return email;
+    }
 
-            try {
-                DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory);
-                for (Path filePath : directoryStream) {
-                    if (Files.isRegularFile(filePath) && Files.size(filePath) > 0) {
-                        return true;
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+    public static void setEmail(String email) {
+        User.email = email;
+    }
 
-            return false;
-        }
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        User.name = name;
+    }
+
+    public static boolean isIsOnline() {
+        return isOnline;
+    }
+
+    public static void setIsOnline(boolean isOnline) {
+        User.isOnline = isOnline;
+    }
 
     public String getId() {
         return id;
@@ -77,22 +72,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public static String getToken() {
-        return token;
-    }
-
-    public static void setToken(String token) {
-        User.token = token;
-    }
-
-
-    public static boolean isIsOnline() {
-        return isOnline;
-    }
-
-    public static void setIsOnline(boolean isOnline) {
-        User.isOnline = isOnline;
     }
 }

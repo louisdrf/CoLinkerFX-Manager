@@ -1,5 +1,7 @@
 package com.colinker.services;
 
+import com.colinker.database.LocalDatabase;
+import com.colinker.database.RemoteDatabase;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -8,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MongoDataTransferService {
-    String localConnectionString = "mongodb://admin:admin123@localhost:8094/?authSource=admin";
-    String destConnectionString = "mongodb://monUtilisateur:monMotDePasse@localhost:27018/?authSource=admin";
-    String localDbName = "localDatabase";
-    String destDbName = "maBaseDeDonnees";
+    String localConnectionString = LocalDatabase.getConnexionString();
+    String destConnectionString = RemoteDatabase.getConnexionString();
+    String localDbName = LocalDatabase.getDatabaseName();
+    String destDbName = RemoteDatabase.getDatabaseName();
 
     private MongoDatabase connectToDatabase(String connectionString, String dbName) {
         var mongoClient = MongoClients.create(connectionString);
@@ -31,7 +33,7 @@ public class MongoDataTransferService {
                 MongoCollection<Document> destCollection = localDatabase.getCollection(collectionName);
                 destCollection.deleteMany(new Document());
                 destCollection.insertMany(documents);
-            }else {
+            } else {
                 System.out.println("Aucun document à importer pour la collection: " + collectionName);
             }
         }
@@ -49,15 +51,15 @@ public class MongoDataTransferService {
                 MongoCollection<Document> destCollection = destDatabase.getCollection(collectionName);
                 destCollection.deleteMany(new Document());
                 destCollection.insertMany(documents);
-            }else {
+            } else {
                 System.out.println("Aucun document à importer pour la collection: " + collectionName);
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void synchroniseDataInLocal() {
         MongoDataTransferService service = new MongoDataTransferService();
-        List<String> collections = List.of("users","tasks","taskrooms","notes");
+        List<String> collections = List.of("users", "tasks", "taskrooms", "notes");
 
         // Importer des données de la base distante à la base locale
         service.importData(collections);

@@ -1,10 +1,14 @@
-package com.colinker.repositories;
+package com.colinker.routing.localrouter.repositories;
 
 import com.colinker.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    // Vous pouvez ajouter d'autres méthodes de requête personnalisées ici
+    Optional<User> findByUsername(String username);
+    List<User> findByUsernameIn(List<String> usernames);
 }
