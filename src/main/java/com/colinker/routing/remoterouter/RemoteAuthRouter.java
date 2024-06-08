@@ -32,8 +32,8 @@ public class RemoteAuthRouter {
             if (responseBody.has("token") && status == 200) {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);
+                UserPropertiesService.saveToProperties("username",login);
                 User.token = token;
-                saveUsernameToLocal(login);
                 User.name = login;
                 return;
             }
