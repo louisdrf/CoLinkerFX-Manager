@@ -2,8 +2,7 @@ package com.colinker.controllers;
 
 import com.colinker.plugins.Plugin;
 import com.colinker.plugins.PluginLoader;
-
-import com.colinker.routes.PluginRouter;
+import com.colinker.helpers.PluginRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

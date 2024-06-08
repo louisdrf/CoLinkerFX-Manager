@@ -1,4 +1,4 @@
-package com.colinker.routes;
+package com.colinker.helpers;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;

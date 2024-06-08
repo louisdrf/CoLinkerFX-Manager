@@ -24,20 +24,17 @@ public class NoteService {
         return allNotes;
     }
 
-    // TODO: Normalement on donne le pseudo dynamiquement
-    // public static JSONObject createNewObject(String username) {
     public static JSONObject createNewNoteObject(String title) {
         JSONObject noteObject = new JSONObject();
-        noteObject.put("username", "clem");
+        noteObject.put("username", UserPropertiesService.getUsername());
         noteObject.put("content", " ");
         noteObject.put("title", title);
         return noteObject;
     }
 
-    // TODO: Normalement on donne le pseudo dynamiquement
     public static JSONObject formatNoteObject(Note note) {
         JSONObject noteObject = new JSONObject();
-        noteObject.put("username", "clem");
+        noteObject.put("username", UserPropertiesService.getUsername());
         noteObject.put("content", note.content);
         noteObject.put("title", note.title);
         return noteObject;

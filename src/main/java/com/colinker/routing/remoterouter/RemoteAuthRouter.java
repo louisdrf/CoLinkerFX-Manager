@@ -42,7 +42,7 @@ public class RemoteAuthRouter {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
+            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez rÃ©essayer plus tard.");
         }
     }
 

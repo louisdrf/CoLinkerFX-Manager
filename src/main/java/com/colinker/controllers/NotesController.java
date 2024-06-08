@@ -1,7 +1,8 @@
 package com.colinker.controllers;
 
 import com.colinker.models.Note;
-import com.colinker.routes.NoteRouter;
+import com.colinker.routing.remoterouter.RemoteNoteRouter;
+import com.colinker.services.UserPropertiesService;
 import com.colinker.views.NoteView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,8 +29,11 @@ public class NotesController {
     private boolean isModified = false;
 
     private List<Note> fetchAllNotes() {
-        NoteRouter noteRouter = new NoteRouter();
-        return noteRouter.getAllNotes();
+        if (UserPropertiesService.isUserOnline()) {
+            return RemoteNoteRouter.getAllNotes();
+        } else {
+            return List.of();
+        }
     }
 
     public void initialize() {
@@ -75,22 +79,31 @@ public class NotesController {
 
         Optional<String> result = dialog.showAndWait();
 
-        NoteRouter noteRouter = new NoteRouter();
-        result.ifPresent(noteRouter::createNote);
+        if (UserPropertiesService.isUserOnline()) {
+            result.ifPresent(RemoteNoteRouter::createNote);
+        } else {
+         // TODO Local note router
+        }
 
         refreshNotesList();
     }
 
     public void saveNote(ActionEvent actionEvent) {
         this.currentNote.content = this.currentNoteView.getContent();
-        NoteRouter noteRouter = new NoteRouter();
-        noteRouter.saveNote(this.currentNote);
+        if (UserPropertiesService.isUserOnline()) {
+            RemoteNoteRouter.saveNote(this.currentNote);
+        } else {
+            // TODO Local note router
+        }
         this.isModified = false;
     }
 
     public void deleteNote(ActionEvent actionEvent) {
-        NoteRouter noteRouter = new NoteRouter();
-        noteRouter.deleteNote(this.currentNote);
+        if (UserPropertiesService.isUserOnline()) {
+            RemoteNoteRouter.deleteNote(this.currentNote);
+        } else {
+            // TODO Local note router
+        }
         refreshNotesList();
     }
 }
