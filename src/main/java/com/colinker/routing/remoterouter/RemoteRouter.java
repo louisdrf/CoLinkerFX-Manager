@@ -1,4 +1,5 @@
 package com.colinker.routing.remoterouter;
+import io.github.cdimascio.dotenv.Dotenv;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -7,8 +8,13 @@ import java.net.InetAddress;
 
 
 public class RemoteRouter {
-    public static final String baseUrl = "http://localhost:8000";
-    public static boolean pingGoogle() {
+    private static final Dotenv dotenv;
+    public static final String baseUrl;
+
+    static {
+        dotenv = Dotenv.load();
+        baseUrl = dotenv.get("ExterneApi_URL");
+    }    public static boolean pingGoogle() {
         try {
             InetAddress address = InetAddress.getByName("google.com");
             return address.isReachable(5000);

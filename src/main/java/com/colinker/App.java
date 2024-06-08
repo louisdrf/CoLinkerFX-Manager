@@ -1,9 +1,10 @@
 package com.colinker;
 
-import com.colinker.config.RemoteDatabaseConnection;
 import com.colinker.controllers.UserController;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
+import com.colinker.services.StatusConnectionService;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -15,13 +16,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class App extends Application {
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String baseUrl = dotenv.get("ExterneApi_URL");
     private ConfigurableApplicationContext springContext;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
     public void init() throws Exception {
+        scheduleOnlineCheck();
         String[] args = getParameters().getRaw().toArray(new String[0]);
         springContext = new SpringApplicationBuilder(App.class).run(args);
     }
@@ -40,13 +48,6 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-           /*if (!RemoteDatabaseConnection.tryConnection()) {
-                System.out.println("Aucune connexion internet, connexion en local...");
-                User.isOnline = false;
-                User.setUsernameLocal();
-                MongoDBImporter.importInLocalDatabase();
-            }*/
-
             Platform.runLater(() -> {
                 try {
                     addUser();
@@ -113,6 +114,11 @@ public class App extends Application {
 
         launch(args);
 
+    }
+
+    private void scheduleOnlineCheck() {
+        StatusConnectionService service = new StatusConnectionService();
+        scheduler.scheduleAtFixedRate(service::saveOnlineStatus, 0, 1, TimeUnit.MINUTES);
     }
 
     private static void executeCommand(String command) throws Exception {
