@@ -1,6 +1,5 @@
 package com.colinker;
 
-import com.colinker.controllers.UserController;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
 import com.colinker.services.StatusConnectionService;
