@@ -4,6 +4,7 @@ import com.colinker.helpers.SceneRouter;
 import com.colinker.routing.remoterouter.RemoteAuthRouter;
 import com.colinker.services.StatusConnectionService;
 import com.colinker.services.UserPropertiesService;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,21 +25,20 @@ public class LoginController {
     private TextField loginEmailField;
     @FXML
     private TextField loginPasswordField;
-    //@FXML
-    //private Label invalidCredentialsLabel;
     private final StatusConnectionService networkService = new StatusConnectionService();
-
 
     public void redirectColinkerLink() {
         try {
-            Desktop.getDesktop().browse(new URI("https://www.google.com"));
+            Dotenv dotenv = Dotenv.load();
+            String registerPage = dotenv.get("RegisterPageUrl");
+            assert registerPage != null;
+            Desktop.getDesktop().browse(new URI(registerPage));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void login() throws IOException {
-        //this.invalidCredentialsLabel.setOpacity(0.);
         String email = this.loginEmailField.getText();
         String password = this.loginPasswordField.getText();
         if (email.isEmpty() || password.isEmpty()) return;

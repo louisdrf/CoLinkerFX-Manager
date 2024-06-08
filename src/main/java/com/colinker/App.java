@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -76,7 +75,7 @@ public class App extends Application {
         executeCommand(loadCommand);
 
         String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
-        String dockerComposeUpCommand = "docker-compose -f " + pathToDockerCompose + " up -d";
+        String dockerComposeUpCommand = "docker compose -f " + pathToDockerCompose + " up -d";
         executeCommand(dockerComposeUpCommand);
 
         launch(args);
@@ -99,8 +98,14 @@ public class App extends Application {
 
     @Override
     public void stop() {
-        if (springContext != null) {
-            springContext.close();
+        if (springContext != null) springContext.close();
+
+        try {
+            String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
+            String dockerComposeDownCommand = "docker compose -f " + pathToDockerCompose + " down";
+            executeCommand(dockerComposeDownCommand);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'arrêt du conteneur Docker : " + e.getMessage());
         }
     }
 }
