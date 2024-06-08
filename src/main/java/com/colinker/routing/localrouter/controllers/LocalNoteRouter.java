@@ -25,4 +25,15 @@ public class LocalNoteRouter {
             return new ArrayList<>();
         }
     }
+
+    public void createNote(Note note) {
+       noteService.createNote(note);
+    }
+    public static void updateNote(Note note) {
+        noteService.updateNote(note);
+    }
+
+    public static void deleteNote(Note note) {
+       noteService.deleteNote(note);
+    }
 }

@@ -19,4 +19,16 @@ public class NoteService {
     public List<Note> getUserNotes(String username) {
         return noteRepository.findAllByUsername(username);
     }
+
+    public void updateNote(Note note) {
+        noteRepository.save(note);
+    }
+
+    public void deleteNote(Note note) {
+        noteRepository.delete(note);
+    }
+
+    public void createNote(Note note) {
+        noteRepository.save(note);
+    }
 }

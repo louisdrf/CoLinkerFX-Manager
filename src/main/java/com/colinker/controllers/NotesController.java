@@ -20,10 +20,8 @@ public class NotesController {
 
     @FXML
     private Pane notePane;
-
     @FXML
     private VBox noteMenuVBox;
-
     private NoteView currentNoteView;
     private Note currentNote;
 
