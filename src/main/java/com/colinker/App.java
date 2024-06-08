@@ -10,7 +10,11 @@ import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
 
 @SpringBootApplication
 public class App extends Application {
@@ -73,9 +77,54 @@ public class App extends Application {
         System.out.println("User added successfully");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        //setup database
+        try {
+            // Commande Docker pour charger l'image MongoDB à partir du fichier tar.gz
+            String loadCommand = "docker load -i /mongo.tar";
+            executeCommand(loadCommand);
+
+            // Commande Docker pour démarrer MongoDB
+            String runCommand = "docker run --name my-mongodb -d -p 27017:27017 mongo";
+            executeCommand(runCommand);
+
+            // Attente pour laisser le temps à MongoDB de démarrer
+            Thread.sleep(3500);
+
+            // Commande pour créer la base de données et l'utilisateur
+            String initCommand = "docker exec mongo-container mongo admin /docker-entrypoint-initdb.d/entrypoint.js";
+            executeCommand(initCommand);
+
+
+            System.out.println("MongoDB initialized successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+        String loadCommand = "docker load -i /mongo.tar";
+        executeCommand(loadCommand);
+
+        // Setup database using Docker Compose
+        String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
+        String dockerComposeUpCommand = "docker-compose -f " + pathToDockerCompose + " up -d";
+        executeCommand(dockerComposeUpCommand);
+
         launch(args);
+
     }
+
+    private static void executeCommand(String command) throws Exception {
+        Process process = Runtime.getRuntime().exec(command);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        process.waitFor();
+    }
+
 
     @Override
     public void stop() throws Exception {
