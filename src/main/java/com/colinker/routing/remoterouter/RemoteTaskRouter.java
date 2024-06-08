@@ -4,6 +4,7 @@ import com.colinker.helpers.JavaToJsonObject;
 import com.colinker.models.Task;
 import com.colinker.models.User;
 import com.colinker.services.TaskService;
+import com.colinker.services.UserPropertiesService;
 import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -21,21 +22,21 @@ public class RemoteTaskRouter {
 
     public static List<Task> getAllCreatedTasks() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get("/tasks/created/" + User.name);
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/created/" + UserPropertiesService.getUsername());
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }
 
     public static List<Task> getAllAssignedTasks() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name);
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + UserPropertiesService.getUsername());
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }
 
     public static List<Task> getAllAssignedDoneTasks() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name + "?isDone=true");
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + UserPropertiesService.getUsername() + "?isDone=true");
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }
@@ -96,7 +97,7 @@ public class RemoteTaskRouter {
         String endDate = end.format(formatter);
 
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + User.name + "?start=" + startDate + "&end=" + endDate);
+        JsonNode bodyResponse = RemoteRouter.get("/tasks/assigned/" + UserPropertiesService.getUsername() + "?start=" + startDate + "&end=" + endDate);
         jsonArray = bodyResponse.getArray();
         return TaskService.transformArrayIntoList(jsonArray);
     }

@@ -3,6 +3,7 @@ package com.colinker.helpers;
 import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
+import com.colinker.services.UserPropertiesService;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class LocalDataHelper {
         Date taskStartDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
         Date taskEndDate = Date.from(endDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Task taskToCreate = new Task(null, User.name, taskStartDate, taskEndDate, title, false, isImportant);
+        Task taskToCreate = new Task(null, UserPropertiesService.getUsername(), taskStartDate, taskEndDate, title, false, isImportant);
 
         taskToCreate.linkedRoom = selectedRoom;
         taskToCreate.tagued_usernames = tagued_usernames_list;

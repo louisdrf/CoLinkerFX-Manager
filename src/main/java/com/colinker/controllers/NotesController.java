@@ -1,6 +1,7 @@
 package com.colinker.controllers;
 
 import com.colinker.models.Note;
+import com.colinker.routing.localrouter.controllers.LocalNoteRouter;
 import com.colinker.routing.remoterouter.RemoteNoteRouter;
 import com.colinker.services.UserPropertiesService;
 import com.colinker.views.NoteView;
@@ -60,7 +61,7 @@ public class NotesController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                saveNote(null);
+                saveNote();
             }
         }
 
@@ -72,7 +73,7 @@ public class NotesController {
         this.currentNote = note;
     }
 
-    public void newNote(ActionEvent actionEvent) {
+    public void newNote() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Créer une nouvelle note");
         dialog.setContentText("Entrer un nom pour la nouvelle note");
@@ -82,27 +83,27 @@ public class NotesController {
         if (UserPropertiesService.isUserOnline()) {
             result.ifPresent(RemoteNoteRouter::createNote);
         } else {
-         // TODO Local note router
+            result.ifPresent(title -> LocalNoteRouter.createNote(new Note(null, UserPropertiesService.getUsername(), "", title)));
         }
 
         refreshNotesList();
     }
 
-    public void saveNote(ActionEvent actionEvent) {
+    public void saveNote() {
         this.currentNote.content = this.currentNoteView.getContent();
         if (UserPropertiesService.isUserOnline()) {
             RemoteNoteRouter.saveNote(this.currentNote);
         } else {
-            // TODO Local note router
+            LocalNoteRouter.updateNote(this.currentNote);
         }
         this.isModified = false;
     }
 
-    public void deleteNote(ActionEvent actionEvent) {
+    public void deleteNote() {
         if (UserPropertiesService.isUserOnline()) {
             RemoteNoteRouter.deleteNote(this.currentNote);
         } else {
-            // TODO Local note router
+            LocalNoteRouter.deleteNote(this.currentNote);
         }
         refreshNotesList();
     }

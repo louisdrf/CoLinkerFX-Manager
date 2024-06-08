@@ -26,7 +26,7 @@ public class LocalNoteRouter {
         }
     }
 
-    public void createNote(Note note) {
+    public static void createNote(Note note) {
        noteService.createNote(note);
     }
     public static void updateNote(Note note) {

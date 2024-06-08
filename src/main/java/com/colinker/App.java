@@ -3,6 +3,7 @@ package com.colinker;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
 import com.colinker.services.StatusConnectionService;
+import com.colinker.services.UserPropertiesService;
 import io.github.cdimascio.dotenv.Dotenv;
 import com.colinker.plugins.PluginLoader;
 import javafx.application.Application;
@@ -42,8 +43,9 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            // kill le conteneur
             System.out.println("Database local connexion well closed.");
+            killDockerContainer();
+            System.out.println("Docker local database container well closed.");
         });
         stage.show();
 
@@ -51,7 +53,7 @@ public class App extends Application {
             PluginLoader pluginLoader = new PluginLoader();
             Platform.runLater(() -> {
                 try {
-                    if (User.isOnline) SceneRouter.showLoginPage();
+                    if (UserPropertiesService.isUserOnline()) SceneRouter.showLoginPage();
                     else SceneRouter.showTasksListPage();
                     pluginLoader.firePlugins();
                 } catch (IOException e) {
@@ -62,24 +64,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-        try {
-            String loadCommand = "docker load -i /mongo.tar";
-            executeCommand(loadCommand);
-            String initCommand = "docker exec mongo-container mongo admin /docker-entrypoint-initdb.d/entrypoint.js";
-            executeCommand(initCommand);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        String loadCommand = "docker load -i /mongo.tar";
-        executeCommand(loadCommand);
-
-        String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
-        String dockerComposeUpCommand = "docker compose -f " + pathToDockerCompose + " up -d";
-        executeCommand(dockerComposeUpCommand);
-
+        launchDockerContainer();
         launch(args);
     }
+
 
     private void scheduleOnlineCheck() {
         StatusConnectionService service = new StatusConnectionService();
@@ -99,7 +87,9 @@ public class App extends Application {
     @Override
     public void stop() {
         if (springContext != null) springContext.close();
+    }
 
+    private void killDockerContainer() {
         try {
             String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
             String dockerComposeDownCommand = "docker compose -f " + pathToDockerCompose + " down";
@@ -107,5 +97,22 @@ public class App extends Application {
         } catch (Exception e) {
             System.out.println("Erreur lors de l'arrêt du conteneur Docker : " + e.getMessage());
         }
+    }
+
+    private static void launchDockerContainer() throws Exception {
+        try {
+            String loadCommand = "docker load -i /mongo.tar";
+            executeCommand(loadCommand);
+            String initCommand = "docker exec mongo-container mongo admin /docker-entrypoint-initdb.d/entrypoint.js";
+            executeCommand(initCommand);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String loadCommand = "docker load -i /mongo.tar";
+        executeCommand(loadCommand);
+
+        String pathToDockerCompose = Paths.get(System.getProperty("user.dir"), "docker-compose.yml").toString();
+        String dockerComposeUpCommand = "docker compose -f " + pathToDockerCompose + " up -d";
+        executeCommand(dockerComposeUpCommand);
     }
 }

@@ -8,6 +8,7 @@ import com.colinker.routing.localrouter.controllers.LocalTaskRoomRouter;
 import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
+import com.colinker.services.UserPropertiesService;
 import com.colinker.views.DoneTaskView;
 import com.colinker.views.TaskView;
 import com.colinker.views.TodoTaskView;
@@ -62,8 +63,8 @@ public class TasksListController {
     }
 
     private static List<Task> fetchAllCreatedTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllCreatedTasks();
-        else return LocalTaskRouter.getCreatedTasks(User.name);
+        if(UserPropertiesService.isUserOnline()) return RemoteTaskRouter.getAllCreatedTasks();
+        else return LocalTaskRouter.getCreatedTasks(UserPropertiesService.getUsername());
     }
     public void initialize() {
         setActiveButton(createdTasksButton);
@@ -83,8 +84,8 @@ public class TasksListController {
 
 
     private List<Task> fetchAllAssignedTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllAssignedTasks();
-        else return LocalTaskRouter.getAssignedTasks(User.name);
+        if(UserPropertiesService.isUserOnline()) return RemoteTaskRouter.getAllAssignedTasks();
+        else return LocalTaskRouter.getAssignedTasks(UserPropertiesService.getUsername());
     }
     public void showAssignedTasks() {
         setActiveButton(assignedTasksButton);
@@ -101,8 +102,8 @@ public class TasksListController {
 
 
     private List<Task> fetchAllAssignedDoneTasks() {
-        if(User.isOnline) return RemoteTaskRouter.getAllAssignedDoneTasks();
-        else return LocalTaskRouter.getAssignedTasks(User.name);
+        if(UserPropertiesService.isUserOnline()) return RemoteTaskRouter.getAllAssignedDoneTasks();
+        else return LocalTaskRouter.getAssignedTasks(UserPropertiesService.getUsername());
     }
     public void showAssignedDoneTasks() {
         setActiveButton(assignedDoneTasksButton);
@@ -162,7 +163,7 @@ public class TasksListController {
 
         // fetching rooms
         List<Room> availableRooms = new ArrayList<>();
-        if(User.isOnline) {
+        if(UserPropertiesService.isUserOnline()) {
             availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
         }
         else {
@@ -240,7 +241,7 @@ public class TasksListController {
                         tagued_usernames_list,
                         isTaskImportantCheckBox.isSelected()
                 );
-                if(User.isOnline) {
+                if(UserPropertiesService.isUserOnline()) {
                     RemoteTaskRouter.createNewTask(createdTask);
                 }
                 else {
