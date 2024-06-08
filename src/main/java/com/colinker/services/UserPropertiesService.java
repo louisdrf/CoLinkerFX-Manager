@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class UserPropertiesService {
@@ -12,6 +13,13 @@ public class UserPropertiesService {
 
     static {
         loadTokenProperties();
+    }
+
+
+    public static void cleanProperties() {
+        saveToProperties("authToken", "");
+        saveToProperties("isOnline", "");
+        saveToProperties("username", "");
     }
 
     public static void loadTokenProperties() {
@@ -30,7 +38,7 @@ public class UserPropertiesService {
         }
     }
 
-    public static void saveToProperties(String val,String token) {
+    public static void saveToProperties(String val, String token) {
         tokenProperties.setProperty(val, token);
         try (FileOutputStream out = new FileOutputStream(PROPERTIES_FILE_PATH)) {
             tokenProperties.store(out, "User Authentication Token");

@@ -43,9 +43,8 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            System.out.println("Database local connexion well closed.");
             killDockerContainer();
-            System.out.println("Docker local database container well closed.");
+            UserPropertiesService.cleanProperties();
         });
         stage.show();
 

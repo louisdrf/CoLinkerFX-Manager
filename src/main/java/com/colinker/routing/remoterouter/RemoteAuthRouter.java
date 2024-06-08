@@ -33,6 +33,8 @@ public class RemoteAuthRouter {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);
                 UserPropertiesService.saveToProperties("username",login);
+                System.out.println(UserPropertiesService.getFromProperties("username", ""));
+                System.out.println(UserPropertiesService.getFromProperties("isOnline", ""));
                 return;
             }
 
