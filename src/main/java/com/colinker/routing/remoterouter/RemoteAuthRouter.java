@@ -1,7 +1,5 @@
 package com.colinker.routing.remoterouter;
 
-import com.colinker.models.User;
-import com.colinker.services.MongoDataTransferService;
 import com.colinker.views.ApiResponseModal;
 import com.colinker.services.UserPropertiesService;
 import kong.unirest.HttpResponse;
@@ -9,10 +7,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import static com.colinker.services.MongoDataTransferService.synchroniseDataInLocal;
 
@@ -36,7 +30,6 @@ public class RemoteAuthRouter {
                 UserPropertiesService.saveToProperties("authToken",token);
                 UserPropertiesService.saveToProperties("username",login);
 
-                synchroniseDataInLocal();
                 return;
             }
 
@@ -44,7 +37,7 @@ public class RemoteAuthRouter {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez rÃ©essayer plus tard.");
+            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }
 }
