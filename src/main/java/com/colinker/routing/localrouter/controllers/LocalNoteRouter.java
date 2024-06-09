@@ -17,15 +17,14 @@ public class LocalNoteRouter {
         LocalNoteRouter.noteService = noteService;
     }
 
-    public static List<Note> getUserNotes(String username) {
+    public static List<Note> getUserNotes() {
         try {
-            List<Note> notes = noteService.getUserNotes(username);
+            List<Note> notes = noteService.getUserNotes();
             return notes;
         } catch (Exception e) {
             return new ArrayList<>();
         }
     }
-
     public static void createNote(Note note) {
        noteService.createNote(note);
     }

@@ -2,6 +2,7 @@ package com.colinker.routing.localrouter.services;
 
 import com.colinker.models.Note;
 import com.colinker.routing.localrouter.repositories.NoteRepository;
+import com.colinker.services.UserPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public List<Note> getUserNotes(String username) {
-        return noteRepository.findAllByUsername(username);
+    public List<Note> getUserNotes() {
+        return noteRepository.findAllByUsername(UserPropertiesService.getUsername());
     }
 
     public void updateNote(Note note) {

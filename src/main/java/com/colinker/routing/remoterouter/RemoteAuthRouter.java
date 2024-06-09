@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static com.colinker.services.MongoDataTransferService.synchroniseDataInLocal;
+
 public class RemoteAuthRouter {
     public static void login(String login, String password) {
         try {
@@ -33,8 +35,8 @@ public class RemoteAuthRouter {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);
                 UserPropertiesService.saveToProperties("username",login);
-                System.out.println(UserPropertiesService.getFromProperties("username", ""));
-                System.out.println(UserPropertiesService.getFromProperties("isOnline", ""));
+
+                synchroniseDataInLocal();
                 return;
             }
 

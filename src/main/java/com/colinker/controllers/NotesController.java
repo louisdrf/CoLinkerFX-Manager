@@ -33,7 +33,7 @@ public class NotesController {
         if (UserPropertiesService.isUserOnline()) {
             return RemoteNoteRouter.getAllNotes();
         } else {
-            return List.of();
+            return LocalNoteRouter.getUserNotes();
         }
     }
 
@@ -44,6 +44,7 @@ public class NotesController {
     public void refreshNotesList() {
         noteMenuVBox.getChildren().clear();
         List<Note> allNotes = fetchAllNotes();
+        System.out.println(allNotes);
         for (Note note : allNotes) {
             Button noteButton = new Button(note.title);
             noteButton.setPrefWidth(200);
