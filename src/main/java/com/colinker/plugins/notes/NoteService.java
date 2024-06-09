@@ -1,6 +1,6 @@
-package com.colinker.services;
+package com.colinker.plugins.notes;
 
-import com.colinker.models.Note;
+import com.colinker.services.UserPropertiesService;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import java.util.ArrayList;

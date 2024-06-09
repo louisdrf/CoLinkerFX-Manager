@@ -1,6 +1,5 @@
-package com.colinker.views;
+package com.colinker.plugins.notes;
 
-import com.colinker.models.Note;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;

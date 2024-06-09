@@ -1,8 +1,6 @@
-package com.colinker.routing.remoterouter;
+package com.colinker.plugins.notes;
 
-import com.colinker.models.Note;
-import com.colinker.models.User;
-import com.colinker.services.NoteService;
+import com.colinker.routing.remoterouter.RemoteRouter;
 import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;

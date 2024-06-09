@@ -48,12 +48,11 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            PluginLoader pluginLoader = new PluginLoader();
+            PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
                     if (User.isOnline) SceneRouter.showLoginPage();
                     else SceneRouter.showTasksListPage();
-                    pluginLoader.firePlugins();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

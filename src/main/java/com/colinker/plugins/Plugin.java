@@ -1,31 +1,22 @@
 package com.colinker.plugins;
 
+import java.io.File;
 import java.util.List;
-
-class PluginClass {
-    String className;
-    String packageName;
-}
 
 public class Plugin {
     private String name;
-    private boolean installed;
-    private String url;
-    private List<PluginClass> classes;
+    private List<String> files;
 
     public String getName() {
         return this.name;
     }
 
-    public List<PluginClass> getClasses() {
-        return this.classes;
+    public List<String> getFiles() {
+        return this.files;
     }
 
     public boolean isInstalled() {
-        return this.installed;
-    }
-
-    public String getUrl() {
-        return this.url;
+        File outputDir = new File("com/colinker/plugins/" + this.name);
+        return outputDir.exists();
     }
 }

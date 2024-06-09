@@ -1,29 +1,38 @@
 package com.colinker.plugins;
 
-import com.colinker.events.EventBus;
-import com.colinker.events.PluginLoadedEvent;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+class ByteClassLoader extends ClassLoader {
+
+    public ByteClassLoader() {
+        super(ByteClassLoader.class.getClassLoader());
+    }
+    public Class<?> defineByteClass(byte[] bytes, int off, int length) {
+        return super.defineClass(bytes, off, length);
+    }
+}
+
 public class PluginLoader {
-    String pluginsPath = "src/main/java/com/colinker/plugins/";
-
+    private static PluginLoader instance;
     List<Plugin> plugins;
-    List<Plugin> loadedPlugins;
+    ByteClassLoader loader;
 
-    public PluginLoader() {
-        this.loadedPlugins = this.loadPlugins();
+    private PluginLoader() {
+        this.loader = new ByteClassLoader();
     }
 
-    private List<Plugin> loadPlugins() {
+    public static synchronized PluginLoader getInstance() {
+        if (instance == null) {
+            instance = new PluginLoader();
+        }
+        return instance;
+    }
+
+    public List<Plugin> loadPlugins() {
         Config config = loadConfig();
 
         if (config == null) return List.of();
@@ -35,17 +44,11 @@ public class PluginLoader {
 
         for (Plugin plugin : loadedPlugins) {
             if (plugin.isInstalled()) {
-                for (PluginClass pluginClass : plugin.getClasses()) {
-                    File pluginFile = new File(pluginClass.packageName + "/" + pluginClass.className + ".class");
-                    URLClassLoader classLoader = this.createClassLoader(pluginFile);
-
-                    if (classLoader == null) return List.of();
-
-                    try {
-                        Class<?> clazz = classLoader.loadClass(pluginClass.className);
-                    } catch(ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                for (String file : plugin.getFiles()) {
+                    File pluginFile = new File("com/colinker/plugins/" + plugin.getName() + "/" + file);
+                    if (file.contains("Controller")) break;
+                    Class<?> clazz = this.loadClass(pluginFile);
+                    if (clazz == null) return List.of();
                 }
             }
         }
@@ -55,31 +58,19 @@ public class PluginLoader {
 
     private Config loadConfig() {
         Gson gson = new Gson();
+        InputStreamReader isr = new InputStreamReader(PluginLoader.class.getClassLoader().getResourceAsStream("plugins/config.json"));
+        return gson.fromJson(isr, Config.class);
+    }
+
+    public Class<?> loadClass(File pluginFile) {
         try {
-            return gson.fromJson(new FileReader(this.pluginsPath + "config.json"), Config.class);
-        } catch (FileNotFoundException e) {
+            FileInputStream fis = new FileInputStream(pluginFile);
+            byte[] classBytes = fis.readAllBytes();
+            return loader.defineByteClass(classBytes, 0, classBytes.length);
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private URLClassLoader createClassLoader(File jarFile) {
-        try {
-            URL[] urls = new URL[]{jarFile.toURI().toURL()};
-            return new URLClassLoader(urls, getClass().getClassLoader());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void firePlugins() {
-        PluginLoadedEvent pluginLoadedEvent = new PluginLoadedEvent(this.loadedPlugins);
-        EventBus.fireEvent(pluginLoadedEvent);
-    }
-
-    public List<Plugin> getLoadedPlugins() {
-        return this.loadedPlugins;
     }
 
     public List<Plugin> getPlugins() {

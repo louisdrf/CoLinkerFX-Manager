@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    {
+      "name": "notes",
+      "files" : [
+        "Note.class",
+        "NoteView.class",
+        "NoteService.class",
+        "RemoteNoteRouter.class",
+        "NotesController.class"
+      ]
+    }
+  ]
+}

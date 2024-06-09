@@ -1,4 +1,4 @@
-package com.colinker.models;
+package com.colinker.plugins.notes;
 
 public class Note {
     public String id;

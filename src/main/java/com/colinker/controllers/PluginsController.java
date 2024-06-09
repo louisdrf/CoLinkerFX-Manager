@@ -14,9 +14,7 @@ public class PluginsController {
     private VBox pluginsContainer;
 
     public void initialize() {
-        PluginLoader pluginLoader = new PluginLoader();
-
-        for (Plugin plugin : pluginLoader.getPlugins()) {
+        for (Plugin plugin : PluginLoader.getInstance().getPlugins()) {
             String pluginName = plugin.getName();
 
             HBox pluginPane = new HBox();
@@ -36,8 +34,10 @@ public class PluginsController {
     }
 
     private void installPlugin(Plugin plugin) {
-        // String pluginURL = plugin.getUrl();
         PluginRouter pluginRouter = new PluginRouter();
-        pluginRouter.downloadPlugin("text.txt");
+        for (String file : plugin.getFiles()) {
+            pluginRouter.downloadPlugin(plugin.getName(), file);
+        }
+        PluginLoader.getInstance().loadPlugins();
     }
 }
