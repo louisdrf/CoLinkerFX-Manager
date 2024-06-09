@@ -7,15 +7,19 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" fx:controller="com.colinker.controllers.PluginsController" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <fx:include source="../navbar-vue.fxml" />
-        <HBox layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0">
-            <Pane id="pluginPane" fx:id="pluginPane" prefHeight="619.0" prefWidth="874.0" style="-fx-background-color: #EDF5FF;">
-                <VBox fx:id="pluginsContainer" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" />
+        <VBox layoutX="201.0" layoutY="101.0" prefHeight="619.0" prefWidth="1074.0">
+            <Label text="Gestion des plugins">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Pane>
+                <children>
+                    <HBox fx:id="pluginsContainer" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 10;">
+                    </HBox>
+                </children>
             </Pane>
-        </HBox>
-        <Label layoutX="201.0" layoutY="25.0" text="Gestion des plugins">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
+        </VBox>
     </children>
 </Pane>
+

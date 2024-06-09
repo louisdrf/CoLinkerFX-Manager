@@ -49,10 +49,11 @@ public class LoginController {
             //handleOfflineLogin(email, password);
         }
 
-        String token= UserPropertiesService.getToken();
+        String token = UserPropertiesService.getToken();
+        System.out.println(token);
         if(token.isEmpty()) {
-            //return;
-        }else {
+           // return;
+        } else {
             SceneRouter.showTasksListPage();
         }
     }

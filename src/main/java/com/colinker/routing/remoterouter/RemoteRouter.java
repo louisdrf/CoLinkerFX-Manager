@@ -14,13 +14,6 @@ public class RemoteRouter {
     static {
         dotenv = Dotenv.load();
         baseUrl = dotenv.get("ExterneApi_URL");
-    }    public static boolean pingGoogle() {
-        try {
-            InetAddress address = InetAddress.getByName("google.com");
-            return address.isReachable(5000);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public static JsonNode get(String route) {

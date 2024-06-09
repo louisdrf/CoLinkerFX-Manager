@@ -4,9 +4,12 @@
       "name": "notes",
       "files" : [
         "Note.class",
-        "NoteView.class",
+        "NoteRepository.class",
         "NoteService.class",
+        "NoteView.class",
+        "NoteHelper.class",
         "RemoteNoteRouter.class",
+        "LocalNoteRouter.class",
         "NotesController.class"
       ]
     }

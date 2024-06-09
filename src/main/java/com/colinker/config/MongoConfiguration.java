@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "com.colinker.routing.localrouter.repositories")
+@EnableMongoRepositories(basePackages = {"com.colinker.routing.localrouter.repositories", "com.colinker.plugins.*"})
 public class MongoConfiguration {
 
     @Value("${spring.data.mongodb.uri}")

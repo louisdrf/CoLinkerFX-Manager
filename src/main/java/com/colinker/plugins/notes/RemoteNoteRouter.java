@@ -1,6 +1,7 @@
 package com.colinker.plugins.notes;
 
 import com.colinker.routing.remoterouter.RemoteRouter;
+import com.colinker.services.UserPropertiesService;
 import com.colinker.views.ApiResponseModal;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -15,16 +16,16 @@ import static com.colinker.views.ApiResponseModal.showErrorModal;
 public class RemoteNoteRouter {
     public static List<Note> getAllNotes() {
         JSONArray jsonArray = new JSONArray();
-        JsonNode bodyResponse = RemoteRouter.get("/notes/");
+        JsonNode bodyResponse = RemoteRouter.get("/notes/" + UserPropertiesService.getUsername());
         if (bodyResponse.getObject().has("message")) return List.of();
         jsonArray = bodyResponse.getArray();
-        return NoteService.transformArrayIntoList(jsonArray);
+        return NoteHelper.transformArrayIntoList(jsonArray);
     }
 
     public static void createNote(String title) {
         try {
-            JSONObject newNote = NoteService.createNewNoteObject(title);
-            HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/tasks")
+            JSONObject newNote = NoteHelper.createNewNoteObject(title);
+            HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/notes")
                     .header("Content-Type", "application/json")
                     .body(newNote)
                     .asJson();
@@ -39,7 +40,7 @@ public class RemoteNoteRouter {
 
     public static void saveNote(Note note) {
         try {
-            JSONObject formattedNote = NoteService.formatNoteObject(note);
+            JSONObject formattedNote = NoteHelper.formatNoteObject(note);
             HttpResponse<JsonNode> response = Unirest.put(RemoteRouter.baseUrl + "/notes/" + note.id)
                     .header("Content-Type", "application/json")
                     .body(formattedNote)

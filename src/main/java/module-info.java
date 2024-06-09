@@ -47,4 +47,6 @@ module com.colinker.colinkerjfx {
     opens com.colinker.routing.localrouter.repositories to spring.core;
     exports com.colinker.routing.localrouter.controllers;
     opens com.colinker.routing.localrouter.controllers to spring.core;
+    exports com.colinker.plugins.notes;
+    opens com.colinker.plugins.notes to spring.core;
 }

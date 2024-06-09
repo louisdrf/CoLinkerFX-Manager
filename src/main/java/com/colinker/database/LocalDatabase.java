@@ -13,7 +13,6 @@ public class LocalDatabase {
     }
 
     public static String getConnexionString() {
-        System.out.println("mongodb://" + username + ":" + password + "@localhost:" + port + "/" + dbName + "?authSource=admin");
         return "mongodb://" + username + ":" + password + "@localhost:" + port + "/" + dbName + "?authSource=admin";
     }
 }
