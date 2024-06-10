@@ -8,14 +8,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class LocalUserRouter {
 
-    private final UserService userService;
+    private static UserService userService;
 
     @Autowired
     public LocalUserRouter(UserService userService) {
-        this.userService = userService;
+        LocalUserRouter.userService = userService;
     }
 
-    public void createUser(User user) {
+    public static void createUser(User user) {
         userService.createUser(user.getUsername(), user.getPassword());
     }
 }

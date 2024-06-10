@@ -25,6 +25,7 @@ module com.colinker.colinkerjfx {
     requires annotations;
     requires unirest.java;
     requires spring.web;
+    requires spring.security.crypto;
 
     // Ouvrir tous les packages nécessaires à Spring
     opens com.colinker.config to spring.core, spring.beans, spring.context;

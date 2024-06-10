@@ -8,9 +8,19 @@ public class User {
     private String id;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
     static String email;
 
     public static String name;
+
+    public User() {}
+    public User(String username, String password, String lastName, String firstName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
 
     public static String getEmail() {
         return email;
