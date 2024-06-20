@@ -3,7 +3,9 @@ package com.colinker.plugins;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 class ByteClassLoader extends ClassLoader {
@@ -17,6 +19,7 @@ class ByteClassLoader extends ClassLoader {
 }
 
 public class PluginLoader {
+    private final Map<String, Class<?>> loadedClasses = new HashMap<>();
     private static PluginLoader instance;
     List<Plugin> plugins;
     ByteClassLoader loader;
@@ -63,10 +66,16 @@ public class PluginLoader {
     }
 
     public Class<?> loadClass(File pluginFile) {
+        String classPath = pluginFile.getPath();
+        if (loadedClasses.containsKey(classPath)) {
+            return loadedClasses.get(classPath);
+        }
         try {
             FileInputStream fis = new FileInputStream(pluginFile);
             byte[] classBytes = fis.readAllBytes();
-            return loader.defineByteClass(classBytes, 0, classBytes.length);
+            Class<?> loadedClass = loader.defineByteClass(classBytes, 0, classBytes.length);
+            loadedClasses.put(classPath, loadedClass);
+            return loadedClass;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
