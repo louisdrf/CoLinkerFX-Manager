@@ -1,5 +1,6 @@
 package com.colinker.plugins;
 
+import com.colinker.views.ApiResponseModal;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -78,6 +79,7 @@ public class PluginLoader {
             return loadedClass;
         } catch (IOException e) {
             e.printStackTrace();
+            ApiResponseModal.showErrorModal("Vous devez télécharger ce plugin pour l'utiliser.");
             return null;
         }
     }
