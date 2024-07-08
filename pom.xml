@@ -143,6 +143,7 @@
                     <include>**/*.json</include>
                     <include>**/*.properties</include>
                     <include>**/*.fxml</include>
+                    <include>.env</include>
                 </includes>
             </resource>
         </resources>
