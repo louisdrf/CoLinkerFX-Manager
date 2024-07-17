@@ -1,6 +1,7 @@
 package com.colinker.controllers;
 
 import com.colinker.helpers.LocalDataHelper;
+import com.colinker.models.Association;
 import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
@@ -14,15 +15,13 @@ import com.colinker.views.TaskView;
 import com.colinker.views.TodoTaskView;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.geometry.Pos;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -119,8 +118,6 @@ public class TasksListController {
     }
 
 
-
-
     @FXML
     public void showTaskModal() {
         Dialog<Void> dialog = new Dialog<>();
@@ -160,49 +157,73 @@ public class TasksListController {
         titleField.setPromptText("Nom pour la tâche");
         titleField.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-
-        // fetching rooms
-        List<Room> availableRooms = new ArrayList<>();
-        if(UserPropertiesService.isUserOnline()) {
-            availableRooms = RemoteTaskRoomRouter.getAllAvailableRooms();
-        }
-        else {
-            availableRooms = LocalTaskRoomRouter.getAvailableRooms();
-            System.out.println("available : " + availableRooms);
-        }
-
-        AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null);
-
-        ComboBox<String> roomComboBox = new ComboBox<>();
-        roomComboBox.getItems().add(null);
-
-        for (Room room : availableRooms) {
-            roomComboBox.getItems().add(room.getName());
-        }
-        List<Room> finalAvailableRooms = availableRooms;
-        roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, roomName) -> {
-            if (roomName != null) {
-                for (Room room : finalAvailableRooms) {
-                    if (room.getName().equals(roomName)) {
-                        selectedRoomRef.set(room);
-                        break;
-                    }
-                }
-            } else {
-                selectedRoomRef.set(null);
+        // Choix de l'association
+        ComboBox<Association> associationComboBox = new ComboBox<>();
+        associationComboBox.getItems().addAll(User.associations);
+        associationComboBox.setPromptText("Sélectionnez une association");
+        associationComboBox.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Association association, boolean empty) {
+                super.updateItem(association, empty);
+                if (empty || association == null) setText(null);
+                 else setText(association.getName());
             }
         });
-        roomComboBox.setStyle("-fx-font-size: 14px;");
+        associationComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Association association, boolean empty) {
+                super.updateItem(association, empty);
+                if (empty || association == null) setText(null);
+                else setText(association.getName());
+            }
+        });
 
-        TextField tagued_usernames = new TextField();
-        tagued_usernames.setPromptText("Liste des pseudos, séparés par des espaces, ex : jean françois daniel");
-        tagued_usernames.setStyle("-fx-font-size: 14px; -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        // Liste des membres de l'association sélectionnée
+        ListView<CheckBox> membersListView = new ListView<>();
+        membersListView.setPrefHeight(150);
+
+        AtomicReference<Room> selectedRoomRef = new AtomicReference<>(null);
+        // Choix de la salle
+        ComboBox<Room> roomComboBox = new ComboBox<>();
+        roomComboBox.getItems().add(null); // Option vide pour les salles
+        roomComboBox.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Room room, boolean empty) {
+                super.updateItem(room, empty);
+                if (empty || room == null) setText(null);
+                 else setText(room.getName());
+            }
+        });
+        roomComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Room room, boolean empty) {
+                super.updateItem(room, empty);
+                if (empty || room == null) setText(null);
+                else setText(room.getName());
+            }
+        });
+
+        roomComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedRoom) -> {
+            selectedRoomRef.set(selectedRoom);
+        });
+
+        // Mise à jour des membres et des salles selon l'association sélectionnée
+        associationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedAssociation) -> {
+            if (selectedAssociation != null) {
+                updateMembersAndRooms(selectedAssociation, membersListView, roomComboBox);
+            } else {
+                membersListView.getItems().clear();
+                roomComboBox.getItems().clear();
+                roomComboBox.getItems().add(null); // Réajouter l'option vide
+            }
+        });
 
         content.getChildren().addAll(
                 new Label("Date de début"), startDateBox,
                 new Label("Date de fin"), endDateBox,
                 new Label("Titre"), titleField,
-                new Label("Cette tâche sera confiée à"), tagued_usernames,
+                new Label("Association"), associationComboBox,
+                new Label("Cette tâche sera confiée à"), membersListView,
                 new Label("Salles disponibles"), roomComboBox,
                 isTaskImportantCheckBox
         );
@@ -230,24 +251,24 @@ public class TasksListController {
 
                 String title = titleField.getText();
 
-                List<String> tagued_usernames_list = Arrays.stream(tagued_usernames.getText().split(" "))
-                        .collect(Collectors.toList());
+                List<String> taggedUsernamesList = getSelectedUsers(membersListView); // Récupérer les utilisateurs sélectionnés
 
                 Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(
                         startDate, startHour, startMinute,
                         endDate, endHour, endMinute,
                         title,
-                        selectedRoomRef.get(),
-                        tagued_usernames_list,
+                        selectedRoomRef.get(), // Récupérer la salle sélectionnée
+                        taggedUsernamesList, // Récupérer la liste des utilisateurs sélectionnés
                         isTaskImportantCheckBox.isSelected()
                 );
-                if(UserPropertiesService.isUserOnline()) {
+
+                if (UserPropertiesService.isUserOnline()) {
                     RemoteTaskRouter.createNewTask(createdTask);
-                }
-                else {
+                } else {
                     LocalTaskRouter.createNewTask(createdTask);
                 }
-                initialize();
+
+                initialize(); // Réinitialisation de l'interface après la création de la tâche
             } catch (ParseException e) {
                 showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());
             } catch (NumberFormatException e) {
@@ -260,4 +281,28 @@ public class TasksListController {
 
         dialog.showAndWait();
     }
+
+    private void updateMembersAndRooms(Association selectedAssociation, ListView<CheckBox> membersListView, ComboBox<Room> roomComboBox) {
+        membersListView.getItems().clear();
+        for (String member : selectedAssociation.getMembersName()) {
+            CheckBox checkBox = new CheckBox(member);
+            membersListView.getItems().add(checkBox);
+        }
+        roomComboBox.getItems().clear();
+        roomComboBox.getItems().add(null); // Option vide
+        for (Room room : RemoteTaskRoomRouter.getAllAvailableRooms(selectedAssociation.getId())) {
+            roomComboBox.getItems().add(room);
+        }
+    }
+
+    private List<String> getSelectedUsers(ListView<CheckBox> listView) {
+        List<String> selectedUsers = new ArrayList<>();
+        for (CheckBox checkBox : listView.getItems()) {
+            if (checkBox.isSelected()) {
+                selectedUsers.add(checkBox.getText());
+            }
+        }
+        return selectedUsers;
+    }
+
 }

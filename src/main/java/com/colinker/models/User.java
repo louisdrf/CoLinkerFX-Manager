@@ -2,6 +2,9 @@ package com.colinker.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+
 @Document(collection = "users")
 public class User {
     @Id
@@ -13,7 +16,7 @@ public class User {
     static String email;
 
     public static String name;
-
+    public static List<Association> associations;
     public User() {}
     public User(String username, String password, String lastName, String firstName) {
         this.firstName = firstName;

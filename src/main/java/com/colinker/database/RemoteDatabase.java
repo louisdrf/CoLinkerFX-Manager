@@ -11,6 +11,6 @@ public class RemoteDatabase {
 
     public static String getDatabaseName() { return dbName; }
     public static String getConnexionString() {
-        return "mongodb://" + username + ":" + password + "@localhost:" + port + "/" + dbName + "?authSource=admin";
+        return "mongodb://" + username + ":" + password + "@benji0812.fr:" + port + "/" + dbName + "?authSource=admin";
     }
 }

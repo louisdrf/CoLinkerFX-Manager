@@ -47,6 +47,7 @@ public class RemoteTaskRouter {
 
             HttpResponse<JsonNode> response = Unirest.post(RemoteRouter.baseUrl + "/tasks")
                     .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + UserPropertiesService.getToken())
                     .body(jsonTask)
                     .asJson();
 
@@ -62,6 +63,7 @@ public class RemoteTaskRouter {
         try {
             HttpResponse<JsonNode> response = Unirest.delete(RemoteRouter.baseUrl + "/tasks/" + taskID)
                     .header("accept", "application/json")
+                    .header("Authorization", "Bearer " + UserPropertiesService.getToken())
                     .asJson();
 
             ApiResponseModal.handleApiResponse(response);
@@ -80,6 +82,7 @@ public class RemoteTaskRouter {
         try {
             HttpResponse<JsonNode> response = Unirest.put(RemoteRouter.baseUrl + "/tasks/" + taskID)
                     .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + UserPropertiesService.getToken())
                     .body(taskIsDone)
                     .asJson();
 
