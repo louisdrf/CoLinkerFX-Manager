@@ -5,6 +5,8 @@ import com.colinker.routing.localrouter.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Optional;
+
 @Controller
 public class LocalUserRouter {
 
@@ -18,4 +20,6 @@ public class LocalUserRouter {
     public static void createUser(User user) {
         userService.createUser(user.getUsername(), user.getPassword());
     }
+
+    public Optional<User> getUserByName(String username) { return userService.getUserByName(username); }
 }

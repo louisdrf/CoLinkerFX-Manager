@@ -7,9 +7,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
-
-import static com.colinker.services.MongoDataTransferService.synchroniseDataInLocal;
-
 public class RemoteAuthRouter {
     public static void login(String login, String password) {
         try {
@@ -23,13 +20,13 @@ public class RemoteAuthRouter {
                     .asJson();
 
             int status = response.getStatus();
+            System.out.println("reponse status " + status);
             JSONObject responseBody = response.getBody().getObject();
 
             if (responseBody.has("token") && status == 200) {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);
                 UserPropertiesService.saveToProperties("username",login);
-
                 return;
             }
 

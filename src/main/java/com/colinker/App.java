@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication(scanBasePackages = "com.colinker")
 public class App extends Application {
-    private static final Dotenv dotenv = Dotenv.load();
-    private static final String baseUrl = dotenv.get("ExterneApi_URL");
     private ConfigurableApplicationContext springContext;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -53,7 +51,7 @@ public class App extends Application {
             PluginLoader pluginLoader = new PluginLoader();
             Platform.runLater(() -> {
                 try {
-                    LocalUserRouter.createUser(new User("louis", "password","lastname", "firstname"));
+                    //LocalUserRouter.createUser(new User("louis", "password","lastname", "firstname"));
                     SceneRouter.showLoginPage();
                     pluginLoader.firePlugins();
                 } catch (IOException e) {
@@ -73,6 +71,8 @@ public class App extends Application {
         StatusConnectionService service = new StatusConnectionService();
         scheduler.scheduleAtFixedRate(service::saveOnlineStatus, 0, 1, TimeUnit.MINUTES);
     }
+
+    // scheduler pour la synchro des données
 
     private static void executeCommand(String command) throws Exception {
         Process process = Runtime.getRuntime().exec(command);

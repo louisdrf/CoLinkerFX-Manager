@@ -1,14 +1,18 @@
 package com.colinker.controllers;
 
 import com.colinker.helpers.SceneRouter;
+import com.colinker.models.Association;
+import com.colinker.models.Room;
+import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalAuthRouter;
 import com.colinker.routing.remoterouter.RemoteAuthRouter;
-import com.colinker.services.StatusConnectionService;
+import com.colinker.routing.remoterouter.RemoteAssociationRouter;
+import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.services.UserPropertiesService;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -25,7 +29,6 @@ public class LoginController {
     private TextField loginEmailField;
     @FXML
     private TextField loginPasswordField;
-    private final StatusConnectionService networkService = new StatusConnectionService();
 
     public void redirectColinkerLink() {
         try {
@@ -45,16 +48,17 @@ public class LoginController {
 
         if (UserPropertiesService.isUserOnline()) {
             RemoteAuthRouter.login(email, password);
-        } else {
-            //handleOfflineLogin(email, password);
+            String token = UserPropertiesService.getToken();
+            if(!token.isEmpty()) {
+                System.out.println("show tasks page");
+                SceneRouter.showTasksListPage();
+                User.associations = RemoteAssociationRouter.getUserAssociations(email);
+            }
         }
-
-        String token = UserPropertiesService.getToken();
-        System.out.println(token);
-        if(token.isEmpty()) {
-           // return;
-        } else {
-            SceneRouter.showTasksListPage();
+        else {
+            if(LocalAuthRouter.login(email, password)) SceneRouter.showTasksListPage();
         }
     }
+
+
 }

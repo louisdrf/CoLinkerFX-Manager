@@ -71,7 +71,6 @@ public class ApiResponseModal {
         Label label = new Label("Message :");
 
         TextArea textArea = new TextArea(message);
-        System.out.println("reponse succes : "+ message);
         textArea.setEditable(false);
         textArea.setWrapText(true);
 
