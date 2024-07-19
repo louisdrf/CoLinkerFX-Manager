@@ -19,13 +19,18 @@ public class LocalAuthRouter {
     public LocalAuthRouter(UserService userService) { LocalAuthRouter.userService = userService; }
 
     public static boolean login(String username, String password) {
-        UserPropertiesService.saveToProperties("username", username);
-        return true;
-       /*Optional<User> user = userService.getUserByName(username);
+        Optional<User> user = userService.getUserByName(username);
         if(user.isEmpty()) {
             ApiResponseModal.showErrorModal("Identifiants incorrects.");
             return false;
         }
-        return PasswordUtils.matches(password, user.get().getPassword());*/
+        Boolean areCredentialsCorrect = PasswordUtils.matches(password, user.get().getPassword());
+        if(areCredentialsCorrect) {
+            UserPropertiesService.saveToProperties("username", username);
+        }
+        else {
+            ApiResponseModal.showErrorModal("Identifiants incorrects.");
+        }
+        return areCredentialsCorrect;
     }
 }
