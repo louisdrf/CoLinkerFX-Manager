@@ -4,6 +4,7 @@ import com.colinker.helpers.SceneRouter;
 import com.colinker.events.EventBus;
 import com.colinker.events.PluginLoadedEvent;
 import com.colinker.plugins.Plugin;
+import com.colinker.services.UserPropertiesService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -40,5 +41,10 @@ public class NavbarController {
 
     public void showPluginsPage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showPluginsPage();
+    }
+
+    public void logout(MouseEvent mouseEvent) throws IOException {
+        UserPropertiesService.cleanProperties();
+        SceneRouter.showLoginPage();
     }
 }
