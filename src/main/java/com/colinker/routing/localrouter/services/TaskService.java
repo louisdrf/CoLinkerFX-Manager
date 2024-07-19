@@ -6,6 +6,7 @@ import com.colinker.models.User;
 import com.colinker.routing.localrouter.repositories.TaskRepository;
 import com.colinker.routing.localrouter.repositories.TaskRoomRepository;
 import com.colinker.routing.localrouter.repositories.UserRepository;
+import com.colinker.views.ApiResponseModal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,21 +80,34 @@ public class TaskService {
     }
 
     public void updateTaskAsDone(Task task) {
-        task.setIsDone(true);
-        if (task.getLinkedRoom() != null) {
-            Room taskRoom = task.getLinkedRoom();
-            taskRoom.setIsAvailable(true);
-            taskRoomRepository.save(taskRoom);
+        try {
+            task.setIsDone(true);
+            if (task.getLinkedRoom() != null) {
+                Room taskRoom = task.getLinkedRoom();
+                taskRoom.setIsAvailable(true);
+                taskRoomRepository.save(taskRoom);
+            }
+            taskRepository.save(task);
+            ApiResponseModal.showSuccessModal("La tâche a bien été marquée comme terminée.");
         }
-        taskRepository.save(task);
+        catch(Exception e) {
+            ApiResponseModal.showErrorModal("Une erreur est survenue lors de la mise à jour de la tâche : " + e.getMessage());
+        }
+
     }
 
     public void deleteTask(Task task) {
-        taskRepository.deleteById(task.id);
-        if (task.getLinkedRoom() != null) {
-            Room taskRoom = task.getLinkedRoom();
-            taskRoom.setIsAvailable(true);
-            taskRoomRepository.save(taskRoom);
+        try {
+            taskRepository.deleteById(task.id);
+            if (task.getLinkedRoom() != null) {
+                Room taskRoom = task.getLinkedRoom();
+                taskRoom.setIsAvailable(true);
+                taskRoomRepository.save(taskRoom);
+            }
+            ApiResponseModal.showSuccessModal("La tâche a bien été supprimée.");
+        }
+        catch(Exception e) {
+            ApiResponseModal.showErrorModal("Une erreur est survenue lors de la suppression de la tâche : " + e.getMessage());
         }
     }
 
@@ -122,9 +136,10 @@ public class TaskService {
             }
 
             taskRepository.save(createdTask);
+            ApiResponseModal.showSuccessModal("La tâche a bien été créée.");
 
         } catch (Exception e) {
-            System.out.println(("Erreur lors de la création de la tâche: " + e.getMessage()));
+            ApiResponseModal.showErrorModal("Une erreur est survenue lors de la création de la tâche : " + e.getMessage());
         }
     }
 }

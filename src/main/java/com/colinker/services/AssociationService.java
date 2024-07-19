@@ -20,7 +20,6 @@ public class AssociationService {
                     (
                             associationJson.getString("_id"),
                             associationJson.getString("name"),
-                            transformAssociationMembersArrayIntoList(associationJson.getJSONArray("member")),
                             new ArrayList<>()
                     );
 
@@ -36,8 +35,7 @@ public class AssociationService {
 
         for (Object member : associationMembers) {
             JSONObject jsonMember = (JSONObject) member;
-            JSONObject memberLinkedUser = jsonMember.getJSONObject("user");
-            String memberName = memberLinkedUser.getString("username");
+            String memberName = jsonMember.getString("username");
 
             if(Objects.equals(memberName, UserPropertiesService.getUsername())) continue;
 

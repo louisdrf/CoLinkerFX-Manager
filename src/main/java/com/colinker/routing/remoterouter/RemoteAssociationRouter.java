@@ -10,7 +10,6 @@ import java.util.List;
 public class RemoteAssociationRouter {
 
     public static List<Association> getUserAssociations(String username) {
-        System.out.println(username);
         JSONArray jsonArray = new JSONArray();
         JsonNode bodyResponse = RemoteRouter.get("/association/userAssociation/username/" + username);
         jsonArray = bodyResponse.getArray();

@@ -59,7 +59,7 @@ public class MongoDataTransferService {
 
     public static void synchroniseDataInLocal() {
         MongoDataTransferService service = new MongoDataTransferService();
-        List<String> collections = List.of("users", "tasks", "taskrooms", "notes");
+        List<String> collections = List.of("users", "tasks", "taskrooms", "notes", "associations");
 
         // Importer des données de la base distante à la base locale
         service.importData(collections);

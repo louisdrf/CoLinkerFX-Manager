@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class NoteView extends VBox {
     private SimpleStringProperty noteContentProperty;
-    private boolean isModified = false;
+    public boolean isModified = false;
 
     public NoteView(Note note) {
         this.noteContentProperty = new SimpleStringProperty(note.content);

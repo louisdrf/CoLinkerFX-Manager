@@ -17,9 +17,9 @@ public class LocalTaskRoomRouter {
         LocalTaskRoomRouter.taskRoomService = taskRoomService;
     }
 
-    public static List<Room> getAvailableRooms() {
+    public static List<Room> getAvailableRooms(String associationId) {
         try {
-            List<Room> rooms = taskRoomService.getAvailableRooms();
+            List<Room> rooms = taskRoomService.getAvailableRooms(associationId);
             return rooms;
         } catch (Exception e) {
             return new ArrayList<>();

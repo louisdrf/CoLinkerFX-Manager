@@ -4,6 +4,7 @@ import com.colinker.models.Note;
 import com.colinker.routing.localrouter.controllers.LocalNoteRouter;
 import com.colinker.routing.remoterouter.RemoteNoteRouter;
 import com.colinker.services.UserPropertiesService;
+import com.colinker.views.ApiResponseModal;
 import com.colinker.views.NoteView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +45,6 @@ public class NotesController {
     public void refreshNotesList() {
         noteMenuVBox.getChildren().clear();
         List<Note> allNotes = fetchAllNotes();
-        System.out.println(allNotes);
         for (Note note : allNotes) {
             Button noteButton = new Button(note.title);
             noteButton.setPrefWidth(200);
@@ -80,15 +80,21 @@ public class NotesController {
         dialog.setContentText("Entrer un nom pour la nouvelle note");
 
         Optional<String> result = dialog.showAndWait();
-
-        if (UserPropertiesService.isUserOnline()) {
-            result.ifPresent(RemoteNoteRouter::createNote);
-        } else {
-            result.ifPresent(title -> LocalNoteRouter.createNote(new Note(null, UserPropertiesService.getUsername(), "", title)));
+        if (result.isPresent()) {
+            String title = result.get().trim();
+            if (title.isEmpty()) {
+                ApiResponseModal.showErrorModal("Le titre de la tâche ne peut pas être vide.");
+            } else {
+                if (UserPropertiesService.isUserOnline()) {
+                    RemoteNoteRouter.createNote(title);
+                } else {
+                    LocalNoteRouter.createNote(new Note(null, UserPropertiesService.getUsername(), "", title));
+                }
+                refreshNotesList();
+            }
         }
-
-        refreshNotesList();
     }
+
 
     public void saveNote() {
         this.currentNote.content = this.currentNoteView.getContent();
@@ -97,7 +103,7 @@ public class NotesController {
         } else {
             LocalNoteRouter.updateNote(this.currentNote);
         }
-        this.isModified = false;
+        this.currentNoteView.isModified = false;
     }
 
     public void deleteNote() {

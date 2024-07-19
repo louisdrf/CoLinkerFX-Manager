@@ -11,6 +11,7 @@ public class Room {
     String name;
     String address;
     boolean isAvailable;
+    String associationId;
 
     public Room() {}
 
@@ -43,5 +44,21 @@ public class Room {
     }
     public void setIsAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public String getAssociationId() {
+        return associationId;
+    }
+
+    public void setAssociationId(String associationId) {
+        this.associationId = associationId;
     }
 }
