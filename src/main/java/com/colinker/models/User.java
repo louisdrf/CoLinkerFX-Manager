@@ -16,7 +16,6 @@ public class User {
     static String email;
 
     public static String name;
-    public static List<Association> associations;
     public User() {}
     public User(String username, String password, String lastName, String firstName) {
         this.firstName = firstName;

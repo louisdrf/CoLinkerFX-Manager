@@ -21,6 +21,6 @@ public class StatusConnectionService {
     public void saveOnlineStatus() {
         boolean online = isOnline();
         System.out.println("Attempting to save online status: " + online);
-        UserPropertiesService.saveToProperties("isOnline", String.valueOf(online));
+        UserPropertiesService.saveToProperties("isOnline", String.valueOf(false));
     }
 }

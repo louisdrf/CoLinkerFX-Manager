@@ -3,6 +3,7 @@ package com.colinker;
 import com.colinker.helpers.SceneRouter;
 import com.colinker.models.User;
 import com.colinker.routing.localrouter.controllers.LocalUserRouter;
+import com.colinker.services.MongoDataTransferService;
 import com.colinker.services.StatusConnectionService;
 import com.colinker.services.UserPropertiesService;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -51,7 +52,7 @@ public class App extends Application {
             PluginLoader pluginLoader = new PluginLoader();
             Platform.runLater(() -> {
                 try {
-                    //LocalUserRouter.createUser(new User("louis", "password","lastname", "firstname"));
+                    MongoDataTransferService.synchroniseDataInLocal();
                     SceneRouter.showLoginPage();
                     pluginLoader.firePlugins();
                 } catch (IOException e) {
@@ -65,7 +66,6 @@ public class App extends Application {
         launchDockerContainer();
         launch(args);
     }
-
 
     private void scheduleOnlineCheck() {
         StatusConnectionService service = new StatusConnectionService();

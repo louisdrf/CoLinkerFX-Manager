@@ -9,8 +9,10 @@ public class RemoteDatabase {
     static String port = dotenv.get("REMOTE_MONGO_PORT");
     static String dbName = dotenv.get("REMOTE_MONGO_DATABASE");
 
+    static String dbHost = dotenv.get("REMOTE_MONGO_HOST");
+
     public static String getDatabaseName() { return dbName; }
     public static String getConnexionString() {
-        return "mongodb://" + username + ":" + password + "@benji0812.fr:" + port + "/" + dbName + "?authSource=admin";
+        return "mongodb://" + username + ":" + password + "@" + dbHost + ":" + port + "/" + dbName + "?authSource=admin";
     }
 }

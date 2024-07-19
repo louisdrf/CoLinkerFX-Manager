@@ -1,5 +1,6 @@
 package com.colinker.models;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -7,18 +8,18 @@ import java.util.List;
 @Document(collection = "associations")
 public class Association {
 
-    String id;
-    String name;
-    List<String> membersName;
-    List<Room> associationsRooms;
+    @Id
+    private String id;
+
+    private String name;
+    private List<Member> member;
 
     public Association() {}
 
-    public Association(String id, String name, List<String> membersName, List<Room> associationsRooms) {
+    public Association(String id, String name, List<Member> member) {
         this.id = id;
         this.name = name;
-        this.membersName = membersName;
-        this.associationsRooms = associationsRooms;
+        this.member = member;
     }
 
     public String getId() {
@@ -37,19 +38,11 @@ public class Association {
         this.name = name;
     }
 
-    public List<String> getMembersName() {
-        return membersName;
+    public List<Member> getMember() {
+        return member;
     }
 
-    public void setMembersName(List<String> membersName) {
-        this.membersName = membersName;
-    }
-
-    public List<Room> getAssociationsRooms() {
-        return associationsRooms;
-    }
-
-    public void setAssociationsRooms(List<Room> associationsRooms) {
-        this.associationsRooms = associationsRooms;
+    public void setMember(List<Member> member) {
+        this.member = member;
     }
 }

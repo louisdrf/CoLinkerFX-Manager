@@ -50,9 +50,7 @@ public class LoginController {
             RemoteAuthRouter.login(email, password);
             String token = UserPropertiesService.getToken();
             if(!token.isEmpty()) {
-                System.out.println("show tasks page");
                 SceneRouter.showTasksListPage();
-                User.associations = RemoteAssociationRouter.getUserAssociations(email);
             }
         }
         else {

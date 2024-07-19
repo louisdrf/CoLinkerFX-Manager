@@ -5,11 +5,14 @@ import com.colinker.models.Association;
 import com.colinker.models.Room;
 import com.colinker.models.Task;
 import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalAssociationRouter;
 import com.colinker.routing.localrouter.controllers.LocalTaskRoomRouter;
 import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
+import com.colinker.routing.remoterouter.RemoteAssociationRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
 import com.colinker.services.UserPropertiesService;
+import com.colinker.views.ApiResponseModal;
 import com.colinker.views.DoneTaskView;
 import com.colinker.views.TaskView;
 import com.colinker.views.TodoTaskView;
@@ -159,7 +162,14 @@ public class TasksListController {
 
         // Choix de l'association
         ComboBox<Association> associationComboBox = new ComboBox<>();
-        associationComboBox.getItems().addAll(User.associations);
+
+        List<Association> associationList;
+        if(UserPropertiesService.isUserOnline()) {
+            associationList = RemoteAssociationRouter.getUserAssociations(UserPropertiesService.getUsername());
+        }
+        else associationList = LocalAssociationRouter.getUserAssociations(UserPropertiesService.getUsername());
+
+        associationComboBox.getItems().addAll(associationList);
         associationComboBox.setPromptText("Sélectionnez une association");
         associationComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
@@ -253,6 +263,16 @@ public class TasksListController {
 
                 List<String> taggedUsernamesList = getSelectedUsers(membersListView); // Récupérer les utilisateurs sélectionnés
 
+                if(taggedUsernamesList.isEmpty()) {
+                    ApiResponseModal.showErrorModal("Vous devez attribuer cette tâche à au moins une personne.");
+                    return;
+                }
+
+                if(title.isEmpty()) {
+                    ApiResponseModal.showErrorModal("La tâche doit avoir un titre.");
+                    return;
+                }
+
                 Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(
                         startDate, startHour, startMinute,
                         endDate, endHour, endMinute,
@@ -284,13 +304,27 @@ public class TasksListController {
 
     private void updateMembersAndRooms(Association selectedAssociation, ListView<CheckBox> membersListView, ComboBox<Room> roomComboBox) {
         membersListView.getItems().clear();
-        for (String member : selectedAssociation.getMembersName()) {
+
+        List<String> membersName;
+        if(UserPropertiesService.isUserOnline()) {
+            membersName = RemoteAssociationRouter.getAssociationMembersName(selectedAssociation.getId());
+        }
+        else membersName = LocalAssociationRouter.getAssociationMembersName(selectedAssociation.getId());
+
+        for (String member : membersName) {
             CheckBox checkBox = new CheckBox(member);
             membersListView.getItems().add(checkBox);
         }
+
         roomComboBox.getItems().clear();
         roomComboBox.getItems().add(null); // Option vide
-        for (Room room : RemoteTaskRoomRouter.getAllAvailableRooms(selectedAssociation.getId())) {
+        List<Room> availableRooms;
+        if(UserPropertiesService.isUserOnline()) {
+            availableRooms = RemoteTaskRoomRouter.getAvailableRooms(selectedAssociation.getId());
+        }
+        else availableRooms = LocalTaskRoomRouter.getAvailableRooms(selectedAssociation.getId());
+
+        for (Room room : availableRooms) {
             roomComboBox.getItems().add(room);
         }
     }
