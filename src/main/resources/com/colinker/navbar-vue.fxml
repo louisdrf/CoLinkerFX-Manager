@@ -3,63 +3,63 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.VBox?>
 
-<Pane fx:controller="com.colinker.controllers.NavbarController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="192.0" style="-fx-background-color: #E7F3FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <VBox fx:id="navbarVBox" spacing="10">
-      <Pane onMouseClicked="#showCalendarPage" id="navbar-calendar-section" fx:id="navbarCalendarSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="55.0" layoutY="14.0" text="Calendrier">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane onMouseClicked="#showTasksListPage" id="navbar-activities-section" fx:id="navbarActivitiesSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="63.0" layoutY="14.0" text="Activités">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane onMouseClicked="#showNotesPage" id="navbar-notes-section" fx:id="navbarNotesSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="55.0" layoutY="14.0" text="Mes notes">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane onMouseClicked="#showPluginsPage" id="navbar-plugin-section" fx:id="navbarPluginSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="68.0" layoutY="14.0" text="Plugins">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane onMouseClicked="#showUpdatePage" id="navbar-update-section" fx:id="navbarUpdateSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="68.0" layoutY="14.0" text="Mise à jour">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane id="navbar-notes-section" fx:id="navbarNotesSection11" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="44.0" layoutY="14.0" text="Déconnexion">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-   </VBox>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane fx:controller="com.colinker.controllers.NavbarController" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="192.0"
+      style="-fx-background-color: #E7F3FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="55.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@CoLinker-logo.png"/>
+      </image>
+   </ImageView>
+   <Pane onMouseClicked="#showCalendarPage" id="navbar-calendar-section" fx:id="navbarCalendarSection" layoutY="132.0"
+         prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="55.0" layoutY="14.0" text="Calendrier">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
+   <Pane onMouseClicked="#showTasksListPage" id="navbar-activities-section" fx:id="navbarActivitiesSection"
+         layoutY="207.0" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="63.0" layoutY="14.0" text="Activités">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
+   <Pane onMouseClicked="#showNotesPage" id="navbar-notes-section" fx:id="navbarNotesSection" layoutY="281.0"
+         prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="55.0" layoutY="14.0" text="Mes notes">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
+   <Pane onMouseClicked="#showPluginsPage" id="navbar-plugin-section" fx:id="navbarPluginSection" layoutY="348.0"
+         prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="68.0" layoutY="14.0" text="Plugins">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
+   <Pane onMouseClicked="#showUpdatePage" id="navbar-update-section" fx:id="navbarUpdateSection" layoutY="348.0"
+         prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="68.0" layoutY="14.0" text="Mise à jour">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
+   <Pane onMouseClicked="#logout" id="navbar-deconnexion-section" fx:id="navbarDeconnexionSection" layoutY="665.0" prefHeight="55.0" prefWidth="192.0"
+         style="-fx-background-color: #DAEBFF;">
+      <Label layoutX="44.0" layoutY="14.0" text="Déconnexion">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+   </Pane>
 </Pane>
