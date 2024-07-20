@@ -54,7 +54,7 @@ public class SceneRouter {
 
     private static Scene loadScene(String fxmlFilePath) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlFilePath));
-        // TODO gérer le cas où il n'y a pas le fchier
+        // TODO gérer le cas où il n'y a pas le fichier
         return new Scene(loader.load(), 1280, 720);
     }
 }
