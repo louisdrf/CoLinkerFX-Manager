@@ -47,6 +47,7 @@ public class AssociationService {
         }
         List<String> membersName = new ArrayList<>();
         for(Member member : association.getMember()) {
+            if(member.isBlocked()) continue;
             Optional<User> user = userService.getUserById(String.valueOf(member.getUser()));
             if(user.isPresent()) {
                 if(Objects.equals(user.get().getUsername(), UserPropertiesService.getUsername())) continue;

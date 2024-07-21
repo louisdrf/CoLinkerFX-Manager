@@ -10,8 +10,8 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class UpdaterService {
-    private static final String VERSION_URL = "http://benji0812.fr/version.txt";
-    private static final String DOWNLOAD_BASE_URL = "http://benji0812.fr/downloads/Colinker-JFX-";
+    private static final String VERSION_URL = "https://benji0812.fr/version.txt";
+    private static final String DOWNLOAD_BASE_URL = "https://benji0812.fr/downloads/Colinker-JFX-";
 
     public static String fetchLatestVersion() throws Exception {
         URL url = new URL(VERSION_URL);
