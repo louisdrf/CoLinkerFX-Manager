@@ -49,12 +49,14 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            PluginLoader pluginLoader = new PluginLoader();
+            //PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
-                    MongoDataTransferService.synchroniseDataInLocal();
+                    if (UserPropertiesService.isUserOnline()) {
+                        MongoDataTransferService.synchroniseDataInLocal();
+                    }
                     SceneRouter.showLoginPage();
-                    pluginLoader.firePlugins();
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -67,12 +69,11 @@ public class App extends Application {
         launch(args);
     }
 
+
     private void scheduleOnlineCheck() {
         StatusConnectionService service = new StatusConnectionService();
         scheduler.scheduleAtFixedRate(service::saveOnlineStatus, 0, 1, TimeUnit.MINUTES);
     }
-
-    // scheduler pour la synchro des données
 
     private static void executeCommand(String command) throws Exception {
         Process process = Runtime.getRuntime().exec(command);

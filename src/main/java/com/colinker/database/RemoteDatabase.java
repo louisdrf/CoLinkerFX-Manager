@@ -8,7 +8,6 @@ public class RemoteDatabase {
     static String password = dotenv.get("REMOTE_MONGO_PASSWORD");
     static String port = dotenv.get("REMOTE_MONGO_PORT");
     static String dbName = dotenv.get("REMOTE_MONGO_DATABASE");
-
     static String dbHost = dotenv.get("REMOTE_MONGO_HOST");
 
     public static String getDatabaseName() { return dbName; }

@@ -20,7 +20,6 @@ public class RemoteAuthRouter {
                     .asJson();
 
             int status = response.getStatus();
-            System.out.println("reponse status " + status);
             JSONObject responseBody = response.getBody().getObject();
 
             if (responseBody.has("token") && status == 200) {

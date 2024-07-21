@@ -25,10 +25,14 @@ public class StatusConnectionService {
 
     public void saveOnlineStatus() {
         boolean online = isOnline();
-        System.out.println("LOG Attempting to save online status: " + online);
-        System.out.println("current saved state : " + UserPropertiesService.isUserOnline());
+        boolean lastOnlineState = UserPropertiesService.isUserOnline();
+
+        System.out.println("current saved state : " + lastOnlineState);
         System.out.println("current state : " + online);
-        if(!UserPropertiesService.isUserOnline() && online) {
+
+        UserPropertiesService.saveToProperties("isOnline", String.valueOf(online));
+        if(!lastOnlineState && online) {
+            System.out.println("passage au mode en ligne");
             try {
                 SceneRouter.showLoginPage();
                 UserPropertiesService.cleanProperties();
@@ -38,9 +42,9 @@ public class StatusConnectionService {
                 System.out.println("Failed to switch from offline to online. -> " + e.getMessage());
             }
         }
-        else if(UserPropertiesService.isUserOnline() && !online) {
+        else if(lastOnlineState && !online) {
+            System.out.println("passage au mode en hors ligne");
             ApiResponseModal.showInfoModal("Vous êtes maintenant en mode hors-ligne.");
         }
-        UserPropertiesService.saveToProperties("isOnline", String.valueOf(online));
     }
 }

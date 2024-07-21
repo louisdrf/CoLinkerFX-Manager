@@ -1,12 +1,7 @@
-package com.colinker.controllers;
+package com.colinker.plugins.notes;
 
-import com.colinker.models.Note;
-import com.colinker.routing.localrouter.controllers.LocalNoteRouter;
-import com.colinker.routing.remoterouter.RemoteNoteRouter;
-import com.colinker.services.UserPropertiesService;
 import com.colinker.views.ApiResponseModal;
-import com.colinker.views.NoteView;
-import javafx.event.ActionEvent;
+import com.colinker.services.UserPropertiesService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
