@@ -43,8 +43,8 @@ public class PluginLoader {
 
         this.plugins = config.getPlugins();
         List<Plugin> loadedPlugins = this.plugins.stream()
-                                            .filter(Plugin::isInstalled)
-                                            .collect(Collectors.toList());
+                .filter(Plugin::isInstalled)
+                .collect(Collectors.toList());
 
         for (Plugin plugin : loadedPlugins) {
             if (plugin.isInstalled()) {

@@ -20,8 +20,9 @@ public class RemoteAuthRouter {
                     .asJson();
 
             int status = response.getStatus();
+            System.out.println(status);
             JSONObject responseBody = response.getBody().getObject();
-
+            System.out.println(responseBody);
             if (responseBody.has("token") && status == 200) {
                 String token = responseBody.getString("token");
                 UserPropertiesService.saveToProperties("authToken",token);

@@ -18,10 +18,11 @@ public class RemoteRouter {
     }
 
     public static JsonNode get(String route) {
+        System.out.println(baseUrl + route);
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.get(baseUrl + route).header("Authorization", "Bearer " + UserPropertiesService.getToken()).asJson();
             int status = jsonResponse.getStatus();
-            if (status != 200) throw new Exception("Couldn't make the GET request to API");
+            if (status < 200 || status > 400) throw new Exception("Couldn't make the GET request to API");
 
             return jsonResponse.getBody();
 
