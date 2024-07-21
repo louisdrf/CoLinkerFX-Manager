@@ -128,15 +128,15 @@ public class ApiResponseModal {
         content.add(label, 0, 0);
         content.add(textArea, 0, 1);
 
-        alert.getDialogPane().setStyle("-fx-background-color: #F8D7DA;");
+        alert.getDialogPane().setStyle("-fx-background-color: #667BC640;");
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #667BC6;");
-        textArea.setStyle("-fx-control-inner-background: #F8D7DA; -fx-text-fill: #667BC6;");
+        textArea.setStyle("-fx-control-inner-background: #667BC666; -fx-text-fill: #667BC6;");
 
         alert.getDialogPane().setContent(content);
 
         alert.getDialogPane().getButtonTypes().forEach(buttonType -> {
             alert.getDialogPane().lookupButton(buttonType).setStyle(
-                    "-fx-background-color: #F5C6CB; " +
+                    "-fx-background-color: #667BC640; " +
                             "-fx-text-fill: #667BC6; " +
                             "-fx-font-size: 14px; " +
                             "-fx-font-weight: bold;"

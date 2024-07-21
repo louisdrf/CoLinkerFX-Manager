@@ -2,6 +2,7 @@ package com.colinker.services;
 
 import com.colinker.helpers.SceneRouter;
 import com.colinker.views.ApiResponseModal;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -9,8 +10,10 @@ import java.net.URL;
 
 public class StatusConnectionService {
 
+    private boolean lastOnlineState = isOnline();
+
     public static boolean isOnline() {
-        System.out.println("CALL IS ONLINE");
+        System.out.println("TEST PING GOOGLE");
         try {
             URL url = new URL("http://www.google.com");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -24,27 +27,28 @@ public class StatusConnectionService {
     }
 
     public void saveOnlineStatus() {
+        System.out.println("CHECK IS ONLINE");
         boolean online = isOnline();
-        boolean lastOnlineState = UserPropertiesService.isUserOnline();
-
-        System.out.println("current saved state : " + lastOnlineState);
-        System.out.println("current state : " + online);
+        boolean currentOnlineState = UserPropertiesService.isUserOnline();
 
         UserPropertiesService.saveToProperties("isOnline", String.valueOf(online));
-        if(!lastOnlineState && online) {
-            System.out.println("passage au mode en ligne");
-            try {
-                SceneRouter.showLoginPage();
-                UserPropertiesService.cleanProperties();
-                ApiResponseModal.showInfoModal("Connexion internet récupérée. Veuillez vous reconnecter.");
-            }
-            catch(IOException e) {
-                System.out.println("Failed to switch from offline to online. -> " + e.getMessage());
-            }
+
+        if (!lastOnlineState && online) {
+            Platform.runLater(() -> {
+                try {
+                    SceneRouter.showLoginPage();
+                    UserPropertiesService.cleanProperties();
+                    ApiResponseModal.showInfoModal("Connexion internet récupérée. Veuillez vous reconnecter.");
+                } catch (IOException e) {
+                    System.out.println("Failed to switch from offline to online. -> " + e.getMessage());
+                }
+            });
+        } else if (lastOnlineState && !online) {
+            Platform.runLater(() -> {
+                ApiResponseModal.showInfoModal("Vous êtes maintenant en mode hors-ligne.");
+            });
         }
-        else if(lastOnlineState && !online) {
-            System.out.println("passage au mode en hors ligne");
-            ApiResponseModal.showInfoModal("Vous êtes maintenant en mode hors-ligne.");
-        }
+
+        lastOnlineState = online;
     }
 }

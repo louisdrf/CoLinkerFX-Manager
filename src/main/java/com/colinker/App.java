@@ -6,6 +6,7 @@ import com.colinker.routing.localrouter.controllers.LocalUserRouter;
 import com.colinker.services.MongoDataTransferService;
 import com.colinker.services.StatusConnectionService;
 import com.colinker.services.UserPropertiesService;
+import com.colinker.views.ApiResponseModal;
 import io.github.cdimascio.dotenv.Dotenv;
 import com.colinker.plugins.PluginLoader;
 import javafx.application.Application;
@@ -22,6 +23,8 @@ import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static com.colinker.services.StatusConnectionService.isOnline;
 
 @SpringBootApplication(scanBasePackages = "com.colinker")
 public class App extends Application {
@@ -52,11 +55,10 @@ public class App extends Application {
             //PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
-                    if (UserPropertiesService.isUserOnline()) {
+                    if(UserPropertiesService.isUserOnline()) {
                         MongoDataTransferService.synchroniseDataInLocal();
                     }
                     SceneRouter.showLoginPage();
-
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -69,11 +71,21 @@ public class App extends Application {
         launch(args);
     }
 
-
     private void scheduleOnlineCheck() {
+        System.out.println("Initializing scheduler...");
         StatusConnectionService service = new StatusConnectionService();
-        scheduler.scheduleAtFixedRate(service::saveOnlineStatus, 0, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(() -> {
+            System.out.println("Executing saveOnlineStatus");
+            try {
+                service.saveOnlineStatus();
+            } catch (Exception e) {
+                System.out.println("Exception in saveOnlineStatus: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }, 0, 10, TimeUnit.SECONDS); // Intervalle de 10 secondes
     }
+
+
 
     private static void executeCommand(String command) throws Exception {
         Process process = Runtime.getRuntime().exec(command);

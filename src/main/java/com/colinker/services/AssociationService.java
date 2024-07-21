@@ -11,7 +11,6 @@ import java.util.Objects;
 public class AssociationService {
 
     public static List<Association> transformAssociationArrayIntoList(JSONArray associationObjectsArray) {
-        if (associationObjectsArray.isEmpty()) return List.of();
 
         List<Association> allAssociations = new ArrayList<>();
         for (Object obj : associationObjectsArray) {
@@ -29,7 +28,6 @@ public class AssociationService {
     }
 
     public static List<String> transformAssociationMembersArrayIntoList(JSONArray associationMembers) {
-        if (associationMembers.isEmpty()) return List.of();
 
         List<String> associationMembersName = new ArrayList<>();
 

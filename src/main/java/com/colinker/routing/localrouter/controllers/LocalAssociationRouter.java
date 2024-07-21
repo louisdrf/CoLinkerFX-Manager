@@ -20,11 +20,7 @@ public class LocalAssociationRouter {
 
     public static List<Association> getUserAssociations(String username) {
         try {
-            List<Association> associations = associationService.getUserAssociations(username);
-            for(Association a : associations) {
-                System.out.println("asso recup local : " + a.getName());
-            }
-            return associations;
+            return associationService.getUserAssociations(username);
         } catch (Exception e) {
             return new ArrayList<>();
         }
@@ -32,8 +28,7 @@ public class LocalAssociationRouter {
 
     public static List<String> getAssociationMembersName(String associationId) {
         try {
-            List<String> membersName = associationService.getAssociationMembers(associationId);
-            return membersName;
+            return associationService.getAssociationMembers(associationId);
         } catch (Exception e) {
             return new ArrayList<>();
         }
