@@ -1,14 +1,10 @@
 package com.colinker;
 
 import com.colinker.helpers.SceneRouter;
-import com.colinker.models.User;
-import com.colinker.routing.localrouter.controllers.LocalUserRouter;
+import com.colinker.plugins.PluginLoader;
 import com.colinker.services.MongoDataTransferService;
 import com.colinker.services.StatusConnectionService;
 import com.colinker.services.UserPropertiesService;
-import com.colinker.views.ApiResponseModal;
-import io.github.cdimascio.dotenv.Dotenv;
-import com.colinker.plugins.PluginLoader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -23,8 +19,6 @@ import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static com.colinker.services.StatusConnectionService.isOnline;
 
 @SpringBootApplication(scanBasePackages = "com.colinker")
 public class App extends Application {
@@ -46,13 +40,13 @@ public class App extends Application {
         SceneRouter.stage = stage;
         SceneRouter.showLoadingScreen();
         stage.setOnCloseRequest(event -> {
-            killDockerContainer();
+            //killDockerContainer();
             UserPropertiesService.cleanProperties();
         });
         stage.show();
 
         new Thread(() -> {
-            //PluginLoader.getInstance().loadPlugins();
+            PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
                     if(UserPropertiesService.isUserOnline()) {
