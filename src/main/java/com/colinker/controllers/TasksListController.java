@@ -255,25 +255,32 @@ public class TasksListController {
                 Date startDateTime = new FullLocalDate(startDatePicker.getValue(), Integer.parseInt(startHourField.getText()), Integer.parseInt(startMinuteField.getText())).toDate();
                 Date endDateTime = new FullLocalDate(endDatePicker.getValue(), Integer.parseInt(endHourField.getText()), Integer.parseInt(endMinuteField.getText())).toDate();
 
-                System.out.println(startDateTime);
-                System.out.println(endDateTime);
+                if(endDateTime.before(startDateTime)) {
+                    showErrorModal("La date de fin de la tâche ne peut pas être inférieure à la date de début.");
+                    return;
+                }
 
                 String title = titleField.getText();
+                if(title.isEmpty()) {
+                    showErrorModal("La tâche doit avoir un titre.");
+                    return;
+                }
 
                 List<String> taggedUsernamesList = getSelectedUsers(membersListView); // Récupérer les utilisateurs sélectionnés
-
-                if(taggedUsernamesList.isEmpty()) { ApiResponseModal.showErrorModal("Vous devez attribuer cette tâche à au moins une personne."); return; }
-                if(title.isEmpty())               { ApiResponseModal.showErrorModal("La tâche doit avoir un titre."); return; }
+                if(taggedUsernamesList.isEmpty()) {
+                    showErrorModal("Vous devez attribuer cette tâche à au moins une personne.");
+                    return;
+                }
 
                 Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(startDateTime, endDateTime, title, selectedRoomRef.get(), taggedUsernamesList, isTaskImportantCheckBox.isSelected());
 
                 if (UserPropertiesService.isUserOnline()) {
                     RemoteTaskRouter.createNewTask(createdTask);
-                } else {
-                    LocalTaskRouter.createNewTask(createdTask);
                 }
+                else LocalTaskRouter.createNewTask(createdTask);
 
                 initialize();
+
             } catch (ParseException e) {
                 showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());
             } catch (NumberFormatException e) {
