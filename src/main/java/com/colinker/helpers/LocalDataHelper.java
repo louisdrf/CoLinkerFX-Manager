@@ -13,22 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 public class LocalDataHelper {
-    public static Task formatNewTaskFieldsToJavaTask(LocalDate startDate, int startHour, int startMinute,
-                                                     LocalDate endDate, int endHour, int endMinute,
-                                                     String title,
-                                                     Room selectedRoom,
-                                                     List<String> tagued_usernames_list,
-                                                     boolean isImportant) throws ParseException
-    {
-        LocalDateTime startDateTime = LocalDateTime.of(startDate, java.time.LocalTime.of(startHour, startMinute));
-        LocalDateTime endDateTime = LocalDateTime.of(endDate, java.time.LocalTime.of(endHour, endMinute));
+    public static Task formatNewTaskFieldsToJavaTask(Date startDate, Date endDate, String title, Room selectedRoom, List<String> tagued_usernames_list, boolean isImportant) throws ParseException {
 
-        // Convertir LocalDateTime en Date
-        Date taskStartDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-        Date taskEndDate = Date.from(endDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-        Task taskToCreate = new Task(null, UserPropertiesService.getUsername(), taskStartDate, taskEndDate, title, false, isImportant);
-
+        Task taskToCreate = new Task(null, UserPropertiesService.getUsername(), startDate, endDate, title, false, isImportant);
         taskToCreate.linkedRoom = selectedRoom;
         taskToCreate.tagued_usernames = tagued_usernames_list;
 

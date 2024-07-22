@@ -1,5 +1,6 @@
 package com.colinker.controllers;
 
+import com.colinker.helpers.FullLocalDate;
 import com.colinker.helpers.LocalDataHelper;
 import com.colinker.models.Association;
 import com.colinker.models.Room;
@@ -251,36 +252,20 @@ public class TasksListController {
         okButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         okButton.setOnAction(event -> {
             try {
-                LocalDate startDate = startDatePicker.getValue();
-                int startHour = Integer.parseInt(startHourField.getText());
-                int startMinute = Integer.parseInt(startMinuteField.getText());
+                Date startDateTime = new FullLocalDate(startDatePicker.getValue(), Integer.parseInt(startHourField.getText()), Integer.parseInt(startMinuteField.getText())).toDate();
+                Date endDateTime = new FullLocalDate(endDatePicker.getValue(), Integer.parseInt(endHourField.getText()), Integer.parseInt(endMinuteField.getText())).toDate();
 
-                LocalDate endDate = endDatePicker.getValue();
-                int endHour = Integer.parseInt(endHourField.getText());
-                int endMinute = Integer.parseInt(endMinuteField.getText());
+                System.out.println(startDateTime);
+                System.out.println(endDateTime);
 
                 String title = titleField.getText();
 
                 List<String> taggedUsernamesList = getSelectedUsers(membersListView); // Récupérer les utilisateurs sélectionnés
 
-                if(taggedUsernamesList.isEmpty()) {
-                    ApiResponseModal.showErrorModal("Vous devez attribuer cette tâche à au moins une personne.");
-                    return;
-                }
+                if(taggedUsernamesList.isEmpty()) { ApiResponseModal.showErrorModal("Vous devez attribuer cette tâche à au moins une personne."); return; }
+                if(title.isEmpty())               { ApiResponseModal.showErrorModal("La tâche doit avoir un titre."); return; }
 
-                if(title.isEmpty()) {
-                    ApiResponseModal.showErrorModal("La tâche doit avoir un titre.");
-                    return;
-                }
-
-                Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(
-                        startDate, startHour, startMinute,
-                        endDate, endHour, endMinute,
-                        title,
-                        selectedRoomRef.get(), // Récupérer la salle sélectionnée
-                        taggedUsernamesList, // Récupérer la liste des utilisateurs sélectionnés
-                        isTaskImportantCheckBox.isSelected()
-                );
+                Task createdTask = LocalDataHelper.formatNewTaskFieldsToJavaTask(startDateTime, endDateTime, title, selectedRoomRef.get(), taggedUsernamesList, isTaskImportantCheckBox.isSelected());
 
                 if (UserPropertiesService.isUserOnline()) {
                     RemoteTaskRouter.createNewTask(createdTask);
@@ -288,7 +273,7 @@ public class TasksListController {
                     LocalTaskRouter.createNewTask(createdTask);
                 }
 
-                initialize(); // Réinitialisation de l'interface après la création de la tâche
+                initialize();
             } catch (ParseException e) {
                 showErrorModal("Erreur de formatage des données de la tâche : " + e.getMessage());
             } catch (NumberFormatException e) {
