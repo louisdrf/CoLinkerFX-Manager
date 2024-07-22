@@ -36,9 +36,17 @@ public class StatusConnectionService {
         if (!lastOnlineState && online) {
             Platform.runLater(() -> {
                 try {
+                    try {
+                        MongoDataTransferService.saveLocalDataInRemoteDb();
+                        MongoDataTransferService.synchroniseDataInLocal();
+                    }
+                    catch (Exception e) {
+                        ApiResponseModal.showErrorModal("Une erreur est survenue pendant l'enregistrement de vos modifications hors ligne. Détails : " + e.getMessage());
+                    }
                     SceneRouter.showLoginPage();
                     UserPropertiesService.cleanProperties();
                     ApiResponseModal.showInfoModal("Connexion internet récupérée. Veuillez vous reconnecter.");
+
                 } catch (IOException e) {
                     System.out.println("Failed to switch from offline to online. -> " + e.getMessage());
                 }

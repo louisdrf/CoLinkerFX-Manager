@@ -37,7 +37,7 @@ public class RemoteNoteRouter {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
+            ApiResponseModal.showErrorModal("Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
         }
     }
 
@@ -51,17 +51,18 @@ public class RemoteNoteRouter {
 
             ApiResponseModal.handleApiResponse(response);
         } catch (Exception e) {
+            ApiResponseModal.showErrorModal("Une erreur est survenue pendant la création de la note. Détails : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     public static void deleteNote(Note note) {
         try {
-            HttpResponse<JsonNode> response = Unirest.delete(RemoteRouter.baseUrl + "/notes/" + note.id)
-                    .asJson();
-
+            HttpResponse<JsonNode> response = Unirest.delete(RemoteRouter.baseUrl + "/notes/" + note.id).asJson();
             ApiResponseModal.handleApiResponse(response);
+
         } catch (Exception e) {
+            ApiResponseModal.showErrorModal("Une erreur est survenue pendant la suppression de la note. Détails : " + e.getMessage());
             e.printStackTrace();
         }
     }

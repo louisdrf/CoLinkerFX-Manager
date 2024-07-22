@@ -2,7 +2,9 @@ package com.colinker.views;
 
 import com.colinker.models.Task;
 import com.colinker.models.User;
+import com.colinker.routing.localrouter.controllers.LocalTaskRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRouter;
+import com.colinker.services.UserPropertiesService;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -43,7 +45,9 @@ public class TodoTaskView extends HBox {
         doneTaskButton.setStyle("-fx-font-size: 13px; -fx-background-color: #007F73; -fx-text-fill: white;");
         doneTaskButton.setOnAction(event -> {
             try {
-                RemoteTaskRouter.updateTaskAsDone(taskID);
+                if(UserPropertiesService.isUserOnline()) RemoteTaskRouter.updateTaskAsDone(taskID);
+                else LocalTaskRouter.updateTaskAsDone(task);
+
                 ((VBox) this.getParent()).getChildren().remove(this);
             } catch (Exception e) {
                 e.printStackTrace();

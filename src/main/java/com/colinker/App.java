@@ -46,7 +46,7 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            PluginLoader.getInstance().loadPlugins();
+            //PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
                     if(UserPropertiesService.isUserOnline()) {
@@ -72,11 +72,12 @@ public class App extends Application {
             System.out.println("Executing saveOnlineStatus");
             try {
                 service.saveOnlineStatus();
+                System.out.println("STATUS : " + UserPropertiesService.isUserOnline());
             } catch (Exception e) {
                 System.out.println("Exception in saveOnlineStatus: " + e.getMessage());
                 e.printStackTrace();
             }
-        }, 0, 10, TimeUnit.SECONDS); // Intervalle de 10 secondes
+        }, 0, 5, TimeUnit.SECONDS); // Intervalle de 5 secondes
     }
 
 

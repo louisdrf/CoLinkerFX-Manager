@@ -1,5 +1,6 @@
 package com.colinker.helpers;
 
+import com.colinker.views.ApiResponseModal;
 import io.github.cdimascio.dotenv.Dotenv;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -7,16 +8,16 @@ import kong.unirest.Unirest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class PluginRouter {
     private static final Dotenv dotenv = Dotenv.load();
-    private static final String baseUrl = dotenv.get("ExterneApi_URL");
+    private static final String baseUrl = dotenv.get("ExterneApi_Plugins_URL");
     String defaultRoute =  baseUrl + "/plugins";
 
     public void downloadPlugin(String pluginName, String fileName) {
         try {
             HttpResponse<byte[]> response = Unirest.get(this.defaultRoute + "/download/" + pluginName + "/" + fileName).asBytes();
-
             if (response.isSuccess()) {
                 byte[] fileBytes = response.getBody();
                 File outputDir = new File("com/colinker/plugins/" + pluginName);

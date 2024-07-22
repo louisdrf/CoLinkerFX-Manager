@@ -57,6 +57,26 @@ public class MongoDataTransferService {
         }
     }
 
+    public void replaceRemoteCollectionsWithLocalData(List<String> collections) {
+        MongoDatabase localDatabase = connectToDatabase(localConnectionString, localDbName);
+        MongoDatabase destDatabase = connectToDatabase(destConnectionString, destDbName);
+
+        for (String collectionName : collections) {
+            MongoCollection<Document> localCollection = localDatabase.getCollection(collectionName);
+            List<Document> documents = new ArrayList<>();
+            localCollection.find().into(documents);
+
+            MongoCollection<Document> destCollection = destDatabase.getCollection(collectionName);
+            destCollection.deleteMany(new Document()); // Vider la collection distante
+            if (!documents.isEmpty()) {
+                destCollection.insertMany(documents); // Insérer les documents locaux dans la collection distante
+                System.out.println("La collection " + collectionName + " a été synchronisée avec succès.");
+            } else {
+                System.out.println("Aucun document trouvé dans la collection locale : " + collectionName);
+            }
+        }
+    }
+
     public static void synchroniseDataInLocal() {
         MongoDataTransferService service = new MongoDataTransferService();
         List<String> collections = List.of("users", "tasks", "taskrooms", "notes", "associations");
@@ -66,5 +86,12 @@ public class MongoDataTransferService {
 
         // Exporter des données de la base locale à la base distante
         service.exportData(collections);
+    }
+
+    public static void saveLocalDataInRemoteDb() {
+        MongoDataTransferService service = new MongoDataTransferService();
+        List<String> collections = List.of("taskrooms", "tasks", "notes");
+
+        service.replaceRemoteCollectionsWithLocalData(collections);
     }
 }
