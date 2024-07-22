@@ -6,70 +6,101 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
 <Pane fx:controller="com.colinker.controllers.NavbarController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="192.0" style="-fx-background-color: #E7F3FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <VBox fx:id="navbarVBox" spacing="10">
+   <VBox fx:id="navbarVBox" spacing="10" alignment="CENTER">
       <HBox spacing="10" alignment="CENTER" style="-fx-padding: 25 0 25 0;">
-         <Circle fx:id="statusCircle" radius="8" />
+         <Circle fx:id="statusCircle" radius="8" fill="gray"/>
          <Label fx:id="statusLabel" text="Statut inconnu">
             <font>
                <Font size="14.0" />
             </font>
          </Label>
       </HBox>
-      <Pane onMouseClicked="#showCalendarPage" id="navbar-calendar-section" fx:id="navbarCalendarSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="55.0" layoutY="14.0" text="Calendrier">
+
+      <Pane fx:id="navbarCalendarSection" onMouseClicked="#showCalendarPage" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath
+                    fx:id="calendarIcon"
+                    content="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
+                    fill="#615EFC"/>
+            <Label text="Calendrier">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
-      <Pane onMouseClicked="#showTasksListPage" id="navbar-activities-section" fx:id="navbarActivitiesSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="63.0" layoutY="14.0" text="Activités">
+
+      <Pane fx:id="navbarActivitiesSection" onMouseClicked="#showTasksListPage" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath
+                    fx:id="activitiesIcon"
+                    content="M6 4.75A.75.75 0 0 1 6.75 4h10.5a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 4.75ZM6 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 10Zm0 5.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75ZM1.99 4.75a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1v-.01ZM1.99 15.25a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1v-.01ZM1.99 10a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1V10Z"
+                    fill="#615EFC"/>
+            <Label text="Activités">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
-      <Pane onMouseClicked="#showNotesPage" id="navbar-notes-section" fx:id="navbarNotesSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="55.0" layoutY="14.0" text="Mes notes">
+
+      <Pane fx:id="navbarNotesSection" onMouseClicked="#showNotesPage" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath
+                    fx:id="notesIcon"
+                    content="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z"
+                    fill="#615EFC"/>
+            <Label text="Mes notes">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
-      <Pane onMouseClicked="#showPluginsPage" id="navbar-plugin-section" fx:id="navbarPluginSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="68.0" layoutY="14.0" text="Plugins">
+
+      <Pane fx:id="navbarPluginSection" onMouseClicked="#showPluginsPage" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath
+                    fx:id="pluginIcon"
+                    content="M2 4.25A2.25 2.25 0 0 1 4.25 2h2.5A2.25 2.25 0 0 1 9 4.25v2.5A2.25 2.25 0 0 1 6.75 9h-2.5A2.25 2.25 0 0 1 2 6.75v-2.5ZM2 13.25A2.25 2.25 0 0 1 4.25 11h2.5A2.25 2.25 0 0 1 9 13.25v2.5A2.25 2.25 0 0 1 6.75 18h-2.5A2.25 2.25 0 0 1 2 15.75v-2.5ZM11 4.25A2.25 2.25 0 0 1 13.25 2h2.5A2.25 2.25 0 0 1 18 4.25v2.5A2.25 2.25 0 0 1 15.75 9h-2.5A2.25 2.25 0 0 1 11 6.75v-2.5ZM15.25 11.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z"
+                    fill="#615EFC"/>
+            <Label text="Plugins">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
-      <Pane onMouseClicked="#showUpdatePage" id="navbar-update-section" fx:id="navbarUpdateSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="68.0" layoutY="14.0" text="Mise à jour">
+
+      <Pane fx:id="navbarUpdateSection" onMouseClicked="#showUpdatePage" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath fx:id="updateIcon"
+                     content="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z"
+                     fill="#615EFC"/>
+            <Label text="Mises à jour">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
-      <Pane onMouseClicked="#logout" id="navbar-logout-section" fx:id="navbarLogoutSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
-         <children>
-            <Label layoutX="44.0" layoutY="14.0" text="Déconnexion">
+
+      <Pane fx:id="navbarLogoutSection" onMouseClicked="#logout" onMouseEntered="#onMouseEnter" onMouseExited="#onMouseExit" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
+         <HBox alignment="CENTER_LEFT" spacing="18" prefHeight="55.0" prefWidth="192.0" style="-fx-padding: 0 20;" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <SVGPath
+                    fx:id="logoutIcon"
+                    content="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z M19 10a.75.75 0 0 0-.75-.75H8.704l1.048-.943a.75.75 0 1 0-1.004-1.114l-2.5 2.25a.75.75 0 0 0 0 1.114l2.5 2.25a.75.75 0 1 0 1.004-1.114l-1.048-.943h9.546A.75.75 0 0 0 19 10Z"
+                    fill="#615EFC"
+            />
+            <Label text="Déconnexion">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-         </children>
+         </HBox>
       </Pane>
    </VBox>
 </Pane>
