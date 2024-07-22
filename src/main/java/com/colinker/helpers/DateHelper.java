@@ -19,8 +19,12 @@ public class DateHelper {
         return isoFormat.format(date);
     }
 
-    public static boolean areTaskDatesValid(FullLocalDate startDateTime, FullLocalDate endDateTime) {
-        return true;
+    public static boolean isValidHour(int hour) {
+        return hour >= 0 && hour <= 23;
+    }
+
+    public static boolean areValidMinutes(int minutes) {
+        return minutes >= 0 && minutes <= 59;
     }
 
 }

@@ -66,15 +66,15 @@ public class App extends Application {
     }
 
     private void scheduleOnlineCheck() {
-        System.out.println("Initializing scheduler...");
+        //System.out.println("Initializing scheduler...");
         StatusConnectionService service = new StatusConnectionService();
         scheduler.scheduleAtFixedRate(() -> {
-            System.out.println("Executing saveOnlineStatus");
+            //System.out.println("Executing saveOnlineStatus");
             try {
                 service.saveOnlineStatus();
-                System.out.println("STATUS : " + UserPropertiesService.isUserOnline());
+                //System.out.println("STATUS : " + UserPropertiesService.isUserOnline());
             } catch (Exception e) {
-                System.out.println("Exception in saveOnlineStatus: " + e.getMessage());
+                //System.out.println("Exception in saveOnlineStatus: " + e.getMessage());
                 e.printStackTrace();
             }
         }, 0, 5, TimeUnit.SECONDS); // Intervalle de 5 secondes

@@ -1,5 +1,6 @@
 package com.colinker.controllers;
 
+import com.colinker.helpers.DateHelper;
 import com.colinker.helpers.FullLocalDate;
 import com.colinker.helpers.LocalDataHelper;
 import com.colinker.models.Association;
@@ -252,8 +253,23 @@ public class TasksListController {
         okButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         okButton.setOnAction(event -> {
             try {
-                Date startDateTime = new FullLocalDate(startDatePicker.getValue(), Integer.parseInt(startHourField.getText()), Integer.parseInt(startMinuteField.getText())).toDate();
-                Date endDateTime = new FullLocalDate(endDatePicker.getValue(), Integer.parseInt(endHourField.getText()), Integer.parseInt(endMinuteField.getText())).toDate();
+                // check valid hours
+                int startHour = Integer.parseInt(startHourField.getText());
+                int endHour = Integer.parseInt(endHourField.getText());
+                if(!DateHelper.isValidHour(startHour) || !DateHelper.isValidHour(endHour)) {
+                    showErrorModal("L'heure de début et de fin doivent être comprises entre 0 et 23 inclus.");
+                    return;
+                }
+                // check valid minutes
+                int startMinutes = Integer.parseInt(startMinuteField.getText());
+                int endMinutes = Integer.parseInt(endMinuteField.getText());
+                if(!DateHelper.areValidMinutes(startMinutes) || !DateHelper.areValidMinutes(endMinutes)) {
+                    showErrorModal("Les minutes doivent être comprises entre 0 et 59 inclus.");
+                    return;
+                }
+
+                Date startDateTime = new FullLocalDate(startDatePicker.getValue(), startHour, startMinutes).toDate();
+                Date endDateTime = new FullLocalDate(endDatePicker.getValue(), endHour, endMinutes).toDate();
 
                 if(endDateTime.before(startDateTime)) {
                     showErrorModal("La date de fin de la tâche ne peut pas être inférieure à la date de début.");
