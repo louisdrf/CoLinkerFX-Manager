@@ -13,7 +13,6 @@ public class StatusConnectionService {
     private boolean lastOnlineState = isOnline();
 
     public static boolean isOnline() {
-        System.out.println("TEST PING GOOGLE");
         try {
             URL url = new URL("http://www.google.com");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -27,33 +26,26 @@ public class StatusConnectionService {
     }
 
     public void saveOnlineStatus() {
-        System.out.println("CHECK IS ONLINE");
         boolean online = isOnline();
-        boolean currentOnlineState = UserPropertiesService.isUserOnline();
 
         UserPropertiesService.saveToProperties("isOnline", String.valueOf(online));
+        UserOnlineStatusObservableService.setUserOnline(online);
 
         if (!lastOnlineState && online) {
             Platform.runLater(() -> {
-                try {
                     try {
                         MongoDataTransferService.saveLocalDataInRemoteDb();
                         MongoDataTransferService.synchroniseDataInLocal();
                     }
                     catch (Exception e) {
-                        ApiResponseModal.showErrorModal("Une erreur est survenue pendant l'enregistrement de vos modifications hors ligne. Détails : " + e.getMessage());
+                        ApiResponseModal.showErrorModal("Une erreur est survenue pendant l'enregistrement de vos modifications hors-ligne. Détails : " + e.getMessage());
                     }
-                    SceneRouter.showLoginPage();
-                    UserPropertiesService.cleanProperties();
-                    ApiResponseModal.showInfoModal("Connexion internet récupérée. Veuillez vous reconnecter.");
 
-                } catch (IOException e) {
-                    System.out.println("Failed to switch from offline to online. -> " + e.getMessage());
-                }
+                    ApiResponseModal.showInfoModal("Connexion internet rétablie.");
             });
         } else if (lastOnlineState && !online) {
             Platform.runLater(() -> {
-                ApiResponseModal.showInfoModal("Vous êtes maintenant en mode hors-ligne.");
+                ApiResponseModal.showInfoModal("Vous êtes désormais en mode hors-ligne.");
             });
         }
 

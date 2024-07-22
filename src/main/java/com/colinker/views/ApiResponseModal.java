@@ -130,7 +130,7 @@ public class ApiResponseModal {
 
         alert.getDialogPane().setStyle("-fx-background-color: #667BC640;");
         label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #667BC6;");
-        textArea.setStyle("-fx-control-inner-background: #667BC666; -fx-text-fill: #667BC6;");
+        textArea.setStyle("-fx-control-inner-background: #4B70F51A; -fx-text-fill: #667BC6;");
 
         alert.getDialogPane().setContent(content);
 

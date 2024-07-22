@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.VBox?>
 
 <Pane fx:controller="com.colinker.controllers.NavbarController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="192.0" style="-fx-background-color: #E7F3FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <VBox fx:id="navbarVBox" spacing="10">
+      <HBox spacing="10" alignment="CENTER" style="-fx-padding: 25 0 25 0;">
+         <Circle fx:id="statusCircle" radius="8" />
+         <Label fx:id="statusLabel" text="Statut inconnu">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+      </HBox>
       <Pane onMouseClicked="#showCalendarPage" id="navbar-calendar-section" fx:id="navbarCalendarSection" prefHeight="55.0" prefWidth="192.0" style="-fx-background-color: #DAEBFF;">
          <children>
             <Label layoutX="55.0" layoutY="14.0" text="Calendrier">
