@@ -46,7 +46,7 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
-            //PluginLoader.getInstance().loadPlugins();
+            PluginLoader.getInstance().loadPlugins();
             Platform.runLater(() -> {
                 try {
                     if(UserPropertiesService.isUserOnline()) {

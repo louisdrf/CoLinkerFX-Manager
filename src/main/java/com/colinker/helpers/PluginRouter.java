@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class PluginRouter {
     private static final Dotenv dotenv = Dotenv.load();
-    private static final String baseUrl = dotenv.get("ExterneApi_Plugins_URL");
+    private static final String baseUrl = dotenv.get("ExterneApi_URL");
     String defaultRoute =  baseUrl + "/plugins";
 
     public void downloadPlugin(String pluginName, String fileName) {

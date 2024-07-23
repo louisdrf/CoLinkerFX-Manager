@@ -33,6 +33,10 @@ public class AssociationService {
 
         for (Object member : associationMembers) {
             JSONObject jsonMember = (JSONObject) member;
+
+            Boolean isMemberBlocked = Boolean.valueOf(jsonMember.getString("isBlocked"));
+            if(isMemberBlocked) continue;
+
             String memberName = jsonMember.getString("username");
 
             if(Objects.equals(memberName, UserPropertiesService.getUsername())) continue;

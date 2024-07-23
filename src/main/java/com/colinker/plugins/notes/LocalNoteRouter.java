@@ -11,7 +11,8 @@ public class LocalNoteRouter {
 
    @Autowired
     public LocalNoteRouter(NoteService noteService) {
-        LocalNoteRouter.noteService = noteService;
+       LocalNoteRouter.noteService = noteService;
+       System.out.println(LocalNoteRouter.noteService);
     }
 
     public static List<Note> getUserNotes() {
@@ -28,7 +29,6 @@ public class LocalNoteRouter {
     public static void updateNote(Note note) {
         noteService.updateNote(note);
     }
-
     public static void deleteNote(Note note) {
        noteService.deleteNote(note);
     }

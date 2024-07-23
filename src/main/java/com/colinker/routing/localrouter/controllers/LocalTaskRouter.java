@@ -37,6 +37,15 @@ public class LocalTaskRouter {
         }
     }
 
+    public static List<Task> getAssignedDoneTasks(String username) {
+        try {
+            List<Task> tasks = taskService.getAssignedDoneTasks(username);
+            return tasks;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
     public static List<Task> getCreatedTasks(String username) {
         try {
             List<Task> tasks = taskService.getCreatedTasks(username);

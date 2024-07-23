@@ -34,7 +34,7 @@ public class TaskService {
             throw new Exception("Utilisateur non trouvé.");
         }
 
-        List<Task> tasks = taskRepository.findCreatedTasks(username);
+        List<Task> tasks = taskRepository.findAssignedTasksByPeriod(username, start, end);
         for (Task task : tasks) {
             if (task.getTaskRoom() != null) {
                 Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
@@ -42,7 +42,7 @@ public class TaskService {
             }
         }
 
-        return taskRepository.findAssignedTasksByPeriod(username, start, end);
+        return tasks;
     }
 
     public List<Task> getAssignedTasks(String username) throws Exception {
@@ -51,7 +51,7 @@ public class TaskService {
             throw new Exception("Utilisateur non trouvé.");
         }
 
-        List<Task> tasks = taskRepository.findCreatedTasks(username);
+        List<Task> tasks = taskRepository.findAssignedTasks(username);
         for (Task task : tasks) {
             if (task.getTaskRoom() != null) {
                 Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
@@ -59,7 +59,24 @@ public class TaskService {
             }
         }
 
-        return taskRepository.findAssignedTasks(username);
+        return tasks;
+    }
+
+    public List<Task> getAssignedDoneTasks(String username) throws Exception {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            throw new Exception("Utilisateur non trouvé.");
+        }
+
+        List<Task> tasks = taskRepository.findDoneTasks(username);
+        for (Task task : tasks) {
+            if (task.getTaskRoom() != null) {
+                Optional<Room> room = taskRoomRepository.findById(task.getTaskRoom());
+                room.ifPresent(task::setLinkedRoom);
+            }
+        }
+
+        return tasks;
     }
 
     public List<Task> getCreatedTasks(String username) throws Exception {
@@ -76,7 +93,7 @@ public class TaskService {
             }
         }
 
-        return taskRepository.findCreatedTasks(username);
+        return tasks;
     }
 
     public void updateTaskAsDone(Task task) {
@@ -93,7 +110,6 @@ public class TaskService {
         catch(Exception e) {
             ApiResponseModal.showErrorModal("Une erreur est survenue lors de la mise à jour de la tâche : " + e.getMessage());
         }
-
     }
 
     public void deleteTask(Task task) {

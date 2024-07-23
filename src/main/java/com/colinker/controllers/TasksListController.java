@@ -104,10 +104,9 @@ public class TasksListController {
         }
     }
 
-
     private List<Task> fetchAllAssignedDoneTasks() {
         if(UserPropertiesService.isUserOnline()) return RemoteTaskRouter.getAllAssignedDoneTasks();
-        else return LocalTaskRouter.getAssignedTasks(UserPropertiesService.getUsername());
+        else return LocalTaskRouter.getAssignedDoneTasks(UserPropertiesService.getUsername());
     }
     public void showAssignedDoneTasks() {
         setActiveButton(assignedDoneTasksButton);

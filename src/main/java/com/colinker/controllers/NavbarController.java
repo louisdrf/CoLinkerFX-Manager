@@ -94,15 +94,11 @@ public class NavbarController {
     }
 
     public void showNotesPage(MouseEvent mouseEvent) {
-        try {
-            SceneRouter.showNotesPage();
-        } catch (Exception ignored) {}
+        SceneRouter.showNotesPage();
     }
 
-    public void showPluginsPage(MouseEvent mouseEvent) {
-        try {
-            SceneRouter.showPluginsPage();
-        } catch (Exception ignored) {}
+    public void showPluginsPage(MouseEvent mouseEvent) throws IOException {
+        SceneRouter.showPluginsPage();
     }
 
     public void logout(MouseEvent mouseEvent) throws IOException {
