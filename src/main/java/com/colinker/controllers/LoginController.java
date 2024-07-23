@@ -9,6 +9,7 @@ import com.colinker.routing.remoterouter.RemoteAuthRouter;
 import com.colinker.routing.remoterouter.RemoteAssociationRouter;
 import com.colinker.routing.remoterouter.RemoteTaskRoomRouter;
 import com.colinker.services.UserPropertiesService;
+import com.colinker.views.ApiResponseModal;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -35,11 +36,19 @@ public class LoginController {
             Dotenv dotenv = Dotenv.load();
             String registerPage = dotenv.get("RegisterPageUrl");
             assert registerPage != null;
-            Desktop.getDesktop().browse(new URI(registerPage));
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(registerPage));
+            }
+            else {
+                ApiResponseModal.showErrorModal("Une erreur est survenue lors de la redirection vers le lien.");
+            }
         } catch (Exception e) {
+            ApiResponseModal.showErrorModal("Une erreur est survenue lors de la redirection vers le lien.");
             e.printStackTrace();
         }
     }
+
 
     public void login() throws IOException {
         String email = this.loginEmailField.getText();

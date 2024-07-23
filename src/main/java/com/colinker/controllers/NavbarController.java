@@ -19,7 +19,6 @@ public class NavbarController {
     private Circle statusCircle;
     @FXML
     private Label statusLabel;
-
     @FXML
     private Pane navbarCalendarSection;
     @FXML
@@ -32,7 +31,6 @@ public class NavbarController {
     private Pane navbarUpdateSection;
     @FXML
     private Pane navbarLogoutSection;
-    private Pane activePane;
 
     private final String activePaneStyle = "-fx-background-color: #B0D9FF;";
     private final String inactivePaneStyle = "-fx-background-color: #DAEBFF;";
@@ -51,8 +49,6 @@ public class NavbarController {
         setupSVGPath((SVGPath) navbarUpdateSection.lookup("#updateIcon"));
         setupSVGPath((SVGPath) navbarLogoutSection.lookup("#logoutIcon"));
 
-        this.activePane = navbarActivitiesSection;
-        updatePaneStyles();
     }
 
     private void updateStatus(boolean isOnline) {
@@ -75,75 +71,42 @@ public class NavbarController {
     @FXML
     private void onMouseEnter(MouseEvent event) {
         Pane source = (Pane) event.getSource();
-        if (source != this.activePane) {
-            source.setStyle(this.activePaneStyle);
-        }
+        source.setStyle(this.activePaneStyle);
     }
 
     @FXML
     private void onMouseExit(MouseEvent event) {
         Pane source = (Pane) event.getSource();
-        if (source != this.activePane) {
-            source.setStyle(this.inactivePaneStyle);
-        }
+        source.setStyle(this.inactivePaneStyle);
     }
 
-    private void setActivePane(Pane pane) {
-        if (this.activePane != null) {
-            this.activePane.setStyle(this.inactivePaneStyle);
-        }
-        this.activePane = pane;
-        updatePaneStyles();
-        System.out.println("Active pane set to: " + this.activePane.getId()); // Debugging output
-    }
-
-    private void updatePaneStyles() {
-        // Apply styles to active and inactive panes
-        for (Pane pane : new Pane[]{navbarCalendarSection, navbarActivitiesSection, navbarNotesSection, navbarPluginSection, navbarUpdateSection, navbarLogoutSection}) {
-            if (pane == this.activePane) {
-                pane.setStyle(this.activePaneStyle);
-            } else {
-                pane.setStyle(this.inactivePaneStyle);
-            }
-        }
-    }
 
     public void showCalendarPage(MouseEvent mouseEvent) throws IOException {
-        this.setActivePane(navbarCalendarSection);
         SceneRouter.showCalendarPage();
     }
 
     public void showTasksListPage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showTasksListPage();
-        this.setActivePane(navbarActivitiesSection);
     }
 
     public void showUpdatePage(MouseEvent mouseEvent) throws IOException {
         SceneRouter.showUpdatePage();
-        this.setActivePane(navbarUpdateSection);
     }
 
     public void showNotesPage(MouseEvent mouseEvent) {
         try {
             SceneRouter.showNotesPage();
-        } catch (Exception ignored) {
-            return;
-        }
-        this.setActivePane(navbarNotesSection);
+        } catch (Exception ignored) {}
     }
 
     public void showPluginsPage(MouseEvent mouseEvent) {
         try {
             SceneRouter.showPluginsPage();
-        } catch (Exception ignored) {
-            return;
-        }
-        this.setActivePane(navbarPluginSection);
+        } catch (Exception ignored) {}
     }
 
     public void logout(MouseEvent mouseEvent) throws IOException {
         UserPropertiesService.cleanProperties();
         SceneRouter.showLoginPage();
-        this.setActivePane(navbarActivitiesSection);
     }
 }
