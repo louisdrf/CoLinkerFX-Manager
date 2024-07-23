@@ -73,7 +73,7 @@ public class App extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 5, TimeUnit.SECONDS); // Intervalle de 5 secondes
+        }, 0, 2, TimeUnit.SECONDS);
     }
 
 

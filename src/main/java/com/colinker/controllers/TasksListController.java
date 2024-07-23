@@ -275,6 +275,11 @@ public class TasksListController {
                     return;
                 }
 
+                if(endDateTime.equals(startDateTime)) {
+                    showErrorModal("La date de début et de fin de la tâche ne peuvent pas être les mêmes.");
+                    return;
+                }
+
                 String title = titleField.getText();
                 if(title.isEmpty()) {
                     showErrorModal("La tâche doit avoir un titre.");
