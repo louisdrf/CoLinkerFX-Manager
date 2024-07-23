@@ -20,11 +20,6 @@
                         <Font size="15.0" />
                     </font>
                 </Button>
-                <Label fx:id="updateStatusLabel" text="toto">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Label>
                 <Button fx:id="downloadUpdateButton" mnemonicParsing="false" onAction="#downloadAndUpdate" text="Télécharger la mise à jour" disable="true" style="-fx-background-color: #DAEBFF;">
                     <font>
                         <Font size="15.0" />
